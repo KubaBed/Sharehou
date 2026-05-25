@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile - ShareHouse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"pitch-black": "#080808", "on-secondary-fixed-variant": "#593d5a", outline: "#906f6b", "on-background": "#1c1b1b", surface: "#fcf8f8", "on-tertiary-fixed-variant": "#454747", "inverse-surface": "#313030", "on-error-container": "#93000a", "on-surface": "#1c1b1b", "surface-container-high": "#ebe7e7", "hover-gray": "#a9a5b2", "surface-variant": "#e5e2e1", "surface-tint": "#ba1918", primary: "#ee4137", "primary-fixed": "#ffdad5", error: "#ba1a1a", "on-secondary-fixed": "#2a122c", "on-tertiary": "#ffffff", "secondary-fixed": "#fed7fa", "on-primary": "#ffffff", "tertiary-fixed-dim": "#c6c6c7", "on-primary-container": "#fffbff", "inverse-primary": "#ffb4aa", tertiary: "#5a5c5c", "menu-black": "#0e0e0e", smoke: "#f7f7f7", "tertiary-container": "#737575", "primary-container": "#db332b", "on-primary-fixed-variant": "#930008", "secondary-container": "#fbd4f7", "on-tertiary-container": "#fcfcfc", "error-container": "#ffdad6", "on-error": "#ffffff", "surface-container-highest": "#e5e2e1", "muted-silver": "#818181", "tertiary-fixed": "#e2e2e2", "menu-gray": "#cccccc", background: "#fcf8f8", charcoal: "#16171a", "border-gray": "#d6d6d6", "secondary-fixed-dim": "#e0bbde", "inverse-on-surface": "#f3f0ef", "on-secondary-container": "#775977", "border-light": "#e9e9e9", "on-primary-fixed": "#410001", "outline-variant": "#e4beb9", "on-surface-variant": "#5b403c", "surface-container": "#f0edec", "pure-white": "#ffffff", "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#ffb4aa", "surface-container-low": "#f6f3f2", secondary: "#735472", "on-tertiary-fixed": "#1a1c1c", "on-secondary": "#ffffff", "surface-bright": "#fcf8f8", "surface-dim": "#dcd9d9"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px", "2xl": "1rem", "3xl": "1.5rem"}, spacing: {"sidebar-width": "253px", "margin-mobile": "16px", "section-spacer": "10px", "max-content-width": "1400px", "gutter-default": "24px"}, fontFamily: {pagination: ["hankenGrotesk"], "headline-md": ["hankenGrotesk"], title: ["hankenGrotesk"], eyebrow: ["hankenGrotesk"], "body-lg": ["hankenGrotesk"], lead: ["hankenGrotesk"], "headline-sm": ["hankenGrotesk"], "ui-label": ["robotoFlex"], "title-mobile": ["hankenGrotesk"], "headline-lg": ["hankenGrotesk"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {pagination: ["11px", {lineHeight: "1.0", letterSpacing: "2.6px", fontWeight: "500"}], "headline-md": ["48px", {lineHeight: "1.2", letterSpacing: "0px", fontWeight: "400"}], title: ["80px", {lineHeight: "1.0", letterSpacing: "0px", fontWeight: "300"}], eyebrow: ["14px", {lineHeight: "1.0", letterSpacing: "2.6px", fontWeight: "600"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "300"}], lead: ["24px", {lineHeight: "1.6", fontWeight: "200"}], "headline-sm": ["24px", {lineHeight: "1.3", fontWeight: "500"}], "ui-label": ["16px", {lineHeight: "1.0", fontWeight: "400"}], "title-mobile": ["53px", {lineHeight: "1.1", fontWeight: "300"}], "headline-lg": ["60px", {lineHeight: "1.1", letterSpacing: "0px", fontWeight: "400"}]}}}};</script>
+<style>
+        .shadow-soft { box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05); }
+        .shadow-hover { box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.08); }
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
+
+        @media (prefers-reduced-motion: no-preference) {
+            @keyframes glint {
+                0% { transform: translateX(-100%) skewX(-15deg); }
+                100% { transform: translateX(200%) skewX(-15deg); }
+            }
+            .group:hover .glint-effect {
+                animation: glint 1.5s ease-in-out infinite;
+            }
+        }
+
+        /* Staggered Fade-in Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in-section {
+            opacity: 0;
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+
+        /* Surgical Precision Additions */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Inter', sans-serif !important;
+        }
+        
+        /* Dashboard Specific Styles */
+        .dashboard-gradient {
+            background: linear-gradient(135deg, #1e1e24 0%, #2b2b36 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-[#121214] text-pure-white font-body-lg min-h-screen flex selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Navigation Shell: TopNavBar (Mobile) & SideNavBar (Desktop) -->
+<!-- Mobile TopAppBar -->
+<header class="md:hidden flex justify-between items-center h-16 px-margin-mobile w-full bg-menu-black border-b border-pitch-black sticky top-0 z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">menu</span>
+<img alt="ShareHouse Logo" class="h-8 w-auto filter invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZJt4wIddmbPqv5pCLuI4SEUsvegCT7Jvx5O053SahL50uBX5yqRKxiJD5bPTBNmiCDZEGi0jUaBiDy9SpvtonAegf8ffmDoelBzYz63zbtWhM7K8rqqZHP_snJ4gt8ecvZxK9N6-Qn9K3bBevGhv9sqsU2bTi60na6B5KmEwhIt0Qmxb_Ojg0G0AsoqQvPQF-e_eA95_9nHWBLOmnW4fxEPV_mD4tKjbqoSp-wjOskJwiF7brDublWHs7I6kGQQbNnLWb3ccGJNK_"/>
+</div>
+<div class="flex items-center gap-4 text-muted-silver">
+<span class="material-symbols-outlined hover:text-pure-white transition-colors">notifications</span>
+<img alt="User avatar" class="w-8 h-8 rounded-full border border-pitch-black object-cover" data-alt="A small circular avatar portrait of a professional man, smiling softly, against a light clean background. Soft lighting, high quality, corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPqPGB95qnuewJm95mCf74-2Jlx7CDOr938n9-LZ0mhoq2Kb7g_ZZsOEDFSek-5bfhmFKjLKSbuZ5q2Tgztg26ixsxWSYxyblRDXMgZp5mGcD09Yb7302cWBXMlUcglgueFh2exP8N6hB_6ZkcyMhx_wGcoFdFIR6UsB3ayhT560FgLDk2yuChpTbqLWnEB_YxlNA1UshnqOsZxuT4vVoG22JcakcL4PjQB5zFX2QDK-oGiI3l1L3KVSeKTVOAEQ2Ag3RE1sqag3VB"/>
+</div>
+</header>
+<!-- Desktop SideNavBar -->
+<nav aria-label="Sidebar Navigation" class="hidden md:flex flex-col h-screen w-sidebar-width bg-menu-black fixed left-0 top-0 py-8 z-40 border-r border-pitch-black">
+<div class="px-6 mb-8 flex items-center">
+<img alt="ShareHouse Logo" class="h-12 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYXX3MzpbxrLA-HjpSqdQJQyF3VISi0_lCj3e3vDZxJsmmwNfakvUcdxQwGQbDGgVX2ZMy0-ajv-vF2YiJkku_1ULbWOrZejdxOea0Q0iWmroX7OFyWkHTNcAbncFDIuZGYMjTDqI4oMG8rh0s1TjjA5CYbyEvGVZ7m58JgvD_HwAwphdrTvZy-JqzrueSRN46qNUJw3LMOZxpd2T_mcIWzp07z035PDzA3lLIzD9c0mbgPbLq-0zUPTnejNqC48y5EVcISm5MUfJP"/>
+</div>
+<div class="px-6 mb-6">
+<button class="w-full bg-primary hover:bg-[#d63a31] text-pure-white font-ui-label text-ui-label py-3 rounded-xl shadow-[0_4px_14px_0_rgba(238,65,55,0.39)] transition-all duration-150 active:scale-[0.98] flex items-center justify-center gap-2 font-display"><span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">add</span> Add New Recipe</button>
+</div>
+<ul class="flex flex-col gap-1 flex-grow overflow-y-auto">
+<li class="">
+<a class="flex items-center gap-3 py-3 px-6 text-menu-gray hover:bg-inverse-surface hover:text-pure-white transition-colors font-ui-label text-ui-label font-display" href="#">
+<span class="material-symbols-outlined">explore</span>
+                    Explore
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-3 px-6 text-menu-gray hover:bg-inverse-surface hover:text-pure-white transition-colors font-ui-label text-ui-label font-display" href="#">
+<span class="material-symbols-outlined">database</span>
+                    Prompt Database
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-3 px-6 text-menu-gray hover:bg-inverse-surface hover:text-pure-white transition-colors font-ui-label text-ui-label font-display" href="#"><span class="material-symbols-outlined">apps</span> AI Recipes</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-3 px-6 text-menu-gray hover:bg-inverse-surface hover:text-pure-white transition-colors font-ui-label text-ui-label font-display" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+                    Leaderboard
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-3 px-6 text-menu-gray hover:bg-inverse-surface hover:text-pure-white transition-colors font-ui-label text-ui-label font-display" href="#">
+<span class="material-symbols-outlined">reorder</span>
+                    My Contributions
+                </a>
+</li>
+<li class="">
+<!-- ACTIVE TAB: User Profile -->
+<a class="flex items-center gap-3 py-3 px-6 text-pure-white font-semibold border-l-4 border-primary bg-inverse-surface transition-colors font-ui-label text-ui-label font-display" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+                    User Profile
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-6 pt-4 border-t border-inverse-surface flex flex-col gap-1">
+<a class="flex items-center gap-3 py-2 text-menu-gray hover:text-pure-white transition-colors font-ui-label text-ui-label font-display" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-3 py-2 text-menu-gray hover:text-pure-white transition-colors font-ui-label text-ui-label font-display" href="#">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+                Help
+            </a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-sidebar-width w-full p-margin-mobile md:p-8 pb-24 overflow-x-hidden min-h-screen">
+<!-- Top App Bar (Desktop) -->
+<div class="hidden md:flex justify-end items-center mb-6 gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-muted-silver">search</span>
+<input class="bg-[#1e1e24] border border-[#2b2b36] rounded-full py-2 pl-10 pr-4 text-sm text-pure-white focus:outline-none focus:border-primary w-64 transition-colors" placeholder="Search..." type="text"/>
+</div>
+<button class="w-10 h-10 rounded-full bg-[#1e1e24] border border-[#2b2b36] flex items-center justify-center text-muted-silver hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+<div class="max-w-7xl mx-auto">
+<!-- Dashboard Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Profile & Main Stats -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Profile Header Card -->
+<div class="dashboard-gradient rounded-3xl p-8 relative overflow-hidden fade-in-section shadow-lg border border-[#2b2b36]">
+<!-- Abstract Decoration -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+<div class="absolute -left-20 -bottom-20 w-64 h-64 bg-[#7a32bd] rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+<div class="flex flex-col md:flex-row gap-8 items-center md:items-start relative z-10">
+<!-- Avatar -->
+<div class="relative shrink-0">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-gradient-to-tr from-primary to-[#ff8a84] shadow-[0_0_30px_rgba(238,65,55,0.3)]">
+<img alt="Alex Rivera Profile" class="w-full h-full rounded-full object-cover border-4 border-[#1e1e24]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG0RIynU93j5ErqRSncLei1ltMnSzs3p-ve-YanAuWELLdi5luOKQz5diVO-Sd6OFf9Tmb_CJeRWkySB26jeOIipsNuqwZg10W8L1_fEr4MTesbG24pD_cqSRQpno5M30CEK1d1vnJ5EYDesbUakXg8DRWZVayJIS1bkKM_-8UAajAy9cSn6Ulb8kTgAdyjG31XyiClqBbK155jQIVcn2BzUnIbm4lLvB8p7fnfTd5YTjXJrSKZMwTNug3xqlRxC1NB3-H6j-0HwzT"/>
+</div>
+</div>
+<!-- Profile Info -->
+<div class="flex-1 text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
+<h1 class="text-4xl md:text-5xl font-bold text-pure-white font-display tracking-tight">Alex Rivera</h1>
+<span class="bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1 self-center md:self-auto">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+                        Master Tier Analyst
+                    </span>
+</div>
+<p class="text-xl text-muted-silver font-light mb-6">Senior Solutions Architect</p>
+<!-- Quick Stats Row -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="glass-panel rounded-2xl p-4 text-center">
+<p class="text-sm text-muted-silver mb-1">Level</p>
+<p class="text-2xl font-bold text-pure-white">42</p>
+</div>
+<div class="glass-panel rounded-2xl p-4 text-center">
+<p class="text-sm text-muted-silver mb-1">Rank</p>
+<p class="text-2xl font-bold text-pure-white">Top 1%</p>
+</div>
+<div class="glass-panel rounded-2xl p-4 text-center">
+<p class="text-sm text-muted-silver mb-1">Recipes</p>
+<p class="text-2xl font-bold text-pure-white">156</p>
+</div>
+<div class="glass-panel rounded-2xl p-4 text-center">
+<p class="text-sm text-muted-silver mb-1">Impact</p>
+<p class="text-2xl font-bold text-primary">High</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in-section delay-100">
+<!-- Karma Points Card -->
+<div class="bg-[#1e1e24] rounded-3xl p-6 border border-[#2b2b36] shadow-lg relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">toll</span>
+</div>
+<h3 class="font-display text-sm uppercase tracking-wider text-muted-silver font-bold">Karma Points</h3>
+</div>
+<div class="flex items-baseline gap-2 mb-4">
+<p class="text-5xl font-bold text-pure-white font-display count-up" data-target="4250">4,250</p>
+<span class="text-muted-silver font-bold">KP</span>
+</div>
+<div class="space-y-2 relative z-10">
+<div class="flex justify-between text-xs text-muted-silver">
+<span>Progress to Level 43</span>
+<span>85%</span>
+</div>
+<div class="w-full bg-[#2b2b36] h-2 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-[#ff8a84] h-full w-[85%] rounded-full shadow-[0_0_10px_rgba(238,65,55,0.5)]"></div>
+</div>
+</div>
+</div>
+<!-- Hours Saved Card -->
+<div class="bg-[#1e1e24] rounded-3xl p-6 border border-[#2b2b36] shadow-lg relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary" style="font-variation-settings: 'FILL' 1;">schedule</span>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">timer</span>
+</div>
+<h3 class="font-display text-sm uppercase tracking-wider text-muted-silver font-bold">Total Hours Saved</h3>
+</div>
+<div class="flex items-baseline gap-2 mb-4">
+<p class="text-5xl font-bold text-pure-white font-display count-up" data-target="1240">1,240</p>
+<span class="text-muted-silver font-bold">hrs</span>
+</div>
+<p class="text-sm text-[#4ade80] flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                +12% vs last month
+            </p>
+</div>
+<!-- Tools Shared Card -->
+<div class="bg-[#1e1e24] rounded-3xl p-6 border border-[#2b2b36] shadow-lg relative overflow-hidden group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary" style="font-variation-settings: 'FILL' 1;">handyman</span>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">build</span>
+</div>
+<h3 class="font-display text-sm uppercase tracking-wider text-muted-silver font-bold">Tools Shared</h3>
+</div>
+<div class="flex items-baseline gap-2 mb-4">
+<p class="text-5xl font-bold text-pure-white font-display count-up" data-target="86">86</p>
+</div>
+<p class="text-sm text-muted-silver flex items-center gap-1">
+                Top 5% contributor
+            </p>
+</div>
+</div>
+</div>
+<!-- Right Column: Achievements & Activity -->
+<div class="lg:col-span-4 space-y-6 fade-in-section delay-200">
+<!-- Mastery Badges Section -->
+<div class="bg-[#1e1e24] rounded-3xl p-6 border border-[#2b2b36] shadow-lg">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-display text-lg font-bold text-pure-white">Mastery Badges</h3>
+<button class="text-sm text-primary hover:text-white transition-colors">View All</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Badge 1 -->
+<div class="glass-panel rounded-2xl p-4 flex flex-col items-center justify-center text-center group hover:bg-[#2b2b36] transition-colors cursor-pointer border border-[#2b2b36] hover:border-primary/30">
+<img alt="Innovator Elite" class="w-16 h-16 mb-3 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(238,65,55,0.2)]" src="https://lh3.googleusercontent.com/aida/ADBb0ugV9_WDSV9jJwU98Zd_desB8KCO5tf6Apdl-CImDWUbANM9vGFXMCYLTU-urusY7O1tVdeSE0iZKLFioBg7WvgdUDee5E8c2F6XPVSWF0R2VI9Do2O-rVEokQ6qKWNDBGBbCFrJ80GGb4byS4LkVo-YZiADlrYtNOblCAMvf2nXxdGq7ojLOHmlKzp4QZe6i5B0IfFutQwypVNIjPxRwC7OtXgrtH29E0E35kR2oXQJBwZKEkZtH31pWVT6"/>
+<span class="text-sm font-bold text-pure-white font-display leading-tight mb-1">Innovator Elite</span>
+<span class="text-xs text-muted-silver">High Impact</span>
+</div>
+<!-- Badge 2 -->
+<div class="glass-panel rounded-2xl p-4 flex flex-col items-center justify-center text-center group hover:bg-[#2b2b36] transition-colors cursor-pointer border border-[#2b2b36] hover:border-primary/30">
+<img alt="Community Pillar" class="w-16 h-16 mb-3 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(238,65,55,0.2)]" src="https://lh3.googleusercontent.com/aida/ADBb0ugsKGsyYeEfFIJjTT_vuUT_zCoRQDK8odoDsO98C0xBvINKRRg7HkAS_sv0cgGl_QcjJ5hXwjdcEt-k9NJ8iRwtQJRYNmZ2jM_Q7q-BcYka1Ddu4DVID-aQyhp7RySHTH7a7evM-r3CQLxl7QLG7Ak3-lwOSAPtLp3hAHtZG9UeatN4RD2yYwjZgxQ3TpwcqaABPa5bOV_PbnAbYXneKtdf2sHqtET2enHRryQSvqx8RFegz8qKF_5kmj6M"/>
+<span class="text-sm font-bold text-pure-white font-display leading-tight mb-1">Community Pillar</span>
+<span class="text-xs text-muted-silver">Supporter</span>
+</div>
+<!-- Badge 3 -->
+<div class="glass-panel rounded-2xl p-4 flex flex-col items-center justify-center text-center group hover:bg-[#2b2b36] transition-colors cursor-pointer border border-[#2b2b36] hover:border-primary/30">
+<img alt="AI-Verified" class="w-16 h-16 mb-3 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(238,65,55,0.2)]" src="https://lh3.googleusercontent.com/aida/ADBb0uhnysf52gcKdDKwhXhsaHr9Tk-k3rXxd1YHQA77X6nZRxIwOAE24oHbZ0Qmu7gMHppJkvezxS1jFNgMCCThioEGoeYouHhNbAZ6wQsx5YNRyoCHxtnbw6euvo0hm7T0r9q3kXBfsyQKYW73D0qjm1boeqLTUFX8BWaX5S_DhGRsuz_z4nGnu1XoxC1N2KhPmOEuqLjW59mc0r7V1_Ohq2SHeeD0jqD_3YulrmHx3p_hMFfYgoOwMPuKnTk"/>
+<span class="text-sm font-bold text-pure-white font-display leading-tight mb-1">AI-Verified</span>
+<span class="text-xs text-muted-silver">Trust</span>
+</div>
+<!-- Badge 4 -->
+<div class="glass-panel rounded-2xl p-4 flex flex-col items-center justify-center text-center group hover:bg-[#2b2b36] transition-colors cursor-pointer border border-[#2b2b36] hover:border-primary/30">
+<img alt="Efficiency Master" class="w-16 h-16 mb-3 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(238,65,55,0.2)]" src="https://lh3.googleusercontent.com/aida/ADBb0ugjii2pXN7CezgsFS_eq3NH5Q7XjxKgRkQeQ2kvX_QSwV9Iqzk8F-UYj_mJIcSdesV6k7l8N70BU1zLM_Big4psWrUHlv8TVer8wjdc129jsNoB8rdQzRgJmgPJNSI4dsfewpdTVqmnuqoTABbQSxfuUYRTq8Kh50xv_K58n6aKPS0XL5TnzOG4QK1w06P9KEYat_j6qtiIIcshSQAi7LxY1S53Ak9ApGISnN0Kc5RJceZnKzfUhWXgR6I"/>
+<span class="text-sm font-bold text-pure-white font-display leading-tight mb-1">Efficiency Pro</span>
+<span class="text-xs text-muted-silver">Time Saver</span>
+</div>
+</div>
+</div>
+<!-- Recent Activity List (Simplified for layout balance) -->
+<div class="bg-[#1e1e24] rounded-3xl p-6 border border-[#2b2b36] shadow-lg">
+<h3 class="font-display text-lg font-bold text-pure-white mb-6">Recent Contributions</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-4 pb-4 border-b border-[#2b2b36]">
+<div class="w-10 h-10 rounded-lg bg-[#2b2b36] flex items-center justify-center text-pure-white">
+<span class="material-symbols-outlined">code</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-pure-white">Data Processing Pipeline</p>
+<p class="text-xs text-muted-silver">Added 2 days ago</p>
+</div>
+<span class="text-primary text-sm font-bold">+50 KP</span>
+</div>
+<div class="flex items-center gap-4 pb-4 border-b border-[#2b2b36]">
+<div class="w-10 h-10 rounded-lg bg-[#2b2b36] flex items-center justify-center text-pure-white">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-pure-white">Customer Support Prompt</p>
+<p class="text-xs text-muted-silver">Added 5 days ago</p>
+</div>
+<span class="text-primary text-sm font-bold">+35 KP</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-[#2b2b36] flex items-center justify-center text-pure-white">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-pure-white">SEO Analysis Template</p>
+<p class="text-xs text-muted-silver">Added 1 week ago</p>
+</div>
+<span class="text-primary text-sm font-bold">+45 KP</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Count Up Animation for Stats
+        const counters = document.querySelectorAll('.count-up');
+        const speed = 50; // lower is faster
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText.replace(/,/g, '');
+                
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc).toLocaleString('en-US');
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target.toLocaleString('en-US');
+                }
+            };
+            
+            // Start animation after a short delay so fade-in has time to start
+            setTimeout(updateCount, 400);
+        });
+    });
+</script>
+</body></html>

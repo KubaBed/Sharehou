@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Prompt Database - ShareHouse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-tint": "#ba1918", "on-tertiary-container": "#fcfcfc", "primary-fixed": "#ffdad5", "inverse-on-surface": "#f3f0ef", "primary-fixed-dim": "#ffb4aa", "on-secondary": "#ffffff", outline: "#906f6b", "on-tertiary-fixed": "#1a1c1c", "inverse-surface": "#313030", "secondary-fixed": "#fed7fa", secondary: "#735472", "on-surface": "#1c1b1b", "primary-container": "#db332b", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#593d5a", "surface-container-high": "#ebe7e7", "surface-container": "#f0edec", surface: "#fcf8f8", "tertiary-fixed": "#e2e2e2", "on-secondary-container": "#775977", "inverse-primary": "#ffb4aa", "tertiary-container": "#737575", primary: "#b71516", "secondary-fixed-dim": "#e0bbde", "surface-dim": "#dcd9d9", "on-primary-fixed-variant": "#930008", "on-primary-container": "#fffbff", "on-error-container": "#93000a", background: "#fcf8f8", "error-container": "#ffdad6", "surface-variant": "#e5e2e1", "on-tertiary-fixed-variant": "#454747", "outline-variant": "#e4beb9", "surface-bright": "#fcf8f8", "on-error": "#ffffff", "tertiary-fixed-dim": "#c6c6c7", "surface-container-lowest": "#ffffff", "on-background": "#1c1b1b", "on-primary-fixed": "#410001", "surface-container-highest": "#e5e2e1", tertiary: "#5a5c5c", "surface-container-low": "#f6f3f2", "on-secondary-fixed": "#2a122c", "on-primary": "#ffffff", "on-surface-variant": "#5b403c", "secondary-container": "#fbd4f7", error: "#ba1a1a"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"section-spacer": "10px", "sidebar-width": "253px", "margin-mobile": "16px", "gutter-default": "24px", "max-content-width": "1400px"}, fontFamily: {"headline-lg": ["Inter"], eyebrow: ["Inter"], lead: ["Inter"], "headline-sm": ["Inter"], "body-lg": ["Inter"], pagination: ["Inter"], "headline-md": ["Inter"], title: ["Inter"], "ui-label": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-lg": ["60px", {lineHeight: "1.1", letterSpacing: "0px", fontWeight: "400"}], eyebrow: ["14px", {lineHeight: "1.0", letterSpacing: "2.6px", fontWeight: "600"}], lead: ["24px", {lineHeight: "1.6", fontWeight: "200"}], "headline-sm": ["24px", {lineHeight: "1.3", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "300"}], pagination: ["11px", {lineHeight: "1.0", letterSpacing: "2.6px", fontWeight: "500"}], "headline-md": ["48px", {lineHeight: "1.2", letterSpacing: "0px", fontWeight: "400"}], title: ["80px", {lineHeight: "1.0", letterSpacing: "0px", fontWeight: "300"}], "ui-label": ["16px", {lineHeight: "1.0", fontWeight: "400"}]}}}};</script>
+<style>
+        body {
+            background-color: #f7f7f7; /* Smoke */
+            color: #1c1b1b;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Staggered entrance animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .delay-600 { animation-delay: 600ms; }
+    </style>
+</head>
+<body class="flex min-h-screen overflow-x-hidden antialiased">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-[#080808] flex flex-col z-50 text-white">
+<!-- Brand / Header -->
+<div class="px-6 py-8 border-b border-[#333333]">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm">hub</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-white tracking-tight">ShareHouse</h1>
+</div>
+<p class="font-ui-label text-ui-label text-[#888888]">Internal Marketplace</p>
+</div>
+<!-- CTA -->
+<div class="px-6 py-6">
+<button class="w-full bg-primary hover:bg-[#d02020] text-white font-ui-label text-ui-label py-4 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                + Add New Recipe
+            </button>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex-1 overflow-y-auto py-4">
+<ul class="flex flex-col space-y-1">
+<li>
+<a class="flex items-center gap-4 py-4 px-6 text-[#888888] hover:text-white hover:bg-[#1a1a1a] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">explore</span>
+<span class="font-ui-label text-ui-label">Explore</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 py-4 px-6 text-white bg-[#1a1a1a] border-l-4 border-primary" href="#">
+<span class="material-symbols-outlined text-primary fill">database</span>
+<span class="font-ui-label text-ui-label font-bold">Prompt Database</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 py-4 px-6 text-[#888888] hover:text-white hover:bg-[#1a1a1a] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">apps</span>
+<span class="font-ui-label text-ui-label">AI Recipes</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 py-4 px-6 text-[#888888] hover:text-white hover:bg-[#1a1a1a] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">leaderboard</span>
+<span class="font-ui-label text-ui-label">Leaderboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 py-4 px-6 text-[#888888] hover:text-white hover:bg-[#1a1a1a] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">reorder</span>
+<span class="font-ui-label text-ui-label">My Contributions</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 py-4 px-6 text-[#888888] hover:text-white hover:bg-[#1a1a1a] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">person</span>
+<span class="font-ui-label text-ui-label">User Profile</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Footer Tabs -->
+<div class="border-t border-[#333333] py-4">
+<ul class="flex flex-col space-y-1">
+<li>
+<a class="flex items-center gap-4 py-3 px-6 text-[#888888] hover:text-white hover:bg-[#1a1a1a] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+<span class="font-ui-label text-ui-label">Settings</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 py-3 px-6 text-[#888888] hover:text-white hover:bg-[#1a1a1a] transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">help_outline</span>
+<span class="font-ui-label text-ui-label">Help</span>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-sidebar-width flex-1 bg-[#f7f7f7] min-h-screen">
+<!-- TopAppBar (Simplified for Database Context) -->
+<header class="h-20 bg-white border-b border-[#d6d6d6] flex items-center justify-between px-gutter-default sticky top-0 z-40">
+<div class="flex-1 max-w-2xl">
+<div class="relative flex items-center w-full h-12 bg-[#f7f7f7] border border-[#d6d6d6] focus-within:border-primary transition-colors group">
+<span class="material-symbols-outlined absolute left-4 text-[#888888] group-focus-within:text-primary">search</span>
+<input class="w-full h-full bg-transparent pl-12 pr-4 font-body-lg text-body-lg text-[#1c1b1b] placeholder:text-[#888888] outline-none border-none ring-0 focus:ring-0" placeholder="Search prompts, categories, or authors..." type="text"/>
+<div class="absolute right-2 flex gap-2">
+<button class="bg-[#1c1b1b] text-white px-3 py-1 font-ui-label text-sm hover:bg-primary transition-colors">Filter</button>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6 ml-8">
+<button class="text-[#1c1b1b] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 bg-[#e0e0e0] border border-[#d6d6d6] overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a young male professional in a modern, well-lit office environment. The lighting is crisp and neutral, reflecting a clean, corporate aesthetic. The subject is wearing a dark structured jacket against a stark white background, emphasizing high contrast and minimalism. The mood is confident, approachable, and tech-forward." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqOLThC7bwTz49QVW8C5wf3FZgq6_EQOhXHu12K5NhPp4TOOGaQ8nyJz4hHWHzQLRimihSNOaraR8a6LGK_t-2cBKhP7ttLcYXF3ega8Nb-IOClvujCJrTOBp733ekmXVsdZkNpD5nkTe-FifeABG02XIzXfg1fQp-evsEr5x-hfirRYRRqSRo-vXWTjmm2mivrBKwPqZywJPKT8oaraP7HIaldUQHVGmRLUPTusksN7lPn7nGdTEaG1-A2T6b19-BAfnSDBnecXbd"/>
+</div>
+</div>
+</header>
+<div class="max-w-max-content-width mx-auto px-gutter-default py-12">
+<!-- Page Header -->
+<div class="mb-12 fade-in-up">
+<h2 class="font-headline-md text-headline-md font-bold text-[#1c1b1b] mb-4">Prompt Database</h2>
+<p class="font-lead text-lead text-[#555555] max-w-3xl">Curated generative instructions optimized for precise outputs. Discover, upvote, and implement high-performance prompts across your workflows.</p>
+</div>
+<!-- Categories / Tags -->
+<div class="flex flex-wrap gap-3 mb-10 fade-in-up delay-100">
+<button class="px-6 py-2 bg-[#1c1b1b] text-white font-ui-label text-ui-label border border-[#1c1b1b] hover:bg-[#333333] transition-colors">All Prompts</button>
+<button class="px-6 py-2 bg-white text-[#1c1b1b] font-ui-label text-ui-label border border-[#d6d6d6] hover:border-primary hover:text-primary transition-colors">Marketing</button>
+<button class="px-6 py-2 bg-white text-[#1c1b1b] font-ui-label text-ui-label border border-[#d6d6d6] hover:border-primary hover:text-primary transition-colors">Coding</button>
+<button class="px-6 py-2 bg-white text-[#1c1b1b] font-ui-label text-ui-label border border-[#d6d6d6] hover:border-primary hover:text-primary transition-colors">Copywriting</button>
+<button class="px-6 py-2 bg-white text-[#1c1b1b] font-ui-label text-ui-label border border-[#d6d6d6] hover:border-primary hover:text-primary transition-colors">Data Analysis</button>
+<button class="px-6 py-2 bg-white text-[#1c1b1b] font-ui-label text-ui-label border border-[#d6d6d6] hover:border-primary hover:text-primary transition-colors">System Design</button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<article class="bg-white border border-[#d6d6d6] p-6 flex flex-col group hover:border-[#1c1b1b] transition-all duration-300 fade-in-up delay-200">
+<div class="flex justify-between items-start mb-4">
+<span class="font-eyebrow text-eyebrow text-primary uppercase tracking-widest">Marketing</span>
+<button class="flex items-center gap-1 text-[#555555] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">thumb_up</span>
+<span class="font-ui-label text-sm font-bold">142</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-[#1c1b1b] font-bold mb-3 leading-tight group-hover:text-primary transition-colors">Brand Voice Persona Injector</h3>
+<div class="bg-[#f7f7f7] p-4 border-l-2 border-[#d6d6d6] mb-6 flex-1">
+<p class="font-body-lg text-sm text-[#555555] line-clamp-3 font-mono">"Act as a senior brand strategist. Analyze the following copy and rewrite it strictly adhering to the 'Surgical Precision' brand voice guidelines. Ensure high contrast terminology, flat structural delivery, and eliminate any conversational fluff..."</p>
+</div>
+<div class="flex items-center gap-3 mt-auto pt-4 border-t border-[#f0f0f0]">
+<img alt="Author" class="w-8 h-8 object-cover grayscale border border-[#d6d6d6]" data-alt="A stark, high-contrast black and white portrait of a female professional. The lighting is dramatic, emphasizing sharp angles and a confident demeanor. The background is a clean, flat studio grey. The aesthetic aligns with a minimalist, high-end editorial look, devoid of any soft or rounded elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZdLZ0JmcGFfOaTckHPLsAX7NG0cb_vM0zoUBxG_MJVBIK3nIDSGctnQ5QXNbaV4yEke4veBGJGMVLTOgDOxmf2NnePBtCoKdggpBT4nKuHbceV2u2VRTDtedVRr4Um8i0EOQ-nGESa2z-yjqgyzMLo0bH6g0Tra6EaWbz-QDAOaBXcZdibdfr7A4c1qiOjHclwN9WZId7Cu_Wxq-00RtFY3UCwaLK4WQ6hqp5HPSyLIAe4oGLUUpMZ---EVefBnnVSq6Wt9E0pgR9"/>
+<span class="font-ui-label text-sm text-[#1c1b1b]">Sarah J.</span>
+<button class="ml-auto text-[#1c1b1b] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+</article>
+<!-- Card 2 (Featured / Larger) -->
+<article class="bg-[#1c1b1b] border border-[#1c1b1b] p-6 flex flex-col group lg:col-span-2 hover:border-primary transition-all duration-300 fade-in-up delay-300">
+<div class="flex justify-between items-start mb-4">
+<span class="font-eyebrow text-eyebrow text-[#888888] uppercase tracking-widest flex items-center gap-2">
+<span class="w-2 h-2 bg-primary inline-block"></span>
+                            Coding • Featured
+                        </span>
+<button class="flex items-center gap-1 text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">thumb_up</span>
+<span class="font-ui-label text-sm font-bold">389</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-white font-bold mb-3 leading-tight group-hover:text-primary transition-colors">React Component Generator (Strict TS)</h3>
+<div class="bg-[#2a2a2a] p-4 border-l-2 border-primary mb-6 flex-1">
+<p class="font-body-lg text-sm text-[#cccccc] line-clamp-3 font-mono">"Generate a React functional component using TypeScript. Enforce strict typing. Utilize Tailwind CSS for styling adhering to a flat, high-contrast aesthetic (black, white, red accents). No rounded corners (rounded-none). Implement error boundaries and logging..."</p>
+</div>
+<div class="flex items-center gap-3 mt-auto pt-4 border-t border-[#333333]">
+<img alt="Author" class="w-8 h-8 object-cover grayscale border border-[#555555]" data-alt="A high-contrast, black and white close-up portrait of a male developer. He wears glasses with a sharp, geometric frame. The lighting is harsh and directional, creating strong shadows and highlighting analytical focus. The background is pure pitch black. The style is raw, precise, and tech-centric." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTjRDiYRag8OtGShtx9ijQMVoc8ipMDjA0U3FGYtHDwOMOH-E9Oz7oECeZXUCL3mSYuaA2eJHiKNo17XIAYXC4ede2EdBrBfWlBlQ9cgGBE3gTpdj5F6FWf22swtA0RdVwsGVfR7MB0aGAbV_9M8birIrlxg9mrJxVsJr-iB6Zs18WDuIR5GPNk-_Zjo81uBhHtssjbg7M_plzPJcVDsEFtFG98ZDxNLJuoO-LNf90hgMdiIWU83Nl-QMV7JkKkESh_fCQz_QKBIRi"/>
+<span class="font-ui-label text-sm text-[#cccccc]">Alex M.</span>
+<button class="ml-auto text-white hover:text-primary transition-colors flex items-center gap-2 font-ui-label text-sm">
+                            Copy Prompt <span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-white border border-[#d6d6d6] p-6 flex flex-col group hover:border-[#1c1b1b] transition-all duration-300 fade-in-up delay-400">
+<div class="flex justify-between items-start mb-4">
+<span class="font-eyebrow text-eyebrow text-primary uppercase tracking-widest">Copywriting</span>
+<button class="flex items-center gap-1 text-[#555555] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">thumb_up</span>
+<span class="font-ui-label text-sm font-bold">87</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-[#1c1b1b] font-bold mb-3 leading-tight group-hover:text-primary transition-colors">B2B Cold Email Sequence</h3>
+<div class="bg-[#f7f7f7] p-4 border-l-2 border-[#d6d6d6] mb-6 flex-1">
+<p class="font-body-lg text-sm text-[#555555] line-clamp-3 font-mono">"Draft a 3-part B2B cold email sequence targeting CTOs. Tone must be assertive, concise, and focused entirely on ROI and technical debt reduction. Avoid pleasantries. Structure: Problem Statement, Concrete Solution, Hard CTA..."</p>
+</div>
+<div class="flex items-center gap-3 mt-auto pt-4 border-t border-[#f0f0f0]">
+<img alt="Author" class="w-8 h-8 object-cover grayscale border border-[#d6d6d6]" data-alt="A minimalist black and white headshot of a female copywriter. She has a sharp, intense gaze directed at the camera. The lighting is flat and stark, eliminating soft shadows. The setting is a sterile, white studio space. The overall tone is uncompromising and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeBAQalPpLwN0VzXQjR-fd0ziluUQXtwqMRRAcjkUjuR948KQufJ8RA-yxKkpTmyCwVf0quvZxN6DoNxy09NppiRnnDDU3cVfYe3CfoZHlfAGdlGwupb7nFgEeZvVfmwEaPH-7dnvkJWfYsSazNqimn5wV9uMrOc-X8U5naOCkm-aJTayNtwwGirWU4s8CbkHAVTU6KRsBRabZ85sFQB7kTLJbsvJSc7IR1o_e7qL2-Xdxs7PBcBO-1jhrmKSNoxPgLxxKpcjbfHWi"/>
+<span class="font-ui-label text-sm text-[#1c1b1b]">Elena R.</span>
+<button class="ml-auto text-[#1c1b1b] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="bg-white border border-[#d6d6d6] p-6 flex flex-col group hover:border-[#1c1b1b] transition-all duration-300 fade-in-up delay-500">
+<div class="flex justify-between items-start mb-4">
+<span class="font-eyebrow text-eyebrow text-primary uppercase tracking-widest">Data Analysis</span>
+<button class="flex items-center gap-1 text-[#555555] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">thumb_up</span>
+<span class="font-ui-label text-sm font-bold">215</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-[#1c1b1b] font-bold mb-3 leading-tight group-hover:text-primary transition-colors">SQL Query Optimizer</h3>
+<div class="bg-[#f7f7f7] p-4 border-l-2 border-[#d6d6d6] mb-6 flex-1">
+<p class="font-body-lg text-sm text-[#555555] line-clamp-3 font-mono">"Review the following PostgreSQL query. Identify bottlenecks related to JOINs and missing indexes. Rewrite the query for maximum execution speed. Provide an EXPLAIN plan summary of why the new query is more efficient..."</p>
+</div>
+<div class="flex items-center gap-3 mt-auto pt-4 border-t border-[#f0f0f0]">
+<img alt="Author" class="w-8 h-8 object-cover grayscale border border-[#d6d6d6]" data-alt="A stark black and white portrait of a male data analyst. He looks directly forward with a neutral, calculating expression. The lighting is stark, casting strong geometric shadows across one side of his face. The background is a flat, untextured grey." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8oG0yO5b6Yz7JS2z-axUoVqWsfWkuQ2CKdfZqvAMUshDdrVASuo7wHfGs6_Vyg68E3-GVkWOUQn3T_JF10pVQdJb5s1xBSIyE8SyndRjgw_9WcjYyA1yd7UIxgaXSjE2P5gpEjKHYzuUAu21UDMXkwfgkwS4iotGGKgQo9qJv5ApeJ91zuoTdLI3EyRAr8I6FtxwyF7_BAHJT8gMR9a3BTwpnnYu_ed0jqwCKzko8bsIeAGZVHfDyjlIbEIsdlknlhV-n3UkeRChE"/>
+<span class="font-ui-label text-sm text-[#1c1b1b]">David K.</span>
+<button class="ml-auto text-[#1c1b1b] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+</article>
+<!-- Card 5 -->
+<article class="bg-white border border-[#d6d6d6] p-6 flex flex-col group hover:border-[#1c1b1b] transition-all duration-300 fade-in-up delay-600">
+<div class="flex justify-between items-start mb-4">
+<span class="font-eyebrow text-eyebrow text-primary uppercase tracking-widest">System Design</span>
+<button class="flex items-center gap-1 text-[#555555] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">thumb_up</span>
+<span class="font-ui-label text-sm font-bold">198</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-[#1c1b1b] font-bold mb-3 leading-tight group-hover:text-primary transition-colors">Microservices Architecture Plan</h3>
+<div class="bg-[#f7f7f7] p-4 border-l-2 border-[#d6d6d6] mb-6 flex-1">
+<p class="font-body-lg text-sm text-[#555555] line-clamp-3 font-mono">"Design a scalable microservices architecture for a high-volume ad-tech platform. Detail communication protocols (gRPC vs REST), event-streaming (Kafka), and database partitioning strategies. Emphasize low-latency and fault tolerance..."</p>
+</div>
+<div class="flex items-center gap-3 mt-auto pt-4 border-t border-[#f0f0f0]">
+<img alt="Author" class="w-8 h-8 object-cover grayscale border border-[#d6d6d6]" data-alt="A highly textured black and white portrait of an older male software architect. Deep lines of experience map his face. The lighting is high-contrast, creating stark divisions between light and shadow. The aesthetic is raw, technical, and grounded in a flat, dark environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQLmscnm-Y1oKs3q_uK00ruFvnQNAzSFfnHmvkf1RIR11CHvMJF5xUzfyngzUPwOIUz-5bWt5DKmZd1sbdr4IfAy6ipGMh8bkvisnAT7I1E71BBNmQhV2k3pfaDHACFDDQVIxB4zH8vbYecVSdYEwdQItHSYhsXN1mLHsJ8CjR9uxOX7WXvAYb2npEsO8vpkqvxaYLTAzwL3qs8se55SFHuDACvBZGDzTpabje8qocUSzNyg4N0tD8Lrk0YXl7wufiaJGT2SuHXrSF"/>
+<span class="font-ui-label text-sm text-[#1c1b1b]">Marcus T.</span>
+<button class="ml-auto text-[#1c1b1b] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+</article>
+</div>
+<!-- Load More -->
+<div class="mt-12 flex justify-center fade-in-up delay-600">
+<button class="px-8 py-4 border-2 border-[#1c1b1b] text-[#1c1b1b] font-ui-label text-ui-label hover:bg-[#1c1b1b] hover:text-white transition-colors flex items-center gap-2 group">
+                    Load More Prompts
+                    <span class="material-symbols-outlined group-hover:translate-y-1 transition-transform">arrow_downward</span>
+</button>
+</div>
+</div>
+</main>
+<script>
+        // Simple JS for upvote interaction
+        document.querySelectorAll('button:has(.material-symbols-outlined:contains("thumb_up"))').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const countSpan = this.querySelector('span:not(.material-symbols-outlined)');
+                const icon = this.querySelector('.material-symbols-outlined');
+                
+                if (this.classList.contains('text-primary')) {
+                    // Remove vote
+                    this.classList.remove('text-primary');
+                    if(this.closest('article').classList.contains('bg-[#1c1b1b]')) {
+                         this.classList.add('text-white');
+                    } else {
+                         this.classList.add('text-[#555555]');
+                    }
+                    icon.classList.remove('fill');
+                    countSpan.textContent = parseInt(countSpan.textContent) - 1;
+                } else {
+                    // Add vote
+                    this.classList.remove('text-[#555555]', 'text-white');
+                    this.classList.add('text-primary');
+                    icon.classList.add('fill');
+                    countSpan.textContent = parseInt(countSpan.textContent) + 1;
+                    
+                    // Small pop animation
+                    icon.style.transform = 'scale(1.2)';
+                    setTimeout(() => icon.style.transform = 'scale(1)', 150);
+                }
+            });
+        });
+
+        // Copy button interaction
+        document.querySelectorAll('button:has(.material-symbols-outlined:contains("content_copy"))').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const icon = this.querySelector('.material-symbols-outlined');
+                const originalText = icon.textContent;
+                
+                icon.textContent = 'check';
+                icon.classList.add('text-primary');
+                
+                setTimeout(() => {
+                    icon.textContent = originalText;
+                    icon.classList.remove('text-primary');
+                }, 2000);
+            });
+        });
+    </script>
+</body></html>

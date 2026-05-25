@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShareHouse - AI Recipes</title>
+<!-- Google Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config from Style Guidance -->
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-tint": "#ba1918", "on-tertiary-container": "#fcfcfc", "primary-fixed": "#ffdad5", "inverse-on-surface": "#f3f0ef", "primary-fixed-dim": "#ffb4aa", "on-secondary": "#ffffff", outline: "#906f6b", "on-tertiary-fixed": "#1a1c1c", "inverse-surface": "#313030", "secondary-fixed": "#fed7fa", secondary: "#735472", "on-surface": "#1c1b1b", "primary-container": "#db332b", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#593d5a", "surface-container-high": "#ebe7e7", "surface-container": "#f0edec", surface: "#fcf8f8", "tertiary-fixed": "#e2e2e2", "on-secondary-container": "#775977", "inverse-primary": "#ffb4aa", "tertiary-container": "#737575", primary: "#b71516", "secondary-fixed-dim": "#e0bbde", "surface-dim": "#dcd9d9", "on-primary-fixed-variant": "#930008", "on-primary-container": "#fffbff", "on-error-container": "#93000a", background: "#fcf8f8", "error-container": "#ffdad6", "surface-variant": "#e5e2e1", "on-tertiary-fixed-variant": "#454747", "outline-variant": "#e4beb9", "surface-bright": "#fcf8f8", "on-error": "#ffffff", "tertiary-fixed-dim": "#c6c6c7", "surface-container-lowest": "#ffffff", "on-background": "#1c1b1b", "on-primary-fixed": "#410001", "surface-container-highest": "#e5e2e1", tertiary: "#5a5c5c", "surface-container-low": "#f6f3f2", "on-secondary-fixed": "#2a122c", "on-primary": "#ffffff", "on-surface-variant": "#5b403c", "secondary-container": "#fbd4f7", error: "#ba1a1a"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"section-spacer": "10px", "sidebar-width": "253px", "margin-mobile": "16px", "gutter-default": "24px", "max-content-width": "1400px"}, fontFamily: {"headline-lg": ["Inter"], eyebrow: ["Inter"], lead: ["Inter"], "headline-sm": ["Inter"], "body-lg": ["Inter"], pagination: ["Inter"], "headline-md": ["Inter"], title: ["Inter"], "ui-label": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-lg": ["60px", {lineHeight: "1.1", letterSpacing: "0px", fontWeight: "400"}], eyebrow: ["14px", {lineHeight: "1.0", letterSpacing: "2.6px", fontWeight: "600"}], lead: ["24px", {lineHeight: "1.6", fontWeight: "200"}], "headline-sm": ["24px", {lineHeight: "1.3", fontWeight: "500"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "300"}], pagination: ["11px", {lineHeight: "1.0", letterSpacing: "2.6px", fontWeight: "500"}], "headline-md": ["48px", {lineHeight: "1.2", letterSpacing: "0px", fontWeight: "400"}], title: ["80px", {lineHeight: "1.0", letterSpacing: "0px", fontWeight: "300"}], "ui-label": ["16px", {lineHeight: "1.0", fontWeight: "400"}]}}}};</script>
+<style>
+        body {
+            background-color: #fcf8f8; /* background */
+            color: #1c1b1b; /* on-background */
+        }
+        
+        /* Surgical Precision overrides */
+        .surgical-sidebar { background-color: #080808; }
+        .surgical-red { color: #ee4137; }
+        .bg-surgical-red { background-color: #ee4137; }
+        .surgical-plum { color: #412742; }
+        .bg-surgical-plum { background-color: #412742; }
+        .surgical-border { border-color: #d6d6d6; }
+        
+        /* Glowing Shadow hover effect as requested, though style guide says flat. Implementing subtle glow for interactive feel */
+        .glowing-shadow-hover {
+            transition: all 0.3s ease;
+        }
+        .glowing-shadow-hover:hover {
+            box-shadow: 0 0 15px rgba(238, 65, 55, 0.2);
+            border-color: #ee4137;
+            transform: translateY(-2px);
+        }
+
+        /* Staggered Entrance Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-stagger { opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body class="font-body-lg text-body-lg antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar (Surgical Precision adaptation) -->
+<aside class="hidden md:flex flex-col h-screen fixed left-0 top-0 w-sidebar-width surgical-sidebar text-on-secondary z-50 rounded-none">
+<!-- Header -->
+<div class="px-6 py-8 border-b border-[#333]">
+<div class="flex items-center mb-6"><img alt="ShareHouse Logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYXX3MzpbxrLA-HjpSqdQJQyF3VISi0_lCj3e3vDZxJsmmwNfakvUcdxQwGQbDGgVX2ZMy0-ajv-vF2YiJkku_1ULbWOrZejdxOea0Q0iWmroX7OFyWkHTNcAbncFDIuZGYMjTDqI4oMG8rh0s1TjjA5CYbyEvGVZ7m58JgvD_HwAwphdrTvZy-JqzrueSRN46qNUJw3LMOZxpd2T_mcIWzp07z035PDzA3lLIzD9c0mbgPbLq-0zUPTnejNqC48y5EVcISm5MUfJP"/></div>
+<button class="w-full bg-surgical-red text-white font-ui-label text-ui-label py-3 px-4 rounded-none flex items-center justify-center gap-2 hover:bg-[#d0352b] transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Add New Recipe
+            </button>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+<a class="flex items-center gap-3 py-3 px-4 text-[#888] hover:bg-[#1a1a1a] hover:text-white transition-colors rounded-none font-ui-label" href="#">
+<span class="material-symbols-outlined">explore</span>
+                Explore
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#888] hover:bg-[#1a1a1a] hover:text-white transition-colors rounded-none font-ui-label" href="#">
+<span class="material-symbols-outlined">database</span>
+                Prompt Database
+            </a>
+<!-- Active Tab: App Marketplace -> AI Recipes -->
+<a class="flex items-center gap-3 py-3 px-4 text-white font-semibold border-l-4 border-[#ee4137] bg-[#1a1a1a] rounded-none font-ui-label" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">apps</span>
+                AI Recipes
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#888] hover:bg-[#1a1a1a] hover:text-white transition-colors rounded-none font-ui-label" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+                Leaderboard
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#888] hover:bg-[#1a1a1a] hover:text-white transition-colors rounded-none font-ui-label" href="#">
+<span class="material-symbols-outlined">reorder</span>
+                My Contributions
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#888] hover:bg-[#1a1a1a] hover:text-white transition-colors rounded-none font-ui-label" href="#">
+<span class="material-symbols-outlined">person</span>
+                User Profile
+            </a>
+</nav>
+<!-- Footer Tabs -->
+<div class="p-4 border-t border-[#333]">
+<a class="flex items-center gap-3 py-2 px-4 text-[#888] hover:text-white transition-colors rounded-none font-ui-label text-[14px]" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-3 py-2 px-4 text-[#888] hover:text-white transition-colors rounded-none font-ui-label text-[14px]" href="#">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+                Help
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[253px] h-screen overflow-y-auto bg-surface relative">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-20 px-gutter-default w-full bg-surface border-b surgical-border sticky top-0 z-40">
+<div class="flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-tertiary">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border surgical-border rounded-none focus:outline-none focus:border-[#ee4137] focus:ring-1 focus:ring-[#ee4137] font-ui-label text-ui-label placeholder:text-tertiary" placeholder="Search recipes, workflows..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors rounded-none">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors rounded-none">
+<span class="material-symbols-outlined">verified_user</span>
+</button>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="px-gutter-default py-12 max-w-max-content-width mx-auto">
+<!-- Page Header -->
+<div class="mb-12 animate-stagger">
+<p class="font-eyebrow text-eyebrow text-surgical-red uppercase mb-2">Workflow Library</p>
+<h2 class="font-title text-title text-on-surface leading-none tracking-tight">AI Recipes</h2>
+<p class="font-lead text-lead text-tertiary mt-4 max-w-2xl">Deploy pre-configured AI workflows instantly. Curated templates for data extraction, content generation, and analysis.</p>
+</div>
+<!-- Trending Section (Bento layout) -->
+<div class="mb-16">
+<div class="flex items-center gap-2 mb-6 animate-stagger delay-1">
+<span class="material-symbols-outlined text-surgical-red" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Trending Now</h3>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter-default">
+<!-- Featured Large Card -->
+<div class="lg:col-span-2 bg-surface-container-lowest border surgical-border rounded-none p-8 flex flex-col justify-between glowing-shadow-hover animate-stagger delay-2 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-fixed opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 group-hover:opacity-20 transition-opacity"></div>
+<div>
+<div class="w-12 h-12 bg-surface-container-low border surgical-border flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-surface text-[24px]">troubleshoot</span>
+</div>
+<h4 class="font-headline-md text-[32px] font-bold text-on-surface mb-3 tracking-tight">Competitor Intelligence Scraper</h4>
+<p class="font-body-lg text-body-lg text-tertiary max-w-md mb-6">Automatically extracts pricing, feature updates, and sentiment from specified competitor URLs and synthesizes a weekly briefing document.</p>
+<div class="flex gap-4 mb-8">
+<span class="px-3 py-1 bg-surface-container border surgical-border font-pagination text-[12px] uppercase">Data Extraction</span>
+<span class="px-3 py-1 bg-surface-container border surgical-border font-pagination text-[12px] uppercase">GPT-4</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto pt-6 border-t border-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">download</span>
+<span class="font-ui-label text-[14px] text-tertiary">2.4k Installs</span>
+</div>
+<button class="bg-surgical-red text-white font-ui-label text-ui-label py-2 px-6 rounded-none hover:bg-[#d0352b] transition-colors">
+                                Use Recipe
+                            </button>
+</div>
+</div>
+<!-- Trending Stack -->
+<div class="flex flex-col gap-gutter-default lg:col-span-1 animate-stagger delay-3">
+<div class="bg-surface-container-lowest border surgical-border rounded-none p-6 flex-1 flex flex-col justify-between glowing-shadow-hover">
+<div>
+<div class="w-10 h-10 bg-surface-container-low border surgical-border flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-surface">edit_document</span>
+</div>
+<h4 class="font-headline-sm text-[20px] font-semibold text-on-surface mb-2">SEO Blog Generator</h4>
+<p class="font-body-lg text-[15px] text-tertiary leading-snug">Takes a target keyword and generates a full SEO-optimized article structure and draft.</p>
+</div>
+<div class="mt-6 flex justify-end">
+<button class="text-surgical-red font-ui-label text-[14px] font-medium hover:underline flex items-center gap-1">
+                                    Install <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest border surgical-border rounded-none p-6 flex-1 flex flex-col justify-between glowing-shadow-hover">
+<div>
+<div class="w-10 h-10 bg-surface-container-low border surgical-border flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-surface">filter_alt</span>
+</div>
+<h4 class="font-headline-sm text-[20px] font-semibold text-on-surface mb-2">Lead Qualification Bot</h4>
+<p class="font-body-lg text-[15px] text-tertiary leading-snug">Scores incoming leads based on unstructured email data and routes to sales.</p>
+</div>
+<div class="mt-6 flex justify-end">
+<button class="text-surgical-red font-ui-label text-[14px] font-medium hover:underline flex items-center gap-1">
+                                    Install <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Categories / All Recipes Grid -->
+<div class="mb-8 flex items-center justify-between animate-stagger delay-4">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">All Recipes</h3>
+<div class="flex gap-2">
+<select class="bg-surface border surgical-border rounded-none py-2 pl-4 pr-10 font-ui-label text-[14px] focus:ring-[#ee4137] focus:border-[#ee4137]">
+<option>All Categories</option>
+<option>Marketing</option>
+<option>Data Engineering</option>
+<option>Sales Ops</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter-default animate-stagger delay-5">
+<!-- Recipe Card 1 -->
+<div class="bg-surface-container-lowest border surgical-border rounded-none p-6 flex flex-col glowing-shadow-hover group">
+<div class="w-12 h-12 bg-surface-variant flex items-center justify-center mb-5 group-hover:bg-[#fbd4f7] transition-colors">
+<span class="material-symbols-outlined text-surgical-plum">mail</span>
+</div>
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface mb-2">Cold Outreach Sequencer</h4>
+<p class="font-body-lg text-[14px] text-tertiary mb-6 flex-1">Generates personalized 3-step email sequences based on LinkedIn profiles.</p>
+<button class="w-full bg-transparent border surgical-border text-on-surface font-ui-label text-[14px] py-2 rounded-none hover:border-[#ee4137] hover:text-[#ee4137] transition-colors">
+                        Install
+                    </button>
+</div>
+<!-- Recipe Card 2 -->
+<div class="bg-surface-container-lowest border surgical-border rounded-none p-6 flex flex-col glowing-shadow-hover group">
+<div class="w-12 h-12 bg-surface-variant flex items-center justify-center mb-5 group-hover:bg-[#fbd4f7] transition-colors">
+<span class="material-symbols-outlined text-surgical-plum">translate</span>
+</div>
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface mb-2">I18n Content Localizer</h4>
+<p class="font-body-lg text-[14px] text-tertiary mb-6 flex-1">Translates markdown files maintaining formatting and brand tone across 5 languages.</p>
+<button class="w-full bg-transparent border surgical-border text-on-surface font-ui-label text-[14px] py-2 rounded-none hover:border-[#ee4137] hover:text-[#ee4137] transition-colors">
+                        Install
+                    </button>
+</div>
+<!-- Recipe Card 3 -->
+<div class="bg-surface-container-lowest border surgical-border rounded-none p-6 flex flex-col glowing-shadow-hover group">
+<div class="w-12 h-12 bg-surface-variant flex items-center justify-center mb-5 group-hover:bg-[#fbd4f7] transition-colors">
+<span class="material-symbols-outlined text-surgical-plum">bug_report</span>
+</div>
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface mb-2">Error Log Analyzer</h4>
+<p class="font-body-lg text-[14px] text-tertiary mb-6 flex-1">Ingests Sentry logs to summarize root causes and suggest code fixes.</p>
+<button class="w-full bg-transparent border surgical-border text-on-surface font-ui-label text-[14px] py-2 rounded-none hover:border-[#ee4137] hover:text-[#ee4137] transition-colors">
+                        Install
+                    </button>
+</div>
+<!-- Recipe Card 4 -->
+<div class="bg-surface-container-lowest border surgical-border rounded-none p-6 flex flex-col glowing-shadow-hover group">
+<div class="w-12 h-12 bg-surface-variant flex items-center justify-center mb-5 group-hover:bg-[#fbd4f7] transition-colors">
+<span class="material-symbols-outlined text-surgical-plum">dataset</span>
+</div>
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface mb-2">CSV Data Cleanser</h4>
+<p class="font-body-lg text-[14px] text-tertiary mb-6 flex-1">Normalizes formatting, removes duplicates, and flags anomalies in tabular data.</p>
+<button class="w-full bg-transparent border surgical-border text-on-surface font-ui-label text-[14px] py-2 rounded-none hover:border-[#ee4137] hover:text-[#ee4137] transition-colors">
+                        Install
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

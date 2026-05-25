@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QBR Asana Template - ShareHouse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-dim": "#dcd9d9", "surface-container-highest": "#e5e2e1", "on-secondary": "#ffffff", charcoal: "#16171a", "surface-container": "#f0edec", "on-tertiary": "#ffffff", "border-light": "#e9e9e9", "on-tertiary-fixed": "#1a1c1c", "surface-container-low": "#f6f3f2", "on-background": "#1c1b1b", "on-primary-container": "#fffbff", "on-tertiary-fixed-variant": "#454747", "muted-silver": "#818181", "on-tertiary-container": "#fcfcfc", "on-secondary-container": "#775977", "on-primary-fixed-variant": "#930008", "surface-variant": "#e5e2e1", tertiary: "#5a5c5c", "on-secondary-fixed-variant": "#593d5a", "surface-container-lowest": "#ffffff", "tertiary-container": "#737575", "surface-bright": "#fcf8f8", "on-primary": "#ffffff", background: "#fcf8f8", "pitch-black": "#080808", "inverse-on-surface": "#f3f0ef", "surface-container-high": "#ebe7e7", error: "#ba1a1a", "secondary-fixed": "#fed7fa", "pure-white": "#ffffff", "inverse-primary": "#ffb4aa", "on-surface-variant": "#5b403c", secondary: "#735472", "on-error-container": "#93000a", "outline-variant": "#e4beb9", "hover-gray": "#a9a5b2", "error-container": "#ffdad6", "on-primary-fixed": "#410001", "primary-container": "#db332b", "secondary-container": "#fbd4f7", "menu-black": "#0e0e0e", "surface-tint": "#ba1918", primary: "#b71516", "on-secondary-fixed": "#2a122c", "on-surface": "#1c1b1b", "inverse-surface": "#313030", "tertiary-fixed": "#e2e2e2", "primary-fixed-dim": "#ffb4aa", "tertiary-fixed-dim": "#c6c6c7", "primary-fixed": "#ffdad5", outline: "#906f6b", "on-error": "#ffffff", "menu-gray": "#cccccc", surface: "#fcf8f8", smoke: "#f7f7f7", "border-gray": "#d6d6d6", "secondary-fixed-dim": "#e0bbde", "signal-red": "#ee4137"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"section-spacer": "10px", "gutter-default": "24px", "margin-mobile": "16px", "max-content-width": "1400px", "sidebar-width": "253px"}, fontFamily: {"headline-lg": ["Proxima Nova", "sans-serif"], pagination: ["Roboto", "sans-serif"], lead: ["Roboto", "sans-serif"], "headline-sm": ["Proxima Nova", "sans-serif"], "headline-md": ["Proxima Nova", "sans-serif"], title: ["Proxima Nova", "sans-serif"], "title-mobile": ["Proxima Nova", "sans-serif"], "ui-label": ["Roboto", "sans-serif"], eyebrow: ["Roboto", "sans-serif"], "body-lg": ["Roboto", "sans-serif"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-lg": ["60px", {lineHeight: "1.1", letterSpacing: "0px", fontWeight: "400"}], pagination: ["11px", {lineHeight: "1.0", letterSpacing: "2.6px", fontWeight: "500"}], lead: ["24px", {lineHeight: "1.6", fontWeight: "200"}], "headline-sm": ["24px", {lineHeight: "1.3", fontWeight: "500"}], "headline-md": ["48px", {lineHeight: "1.2", letterSpacing: "0px", fontWeight: "400"}], title: ["80px", {lineHeight: "1.0", letterSpacing: "0px", fontWeight: "300"}], "title-mobile": ["53px", {lineHeight: "1.1", fontWeight: "300"}], "ui-label": ["16px", {lineHeight: "1.0", fontWeight: "400"}], eyebrow: ["14px", {lineHeight: "1.0", letterSpacing: "2.6px", fontWeight: "600"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "300"}]}}}};</script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); font-family: 'Roboto', sans-serif;}
+        .shadow-level-1 { box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05); }
+        .shadow-level-2 { box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.08); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-entrance {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden font-body-lg text-body-lg bg-smoke" style="font-family: Roboto, sans-serif;">
+<!-- SideNavBar -->
+<nav class="hidden md:flex fixed left-0 top-0 h-screen w-sidebar-width flex-col py-8 bg-menu-black z-50">
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSiIBlYQhow22ASxWnEK7aMX0YQo7FUn7OQdFxdjDmh9lC-1x1pGd6SlZttmfCN-Xuyk829grnBuTjrRNELSwTXkIrtYcDVg0BNSJIREg1eIXCpL4MLlgEfgTPitdpK-nJ1X1zUAIwzdb9funP5QtvLMmhZOQjTtrSr50l55SfQW05JwZCbloXakzVbZlttFfOaIRoTwWn5KR9Fyc2VZs1Hw-Ba_7JEsDojQ3mLLUuIVVYCtZ3N2nI9SfeGkTvI83rWOENiauG-FPF"/>
+</div>
+<div class="flex-1">
+<img alt="ShareHouse Logo" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYXX3MzpbxrLA-HjpSqdQJQyF3VISi0_lCj3e3vDZxJsmmwNfakvUcdxQwGQbDGgVX2ZMy0-ajv-vF2YiJkku_1ULbWOrZejdxOea0Q0iWmroX7OFyWkHTNcAbncFDIuZGYMjTDqI4oMG8rh0s1TjjA5CYbyEvGVZ7m58JgvD_HwAwphdrTvZy-JqzrueSRN46qNUJw3LMOZxpd2T_mcIWzp07z035PDzA3lLIzD9c0mbgPbLq-0zUPTnejNqC48y5EVcISm5MUfJP"/>
+<p class="font-ui-label text-ui-label text-menu-gray mt-1 uppercase tracking-widest text-[10px]" style="font-family: 'Roboto', sans-serif;">Internal Marketplace</p>
+</div>
+</div>
+<div class="px-6 mb-8">
+<button class="w-full bg-signal-red text-white font-ui-label text-ui-label py-3 rounded-none flex items-center justify-center gap-2 hover:bg-[#d63a31] transition-transform duration-200 active:scale-95 uppercase tracking-widest font-semibold" style="font-family: 'Roboto', sans-serif;">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                Add Tool
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto scrollbar-hide">
+<a class="flex items-center gap-4 py-4 px-6 text-pure-white font-semibold border-l-4 border-signal-red bg-white/5 mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-ui-label uppercase tracking-widest text-[13px]" style="font-family: 'Roboto', sans-serif;">Explore</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-menu-gray hover:text-pure-white hover:bg-white/5 transition-colors mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="font-ui-label uppercase tracking-widest text-[13px]" style="font-family: 'Roboto', sans-serif;">Prompt Database</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-menu-gray hover:text-pure-white hover:bg-white/5 transition-colors mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+<span class="font-ui-label uppercase tracking-widest text-[13px]" style="font-family: 'Roboto', sans-serif;">App Marketplace</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-menu-gray hover:text-pure-white hover:bg-white/5 transition-colors mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-ui-label uppercase tracking-widest text-[13px]" style="font-family: 'Roboto', sans-serif;">Leaderboard</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-menu-gray hover:text-pure-white hover:bg-white/5 transition-colors mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="reorder">reorder</span>
+<span class="font-ui-label uppercase tracking-widest text-[13px]" style="font-family: 'Roboto', sans-serif;">My Contributions</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-menu-gray hover:text-pure-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-ui-label uppercase tracking-widest text-[13px]" style="font-family: 'Roboto', sans-serif;">User Profile</span>
+</a>
+</div>
+<div class="mt-auto pt-6 border-t border-white/10">
+<a class="flex items-center gap-4 py-3 px-6 text-menu-gray hover:text-pure-white hover:bg-white/5 transition-colors mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-ui-label uppercase tracking-widest text-[13px]" style="font-family: 'Roboto', sans-serif;">Settings</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-6 text-menu-gray hover:text-pure-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-ui-label uppercase tracking-widest text-[13px]" style="font-family: 'Roboto', sans-serif;">Help</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-sidebar-width h-screen overflow-y-auto pb-24 md:pb-8">
+<!-- TopNavBar (Mobile only for layout consistency, desktop uses sidebar) -->
+<header class="md:hidden flex justify-between items-center h-16 px-margin-mobile bg-menu-black border-b border-white/10 sticky top-0 z-40">
+<div class="flex items-center gap-3">
+<img alt="ShareHouse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV9swaNYku6tC1sLSem7zavRfI0gPMnc5bcNhxQoYgvzte4Gc4o5Itm6lW98Xa29lbyF1dXk_8qczpgz0IzobusprbHc5mqqDxPMaBsiCxDQuCwJUfUD8FTkXmjyYB-i9bc2ewsOZhVkfsGZtN9lA18ouPXf8qYHfraeGKLFIBLo-WGYCiQsFAWQYYUcDotfCWTh8fKw2JgBzaG0rMVNqCkkgRzYWgodEn1RPkUgzp8J9u6hUQacBgLwwe--cS7wwiciF6sBeKtmbN"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-menu-gray"><span class="material-symbols-outlined">search</span></button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkud9mtgYPvu0pDTpJDETo1YmLRwASEhV14kqGtdA7PbT_NgdYQezFlOOAXtMiaMZGGGL6upj1nHtYKXZTOueM-kyLvnE-GFo_KGLlmFSEkS0A-TW2FIcVUx2pcJkylnV_4G7z9TSakx5_tKEiso4t7AN6ItittTDedeprQQYToff2-q_4wAhSXhXxOIA8wyJrNftQi0yGQ_DTpB_3QSWX_BN1fMimMiblkjut0yJ3paamsQf5CAxHPASmx64SbVuoVhXSn-c9AjUU"/>
+</div>
+</div>
+</header>
+<div class="max-w-max-content-width mx-auto px-margin-mobile md:px-gutter-default py-8 pt-10">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-muted-silver font-ui-label uppercase tracking-widest text-[11px] mb-8" style="font-family: 'Roboto', sans-serif;">
+<a class="hover:text-charcoal transition-colors" href="#">Explore</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-charcoal font-semibold">QBR Asana Template</span>
+</nav>
+<!-- Header Section -->
+<div class="bg-pure-white border-t-4 border-pitch-black p-8 md:p-10 mb-8 shadow-sm animate-entrance delay-100">
+<div class="flex flex-col lg:flex-row justify-between items-start gap-8">
+<div class="flex-1">
+<div class="flex flex-wrap items-center gap-3 mb-6">
+<span class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-smoke font-ui-label uppercase tracking-widest text-[11px] text-charcoal font-bold" style="font-family: 'Roboto', sans-serif;">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified_user">verified_user</span>
+                                AI-Verified
+                            </span>
+<span class="inline-flex items-center px-4 py-1.5 border border-border-light font-ui-label uppercase tracking-widest text-[11px] text-muted-silver" style="font-family: 'Roboto', sans-serif;">
+                                Management
+                            </span>
+<span class="inline-flex items-center px-4 py-1.5 border border-border-light font-ui-label uppercase tracking-widest text-[11px] text-muted-silver" style="font-family: 'Roboto', sans-serif;">
+                                Templates
+                            </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-charcoal mb-4 uppercase font-bold tracking-tight" style="font-family: 'Proxima Nova', sans-serif;">QBR Asana Template</h1>
+<div class="flex items-center gap-4 text-muted-silver">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="Sarah J." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMVFDzah9lSX_PHRGjFXKYSz3FMj2gMz5K8lVd6aJHqUun6B2PZ-RRANQeJwNMd8Ex34My-K-8fc8I0HpoKRWitozUvS76C2RVZzjo0Dw-3D_C5HnaXY9j-Y5MpVTknAj5yyvY4xxJlzYp42lK-PWrUE4RmVeKQf0ZJl0PzHWljxJua64B52vWGwa5zHJL7ITsZjj4EzQqnQ5ML3PNjCxAbFzSSw6vsE6UM6uJtShp1VJ4JYFQYyAR5-LP706D8WQcwLyV_C0t6sQS"/>
+</div>
+<span class="font-ui-label text-ui-label text-charcoal font-medium" style="font-family: 'Roboto', sans-serif;">Sarah J.</span>
+<span class="font-ui-label uppercase tracking-widest text-[11px] text-muted-silver border-l border-border-light pl-4" style="font-family: 'Roboto', sans-serif;">Level 42</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 w-full lg:w-auto mt-4 lg:mt-0">
+<button class="flex items-center gap-2 px-6 py-3 bg-pure-white border border-border-gray text-charcoal font-ui-label uppercase tracking-widest text-[12px] font-bold hover:bg-smoke transition-all duration-200 active:scale-95" style="font-family: 'Roboto', sans-serif;">
+<span class="material-symbols-outlined text-[18px]" data-icon="thumb_up">thumb_up</span>
+                            Upvote
+                            <span class="ml-2 text-muted-silver">45</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-3 bg-pure-white border border-border-gray text-charcoal font-ui-label uppercase tracking-widest text-[12px] font-bold hover:bg-smoke transition-all duration-200 active:scale-95" style="font-family: 'Roboto', sans-serif;">
+<span class="material-symbols-outlined text-[18px]" data-icon="share">share</span>
+                            Share
+                        </button>
+<button class="flex items-center gap-2 px-8 py-3 bg-signal-red text-white font-ui-label uppercase tracking-widest text-[12px] font-bold hover:bg-[#d63a31] transition-all duration-200 active:scale-95 w-full lg:w-auto justify-center" style="font-family: 'Roboto', sans-serif;">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                            Install
+                        </button>
+</div>
+</div>
+</div>
+<!-- Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column (Main Content) -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- Preview Image -->
+<div class="bg-pure-white border border-border-light p-2 shadow-sm animate-entrance delay-200">
+<div class="aspect-video relative group cursor-pointer overflow-hidden">
+<img alt="A modern software dashboard interface displayed on a monitor, showing a kanban board with various tasks and colorful tags. The lighting is bright and clean, reflecting a professional corporate environment. Soft shadows give depth to the cards on the screen. The overall aesthetic is sleek, organized, and highly functional, aligning with a light-mode modern UI style." class="w-full h-full object-cover relative z-10 transition-transform duration-700 group-hover:scale-105" data-alt="A modern software dashboard interface displayed on a monitor, showing a kanban board with various tasks and colorful tags. The lighting is bright and clean, reflecting a professional corporate environment. Soft shadows give depth to the cards on the screen. The overall aesthetic is sleek, organized, and highly functional, aligning with a light-mode modern UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmuZ28cCwSTVoXyP7JqA-NJfmnrfsSYLBwZpWKTHMcOK3QmAlT5TaojIBx_k516CVAfPxG01dnHKE-q4w7hhlKFUAd2ZtbLku0t32SJe14xPkETbTVUCf7awdocE9jWU2PQjoXK_Q5B6JpVtZ3X3zkXNm3YG0EPXGNqf7zHdp1_5G5KdaDeHhcn3il6d8WoElzMg_PheWmZbc0irLc4eRayRMM_H27oinmDBMqzqGmw4B55oszJZnuVR2jEfAPrSwQYYp94GJ_3TOb"/>
+<div class="absolute inset-0 bg-pitch-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+<span class="material-symbols-outlined text-white text-[64px]" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+</div>
+<!-- Overview Section -->
+<div class="bg-pure-white border-t-4 border-pitch-black p-8 md:p-10 shadow-sm animate-entrance delay-300">
+<h2 class="font-headline-md text-[32px] text-charcoal mb-6 uppercase font-bold tracking-tight" style="font-family: 'Proxima Nova', sans-serif;">Overview</h2>
+<p class="font-body-lg text-body-lg text-charcoal leading-relaxed mb-8" style="font-family: Roboto, sans-serif;">
+                            A high-fidelity description of how the template automates Quarterly Business Review project creation. This pre-configured Asana project template streamlines the entire QBR process, from initial data gathering to the final presentation prep. It includes standardized custom fields, automated task dependencies, and pre-written subtasks for cross-functional alignment.
+                        </p>
+<h3 class="font-ui-label uppercase tracking-widest text-[13px] font-bold text-charcoal mb-4" style="font-family: 'Roboto', sans-serif;">Key Features</h3>
+<ul class="space-y-3 font-body-lg text-body-lg text-charcoal mb-10" style="font-family: Roboto, sans-serif;">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-signal-red mt-1 shrink-0 text-[18px]">check</span>
+                                Automated timeline generation based on presentation date.
+                            </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-signal-red mt-1 shrink-0 text-[18px]">check</span>
+                                Standardized slide deck outline tasks.
+                            </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-signal-red mt-1 shrink-0 text-[18px]">check</span>
+                                Built-in approval workflows for management sign-off.
+                            </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-signal-red mt-1 shrink-0 text-[18px]">check</span>
+                                Pre-configured reporting dashboards within Asana.
+                            </li>
+</ul>
+<h2 class="font-headline-md text-[32px] text-charcoal mb-8 uppercase font-bold tracking-tight mt-12 border-t border-border-light pt-10" style="font-family: 'Proxima Nova', sans-serif;">Installation Steps</h2>
+<div class="space-y-8">
+<div class="flex gap-6">
+<div class="w-12 h-12 shrink-0 bg-pitch-black flex items-center justify-center font-headline-sm text-pure-white font-bold">1</div>
+<div>
+<h4 class="font-ui-label uppercase tracking-widest text-[14px] font-bold text-charcoal mb-2" style="font-family: 'Roboto', sans-serif;">Authenticate with Asana</h4>
+<p class="font-body-lg text-[16px] text-muted-silver leading-relaxed" style="font-family: Roboto, sans-serif;">Click the 'Install' button and grant necessary permissions to create projects in your workspace.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="w-12 h-12 shrink-0 bg-pitch-black flex items-center justify-center font-headline-sm text-pure-white font-bold">2</div>
+<div>
+<h4 class="font-ui-label uppercase tracking-widest text-[14px] font-bold text-charcoal mb-2" style="font-family: 'Roboto', sans-serif;">Select Target Workspace</h4>
+<p class="font-body-lg text-[16px] text-muted-silver leading-relaxed" style="font-family: Roboto, sans-serif;">Choose the team or workspace where the QBR template should reside.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="w-12 h-12 shrink-0 bg-pitch-black flex items-center justify-center font-headline-sm text-pure-white font-bold">3</div>
+<div>
+<h4 class="font-ui-label uppercase tracking-widest text-[14px] font-bold text-charcoal mb-2" style="font-family: 'Roboto', sans-serif;">Configure Custom Fields</h4>
+<p class="font-body-lg text-[16px] text-muted-silver leading-relaxed" style="font-family: Roboto, sans-serif;">Map the template's custom fields to existing fields in your library or create new ones.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="w-12 h-12 shrink-0 bg-pitch-black flex items-center justify-center font-headline-sm text-pure-white font-bold">4</div>
+<div>
+<h4 class="font-ui-label uppercase tracking-widest text-[14px] font-bold text-charcoal mb-2" style="font-family: 'Roboto', sans-serif;">Deploy and Duplicate</h4>
+<p class="font-body-lg text-[16px] text-muted-silver leading-relaxed" style="font-family: Roboto, sans-serif;">The template will be saved. Duplicate it for each upcoming QBR cycle.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Sidebar) -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- Impact Metrics -->
+<div class="bg-pure-white border border-border-light p-8 shadow-sm animate-entrance delay-200">
+<h3 class="font-ui-label uppercase tracking-widest text-[13px] font-bold text-charcoal mb-8 border-b border-pitch-black pb-4" style="font-family: 'Roboto', sans-serif;">Impact Metrics</h3>
+<div class="flex items-start gap-5 mb-8">
+<div class="mt-1">
+<span class="material-symbols-outlined text-[32px] text-charcoal" data-icon="group">group</span>
+</div>
+<div>
+<div class="font-headline-md text-charcoal font-bold tracking-tight leading-none mb-1"><span class="count-up" data-target="124">124</span></div>
+<div class="font-ui-label uppercase tracking-widest text-[11px] text-muted-silver" style="font-family: 'Roboto', sans-serif;">Active Users</div>
+</div>
+</div>
+<div class="flex items-start gap-5">
+<div class="mt-1">
+<span class="material-symbols-outlined text-[32px] text-charcoal" data-icon="schedule">schedule</span>
+</div>
+<div>
+<div class="font-headline-md text-charcoal font-bold tracking-tight leading-none mb-1">~<span class="count-up" data-target="4">4</span>h</div>
+<div class="font-ui-label uppercase tracking-widest text-[11px] text-muted-silver" style="font-family: 'Roboto', sans-serif;">Saved per QBR</div>
+</div>
+</div>
+</div>
+<!-- Technical Specs -->
+<div class="bg-pure-white border border-border-light p-8 shadow-sm animate-entrance delay-300">
+<h3 class="font-ui-label uppercase tracking-widest text-[13px] font-bold text-charcoal mb-6 border-b border-pitch-black pb-4" style="font-family: 'Roboto', sans-serif;">Technical Specs</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-2 border-b border-smoke">
+<span class="font-ui-label uppercase tracking-widest text-[11px] text-muted-silver" style="font-family: 'Roboto', sans-serif;">Last Updated</span>
+<span class="font-ui-label text-[14px] font-medium text-charcoal" style="font-family: 'Roboto', sans-serif;">Oct 24, 2023</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-smoke">
+<span class="font-ui-label uppercase tracking-widest text-[11px] text-muted-silver" style="font-family: 'Roboto', sans-serif;">Compatibility</span>
+<span class="font-ui-label text-[14px] font-medium text-charcoal" style="font-family: 'Roboto', sans-serif;">Asana Biz/Ent</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="font-ui-label uppercase tracking-widest text-[11px] text-muted-silver" style="font-family: 'Roboto', sans-serif;">Version</span>
+<span class="font-ui-label text-[14px] font-medium text-charcoal" style="font-family: 'Roboto', sans-serif;">v2.1.4</span>
+</div>
+</div>
+</div>
+<!-- Related Tools -->
+<div class="bg-pure-white border border-border-light p-8 shadow-sm animate-entrance delay-400">
+<h3 class="font-ui-label uppercase tracking-widest text-[13px] font-bold text-charcoal mb-6 border-b border-pitch-black pb-4" style="font-family: 'Roboto', sans-serif;">Related Tools</h3>
+<div class="space-y-4">
+<a class="block group" href="#">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-smoke flex items-center justify-center shrink-0 border border-border-light group-hover:border-pitch-black transition-colors">
+<span class="material-symbols-outlined text-charcoal" data-icon="description">description</span>
+</div>
+<div>
+<h4 class="font-ui-label uppercase tracking-widest text-[12px] font-bold text-charcoal group-hover:text-signal-red transition-colors mb-1 line-clamp-1" style="font-family: 'Roboto', sans-serif;">Monthly Reporting Script</h4>
+<p class="font-body-lg text-[14px] text-muted-silver line-clamp-1" style="font-family: Roboto, sans-serif;">Automated data extraction.</p>
+</div>
+</div>
+</a>
+<hr class="border-smoke my-4"/>
+<a class="block group" href="#">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-smoke flex items-center justify-center shrink-0 border border-border-light group-hover:border-pitch-black transition-colors">
+<span class="material-symbols-outlined text-charcoal" data-icon="account_tree">account_tree</span>
+</div>
+<div>
+<h4 class="font-ui-label uppercase tracking-widest text-[12px] font-bold text-charcoal group-hover:text-signal-red transition-colors mb-1 line-clamp-1" style="font-family: 'Roboto', sans-serif;">Client Onboarding Flow</h4>
+<p class="font-body-lg text-[14px] text-muted-silver line-clamp-1" style="font-family: Roboto, sans-serif;">Standardized welcome project.</p>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const counters = document.querySelectorAll('.count-up');
+        const speed = 200; // The lower the slower
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 10);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            // small delay to align with entrance animation
+            setTimeout(updateCount, 400);
+        });
+    });
+</script>
+</body></html>
