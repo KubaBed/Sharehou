@@ -48,7 +48,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <nav className="hidden md:flex flex-col fixed left-0 top-0 h-screen sidebar-container bg-menu-black py-6 border-r border-pitch-black z-20 text-menu-gray relative">
+    <nav className="hidden md:flex flex-col fixed left-0 top-0 h-screen sidebar-container bg-menu-black py-6 border-r border-pitch-black z-20 text-menu-gray">
       {/* Sidebar Collapse Toggle Button */}
       <button
         onClick={toggleSidebar}
