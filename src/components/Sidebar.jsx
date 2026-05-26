@@ -60,7 +60,7 @@ const Sidebar = () => {
         </span>
       </button>
 
-      <div className={`px-6 mb-8 transition-all duration-300 ${isCollapsed ? 'flex justify-center px-2' : ''}`}>
+      <div className={`px-5 mb-8 transition-all duration-300 ${isCollapsed ? 'flex justify-center px-2' : ''}`}>
         {isCollapsed ? (
           <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-pure-white font-display font-bold text-xl select-none animate-fade-in-scale">
             S
@@ -87,7 +87,7 @@ const Sidebar = () => {
                   to={item.path}
                   title={isCollapsed ? item.name : ''}
                   className={`flex items-center transition-all duration-300 transform ${
-                    isCollapsed ? 'justify-center py-3 px-2' : 'gap-3 py-3 px-6'
+                    isCollapsed ? 'justify-center py-3 px-2' : 'gap-3 py-3 px-5'
                   } ${
                     isActive
                       ? 'text-pure-white font-semibold border-l-4 border-scarlett-red bg-inverse-surface scale-[0.98] hover:scale-100'
@@ -116,7 +116,7 @@ const Sidebar = () => {
               to="#"
               title={isCollapsed ? "Settings" : ""}
               className={`flex items-center transition-all duration-300 transform ${
-                isCollapsed ? 'justify-center py-3 px-2' : 'gap-3 py-3 px-6'
+                isCollapsed ? 'justify-center py-3 px-2' : 'gap-3 py-3 px-5'
               } text-menu-gray hover:bg-inverse-surface hover:text-pure-white hover:scale-105 border-l-4 border-transparent`}
             >
               <span className="material-symbols-outlined">settings</span>
@@ -132,7 +132,7 @@ const Sidebar = () => {
               to="#"
               title={isCollapsed ? "Help" : ""}
               className={`flex items-center transition-all duration-300 transform ${
-                isCollapsed ? 'justify-center py-3 px-2' : 'gap-3 py-3 px-6'
+                isCollapsed ? 'justify-center py-3 px-2' : 'gap-3 py-3 px-5'
               } text-menu-gray hover:bg-inverse-surface hover:text-pure-white hover:scale-105 border-l-4 border-transparent`}
             >
               <span className="material-symbols-outlined">help_outline</span>
@@ -147,7 +147,7 @@ const Sidebar = () => {
 
         <div 
           title={isCollapsed ? "Alex Rivera (alex.r@sharehouse.inc)" : ""}
-          className={`px-6 border-t border-pitch-black pt-6 flex items-center transition-all duration-300 cursor-pointer hover:opacity-80 ${
+          className={`px-5 border-t border-pitch-black pt-6 flex items-center transition-all duration-300 cursor-pointer hover:opacity-80 ${
             isCollapsed ? 'justify-center px-2' : 'gap-3'
           }`}
         >

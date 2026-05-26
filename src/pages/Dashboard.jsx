@@ -103,7 +103,7 @@ const Dashboard = () => {
         <Header />
         
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto px-10 py-10 hide-scrollbar flex flex-col gap-10">
+        <main className="flex-1 overflow-y-auto px-8 py-8 hide-scrollbar flex flex-col gap-8">
           
           {/* Header Banner - Editorial Brutalism Stance */}
           <div className="relative border-b border-charcoal/10 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">

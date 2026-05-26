@@ -75,7 +75,7 @@
   --spacing-gutter-default: 24px;
   --spacing-margin-mobile: 16px;
   --spacing-max-content-width: 1400px;
-  --spacing-sidebar-width: 253px;
+  --spacing-sidebar-width: 240px;
   --spacing-stack-sm: 8px;
   --spacing-stack-md: 16px;
   --spacing-margin-desktop: 32px;
@@ -141,7 +141,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Inter', system-ui, -apple-system, sans-se
 
 /* Collapsible Sidebar Styles */
 :root {
-  --sidebar-width: 280px;
+  --sidebar-width: 240px;
 }
 
 body.sidebar-collapsed {
