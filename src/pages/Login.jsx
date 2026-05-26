@@ -16,7 +16,7 @@ const Login = () => {
         <div className="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center items-center bg-white">
           <div className="w-full max-w-md text-left">
             <div className="mb-10">
-              <h2 className="font-headline text-3xl text-on-background font-bold mb-3 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+              <h2 className="font-spec-title text-on-background font-bold mb-3 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                 Log in to<br />
                 <img
                   alt="ShareHouse"
@@ -24,7 +24,7 @@ const Login = () => {
                   src="/logo-light-bg.png"
                 />
               </h2>
-              <p className="font-body text-base text-secondary animate-fade-in-up" style={{ animationDelay: '450ms' }}>
+              <p className="font-spec-lead text-secondary animate-fade-in-up" style={{ animationDelay: '450ms' }}>
                 Your internal marketplace for everyday efficiency.
               </p>
             </div>
@@ -40,12 +40,12 @@ const Login = () => {
                 <path d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" fill="#4CAF50"></path>
                 <path d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" fill="#1976D2"></path>
               </svg>
-              <span className="font-label text-base text-on-surface font-medium">Sign in with Google</span>
+              <span className="font-spec-lead text-on-surface font-medium">Sign in with Google</span>
             </button>
 
             <div className="mt-8 flex flex-col gap-4 text-left animate-fade-in-up" style={{ animationDelay: '750ms' }}>
-              <a className="font-label text-sm text-secondary hover:text-accent-red transition-all font-medium" href="#">Trouble signing in?</a>
-              <a className="font-label text-sm text-secondary hover:text-accent-red transition-all font-medium" href="#">Contact Support</a>
+              <a className="font-spec-lead text-secondary hover:text-accent-red transition-all font-medium animate-fade-in-up" href="#">Trouble signing in?</a>
+              <a className="font-spec-lead text-secondary hover:text-accent-red transition-all font-medium animate-fade-in-up" href="#">Contact Support</a>
             </div>
           </div>
         </div>

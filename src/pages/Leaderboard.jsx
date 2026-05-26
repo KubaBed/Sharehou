@@ -36,8 +36,8 @@ const Leaderboard = () => {
           <div className="max-w-[1280px] mx-auto w-full">
             {/* Page Header */}
             <div className="mb-12">
-              <h2 className="font-headline text-2xl font-bold text-charcoal mb-4">Global Leaderboard</h2>
-              <p className="font-body text-base text-muted-silver max-w-3xl">
+              <h2 className="font-spec-title text-charcoal mb-4">Global Leaderboard</h2>
+              <p className="font-spec-lead text-muted-silver max-w-3xl">
                 Recognizing the leading builders at ShareHouse. Share tools, save collective time, and earn Karma points to rank up.
               </p>
             </div>
@@ -45,13 +45,13 @@ const Leaderboard = () => {
             {loading ? (
               <div className="py-40 flex flex-col items-center justify-center text-muted-silver gap-3">
                 <span className="material-symbols-outlined text-4xl animate-spin text-scarlett-red">progress_activity</span>
-                <span className="font-body text-sm font-medium">Loading global rankings...</span>
+                <span className="font-spec-body font-medium">Loading global rankings...</span>
               </div>
             ) : (
               <>
                 {/* Top Contributors Podium Section */}
                 <div className="mb-12">
-                  <h3 className="font-headline text-lg font-bold text-on-surface mb-6">Top Contributors</h3>
+                  <h3 className="font-spec-h2 font-bold text-on-surface mb-6">Top Contributors</h3>
                   
                   <div className="bg-pure-white rounded-3xl border border-border-light p-8 shadow-[0_4px_25px_rgba(0,0,0,0.02)] relative overflow-hidden">
                     {/* Ambient pink/crimson/purple mesh blur accent inside the card */}
@@ -70,14 +70,14 @@ const Leaderboard = () => {
                             alt={contributors[1].name}
                             className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 sm:border-4 border-slate-300 shadow-md group-hover:scale-105 transition-transform duration-300"
                           />
-                          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-slate-300 text-charcoal text-[9px] sm:text-xs font-bold px-1.5 sm:px-2.5 py-0.5 rounded-full border border-pure-white shadow-sm">
+                          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-slate-300 text-charcoal font-spec-position font-bold px-1.5 sm:px-2.5 py-0.5 rounded-full border border-pure-white shadow-sm">
                             #2
                           </span>
                         </div>
-                        <h4 className="font-headline font-bold text-charcoal mt-3 sm:mt-6 text-xs sm:text-base text-center truncate w-full px-1">{contributors[1].name}</h4>
-                        <p className="font-body text-[9px] sm:text-xs text-muted-silver mt-0.5 text-center truncate w-full px-1">{contributors[1].title}</p>
+                        <h4 className="font-spec-h2 font-bold text-charcoal mt-3 sm:mt-6 text-center truncate w-full px-1">{contributors[1].name}</h4>
+                        <p className="font-spec-position text-muted-silver mt-0.5 text-center truncate w-full px-1">{contributors[1].title}</p>
                         
-                        <div className="hidden sm:inline-block bg-smoke text-charcoal font-label text-[10px] px-2.5 py-0.5 rounded-full border border-border-light mt-3">
+                        <div className="hidden sm:inline-block bg-smoke text-charcoal font-spec-tagline px-2.5 py-0.5 rounded-full border border-border-light mt-3">
                           {contributors[1].tier}
                         </div>
                       </div>
@@ -85,8 +85,8 @@ const Leaderboard = () => {
                       {/* Pillar */}
                       <div className="w-full h-24 sm:h-36 bg-gradient-to-t from-slate-100 via-slate-50 to-pure-white border border-slate-200 rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.01)] flex flex-col justify-end items-center pb-3 sm:pb-6 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)] group-hover:border-slate-300">
                         <div className="flex flex-col items-center text-center px-2 sm:px-4 w-full">
-                          <span className="font-headline font-black text-2xl sm:text-4xl text-slate-300/40 select-none mb-1 sm:mb-4">2</span>
-                          <div className="hidden sm:flex w-full border-t border-[#f0f0f0] pt-3 justify-around text-[10px]">
+                          <span className="font-spec-number font-black text-slate-300/40 select-none mb-1 sm:mb-4">2</span>
+                          <div className="hidden sm:flex w-full border-t border-[#f0f0f0] pt-3 justify-around font-spec-position">
                             <div>
                               <p className="font-bold text-charcoal">{contributors[1].karma}</p>
                               <p className="text-muted-silver">Karma</p>
@@ -119,14 +119,14 @@ const Leaderboard = () => {
                             alt={contributors[0].name}
                             className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 sm:border-4 border-amber-400 shadow-lg group-hover:scale-105 transition-transform duration-300"
                           />
-                          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-amber-400 text-charcoal text-[9px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 rounded-full border border-pure-white shadow-md">
+                          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-amber-400 text-charcoal font-spec-tagline px-2 sm:px-3 py-0.5 rounded-full border border-pure-white shadow-md">
                             #1
                           </span>
                         </div>
-                        <h4 className="font-headline font-bold text-charcoal mt-3 sm:mt-6 text-sm sm:text-lg text-center truncate w-full px-1">{contributors[0].name}</h4>
-                        <p className="font-body text-[9px] sm:text-xs text-muted-silver mt-0.5 text-center truncate w-full px-1">{contributors[0].title}</p>
+                        <h4 className="font-spec-h1 font-bold text-charcoal mt-3 sm:mt-6 text-center truncate w-full px-1">{contributors[0].name}</h4>
+                        <p className="font-spec-position text-muted-silver mt-0.5 text-center truncate w-full px-1">{contributors[0].title}</p>
                         
-                        <div className="hidden sm:inline-block bg-amber-50 text-amber-800 font-label text-[10px] px-2.5 py-0.5 rounded-full border border-amber-200 mt-3 font-semibold">
+                        <div className="hidden sm:inline-block bg-amber-50 text-amber-800 font-spec-tagline px-2.5 py-0.5 rounded-full border border-amber-200 mt-3 font-semibold">
                           {contributors[0].tier}
                         </div>
                       </div>
@@ -134,8 +134,8 @@ const Leaderboard = () => {
                       {/* Pillar */}
                       <div className="w-full h-32 sm:h-48 bg-gradient-to-t from-amber-50/50 via-amber-50/10 to-pure-white border-2 border-amber-400/40 rounded-2xl shadow-[0_8px_30px_rgba(245,158,11,0.06)] flex flex-col justify-end items-center pb-3 sm:pb-6 transition-all duration-300 group-hover:shadow-[0_15px_35px_rgba(245,158,11,0.12)] group-hover:border-amber-400/60 group-hover:scale-[1.01]">
                         <div className="flex flex-col items-center text-center px-2 sm:px-4 w-full">
-                          <span className="font-headline font-black text-3xl sm:text-5xl text-amber-400/30 select-none mb-1 sm:mb-4">1</span>
-                          <div className="hidden sm:flex w-full border-t border-amber-200/50 pt-3 justify-around text-[10px]">
+                          <span className="font-spec-number font-black text-amber-400/30 select-none mb-1 sm:mb-4">1</span>
+                          <div className="hidden sm:flex w-full border-t border-amber-200/50 pt-3 justify-around font-spec-position">
                             <div>
                               <p className="font-bold text-charcoal">{contributors[0].karma}</p>
                               <p className="text-muted-silver">Karma</p>
@@ -161,14 +161,14 @@ const Leaderboard = () => {
                             alt={contributors[2].name}
                             className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 sm:border-4 border-amber-600/40 shadow-md group-hover:scale-105 transition-transform duration-300"
                           />
-                          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-amber-700 text-pure-white text-[9px] sm:text-xs font-bold px-1.5 sm:px-2.5 py-0.5 rounded-full border border-pure-white shadow-sm">
+                          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-amber-700 text-pure-white font-spec-position font-bold px-1.5 sm:px-2.5 py-0.5 rounded-full border border-pure-white shadow-sm">
                             #3
                           </span>
                         </div>
-                        <h4 className="font-headline font-bold text-charcoal mt-3 sm:mt-6 text-xs sm:text-base text-center truncate w-full px-1">{contributors[2].name}</h4>
-                        <p className="font-body text-[9px] sm:text-xs text-muted-silver mt-0.5 text-center truncate w-full px-1">{contributors[2].title}</p>
+                        <h4 className="font-spec-h2 font-bold text-charcoal mt-3 sm:mt-6 text-center truncate w-full px-1">{contributors[2].name}</h4>
+                        <p className="font-spec-position text-muted-silver mt-0.5 text-center truncate w-full px-1">{contributors[2].title}</p>
                         
-                        <div className="hidden sm:inline-block bg-smoke text-charcoal font-label text-[10px] px-2.5 py-0.5 rounded-full border border-border-light mt-3">
+                        <div className="hidden sm:inline-block bg-smoke text-charcoal font-spec-tagline px-2.5 py-0.5 rounded-full border border-border-light mt-3">
                           {contributors[2].tier}
                         </div>
                       </div>
@@ -176,8 +176,8 @@ const Leaderboard = () => {
                       {/* Pillar */}
                       <div className="w-full h-18 sm:h-28 bg-gradient-to-t from-amber-700/10 via-amber-50/5 to-pure-white border border-amber-700/20 rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.01)] flex flex-col justify-end items-center pb-3 sm:pb-6 transition-all duration-300 group-hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)] group-hover:border-amber-700/30">
                         <div className="flex flex-col items-center text-center px-2 sm:px-4 w-full">
-                          <span className="font-headline font-black text-xl sm:text-3xl text-amber-700/20 select-none mb-1 sm:mb-3">3</span>
-                          <div className="hidden sm:flex w-full border-t border-[#f0f0f0] pt-3 justify-around text-[10px]">
+                          <span className="font-spec-number font-black text-amber-700/20 select-none mb-1 sm:mb-3">3</span>
+                          <div className="hidden sm:flex w-full border-t border-[#f0f0f0] pt-3 justify-around font-spec-position">
                             <div>
                               <p className="font-bold text-charcoal">{contributors[2].karma}</p>
                               <p className="text-muted-silver">Karma</p>
@@ -201,46 +201,46 @@ const Leaderboard = () => {
             <Reveal delay={300} duration={700}>
               <div className="bg-pure-white border border-border-light rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] overflow-hidden mb-12">
                 <div className="px-6 py-4 border-b border-border-light">
-                  <h4 className="font-headline text-base font-bold text-charcoal">All-Time Rankings</h4>
+                  <h4 className="font-spec-h2 font-bold text-charcoal">All-Time Rankings</h4>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-smoke font-label text-xs text-muted-silver border-b border-border-light">
-                        <th className="px-6 py-3 font-semibold">Rank</th>
-                        <th className="px-6 py-3 font-semibold">Contributor</th>
-                        <th className="px-6 py-3 font-semibold">Tier</th>
-                        <th className="px-6 py-3 font-semibold text-right">Tools Shared</th>
-                        <th className="px-6 py-3 font-semibold text-right">Time Saved</th>
-                        <th className="px-6 py-3 font-semibold text-right">Karma XP</th>
+                      <tr className="bg-smoke font-spec-tagline text-muted-silver border-b border-border-light">
+                        <th className="px-6 py-3">Rank</th>
+                        <th className="px-6 py-3">Contributor</th>
+                        <th className="px-6 py-3">Tier</th>
+                        <th className="px-6 py-3 text-right">Tools Shared</th>
+                        <th className="px-6 py-3 text-right">Time Saved</th>
+                        <th className="px-6 py-3 text-right">Karma XP</th>
                       </tr>
                     </thead>
                     <tbody>
                       {contributors.map((user) => (
                         <tr key={user.name} className="hover:bg-smoke/30 transition-colors border-b border-border-light last:border-0">
-                          <td className="px-6 py-4 font-headline font-bold text-charcoal text-sm">
+                          <td className="px-6 py-4 font-spec-lead font-bold text-charcoal">
                             #{user.rank}
                           </td>
                           <td className="px-6 py-4 flex items-center gap-3">
                             <img className="w-10 h-10 rounded-full object-cover" src={user.avatar} alt={`${user.name} avatar`} />
                             <div>
-                              <p className="font-headline text-sm font-bold text-charcoal">{user.name}</p>
-                              <p className="font-body text-xs text-muted-silver mt-0.5">{user.title}</p>
+                              <p className="font-spec-h2 font-bold text-charcoal">{user.name}</p>
+                              <p className="font-spec-position text-muted-silver mt-0.5">{user.title}</p>
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="font-label text-xs text-secondary bg-smoke border border-border-light px-2.5 py-1 rounded-full">
+                            <span className="font-spec-tagline text-secondary bg-smoke border border-border-light px-2.5 py-1 rounded-full">
                               {user.tier}
                             </span>
                           </td>
-                          <td className="px-6 py-4 font-body text-sm text-charcoal text-right">
+                          <td className="px-6 py-4 font-spec-body text-charcoal text-right">
                             {user.toolsShared}
                           </td>
-                          <td className="px-6 py-4 font-body text-sm text-charcoal text-right font-semibold">
+                          <td className="px-6 py-4 font-spec-body text-charcoal text-right font-semibold">
                             {user.hoursSaved}
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <span className="font-headline font-bold text-scarlett-red text-sm">
+                            <span className="font-spec-lead font-bold text-scarlett-red">
                               {user.karma}
                             </span>
                           </td>

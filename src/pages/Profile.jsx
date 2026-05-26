@@ -57,11 +57,11 @@ const Profile = () => {
                   />
                 </div>
 
-                <div className="flex-1 text-center md:text-left relative z-10">
-                  <h2 className="font-headline text-3xl font-bold text-charcoal mb-2">{userProfile.name}</h2>
-                  <p className="font-body text-sm text-secondary font-medium">{userProfile.role}</p>
-                  <p className="font-body text-xs text-muted-silver mt-1">{userProfile.email}</p>
-                  <div className="inline-block bg-smoke border border-border-light text-charcoal font-label text-xs px-4 py-1.5 rounded-full mt-4">
+                <div className="flex-grow md:text-left relative z-10">
+                  <h2 className="font-spec-title text-charcoal mb-2">{userProfile.name}</h2>
+                  <p className="font-spec-lead text-secondary">{userProfile.role}</p>
+                  <p className="font-spec-position text-muted-silver mt-1">{userProfile.email}</p>
+                  <div className="inline-block bg-smoke border border-border-light text-charcoal font-spec-tagline px-4 py-1.5 rounded-full mt-4">
                     {userProfile.tier}
                   </div>
                 </div>
@@ -76,11 +76,11 @@ const Profile = () => {
                 <div className="bg-pure-white rounded-3xl p-6 border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1 flex flex-col justify-between h-full">
                   <div>
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="font-label text-sm text-muted-silver font-semibold">Karma Points</h3>
-                      <span className="material-symbols-outlined text-scarlett-red">local_fire_department</span>
+                      <h3 className="font-spec-tagline text-muted-silver">Karma Points</h3>
+                      <span className="material-symbols-outlined text-scarlett-red text-base">local_fire_department</span>
                     </div>
-                    <p className="font-headline text-3xl font-bold text-charcoal mb-2">{userProfile.karma} XP</p>
-                    <p className="font-body text-xs text-muted-silver">Next Tier: {userProfile.nextTierKarma} XP</p>
+                    <p className="font-spec-number text-charcoal mb-2">{userProfile.karma} XP</p>
+                    <p className="font-spec-position text-muted-silver">Next Tier: {userProfile.nextTierKarma} XP</p>
                   </div>
                   <div className="mt-6">
                     <div className="w-full bg-smoke rounded-full h-2 overflow-hidden border border-border-light">
@@ -98,11 +98,11 @@ const Profile = () => {
                 <div className="bg-pure-white rounded-3xl p-6 border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1 flex flex-col justify-between h-full">
                   <div>
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="font-label text-sm text-muted-silver font-semibold">Total Hours Saved</h3>
-                      <span className="material-symbols-outlined text-scarlett-red">schedule</span>
+                      <h3 className="font-spec-tagline text-muted-silver">Total Hours Saved</h3>
+                      <span className="material-symbols-outlined text-scarlett-red text-base">schedule</span>
                     </div>
-                    <p className="font-headline text-3xl font-bold text-charcoal mb-2">{userProfile.hoursSaved}h</p>
-                    <p className="font-body text-xs text-muted-silver">Estimated value: $7,400</p>
+                    <p className="font-spec-number text-charcoal mb-2">{userProfile.hoursSaved}h</p>
+                    <p className="font-spec-position text-muted-silver">Estimated value: $7,400</p>
                   </div>
                 </div>
               </Reveal>
@@ -112,11 +112,11 @@ const Profile = () => {
                 <div className="bg-pure-white rounded-3xl p-6 border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1 flex flex-col justify-between h-full">
                   <div>
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="font-label text-sm text-muted-silver font-semibold">Tools Shared</h3>
-                      <span className="material-symbols-outlined text-scarlett-red">extension</span>
+                      <h3 className="font-spec-tagline text-muted-silver">Tools Shared</h3>
+                      <span className="material-symbols-outlined text-scarlett-red text-base">extension</span>
                     </div>
-                    <p className="font-headline text-3xl font-bold text-charcoal mb-2">{userProfile.toolsShared}</p>
-                    <p className="font-body text-xs text-muted-silver">Top category: Coding</p>
+                    <p className="font-spec-number text-charcoal mb-2">{userProfile.toolsShared}</p>
+                    <p className="font-spec-position text-muted-silver">Top category: Coding</p>
                   </div>
                 </div>
               </Reveal>
@@ -129,19 +129,19 @@ const Profile = () => {
               {/* Badges Panel */}
               <Reveal delay={150} duration={600} className="h-full">
                 <div className="bg-pure-white rounded-3xl p-6 border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)] h-full">
-                  <h3 className="font-headline text-lg font-bold text-charcoal mb-6">Mastery Badges</h3>
+                  <h3 className="font-spec-h2 font-bold text-charcoal mb-6">Mastery Badges</h3>
                   <div className="flex flex-wrap gap-4">
                     <div className="flex flex-col items-center p-4 bg-smoke rounded-2xl border border-border-light w-[100px] text-center hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer">
-                      <span className="material-symbols-outlined text-yellow-500 text-3xl mb-2">military_tech</span>
-                      <span className="font-label text-xs text-charcoal font-bold">Builder</span>
+                      <span className="material-symbols-outlined text-yellow-500 text-2xl mb-2">military_tech</span>
+                      <span className="font-spec-tagline text-charcoal font-bold">Builder</span>
                     </div>
                     <div className="flex flex-col items-center p-4 bg-smoke rounded-2xl border border-border-light w-[100px] text-center hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer">
-                      <span className="material-symbols-outlined text-blue-500 text-3xl mb-2">terminal</span>
-                      <span className="font-label text-xs text-charcoal font-bold">Scripter</span>
+                      <span className="material-symbols-outlined text-blue-500 text-2xl mb-2">terminal</span>
+                      <span className="font-spec-tagline text-charcoal font-bold">Scripter</span>
                     </div>
                     <div className="flex flex-col items-center p-4 bg-smoke rounded-2xl border border-border-light w-[100px] text-center hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer">
-                      <span className="material-symbols-outlined text-green-500 text-3xl mb-2">bolt</span>
-                      <span className="font-label text-xs text-charcoal font-bold">Optimizer</span>
+                      <span className="material-symbols-outlined text-green-500 text-2xl mb-2">bolt</span>
+                      <span className="font-spec-tagline text-charcoal font-bold">Optimizer</span>
                     </div>
                   </div>
                 </div>
@@ -150,18 +150,18 @@ const Profile = () => {
               {/* Contributions Panel */}
               <Reveal delay={250} duration={600} className="h-full">
                 <div className="bg-pure-white rounded-3xl p-6 border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)] h-full">
-                  <h3 className="font-headline text-lg font-bold text-charcoal mb-6">Recent Contributions</h3>
+                  <h3 className="font-spec-h2 font-bold text-charcoal mb-6">Recent Contributions</h3>
                   <div className="space-y-4">
                     {contributions.map((item) => (
                       <div key={item.id} className="flex items-center gap-4 pb-4 border-b border-border-light last:border-0 last:pb-0 hover:translate-x-1 transition-transform duration-200 cursor-pointer">
                         <div className="w-10 h-10 rounded-xl bg-smoke flex items-center justify-center text-charcoal border border-border-light">
-                          <span className="material-symbols-outlined">{item.icon}</span>
+                          <span className="material-symbols-outlined text-base">{item.icon}</span>
                         </div>
                         <div className="flex-grow">
-                          <p className="text-sm font-bold text-charcoal">{item.title}</p>
-                          <p className="text-[11px] text-muted-silver mt-0.5">{item.time}</p>
+                          <p className="font-spec-h3 font-bold text-charcoal">{item.title}</p>
+                          <p className="font-spec-position text-muted-silver mt-0.5">{item.time}</p>
                         </div>
-                        <span className="text-scarlett-red text-sm font-bold">{item.kp}</span>
+                        <span className="text-scarlett-red font-spec-lead font-bold">{item.kp}</span>
                       </div>
                     ))}
                   </div>

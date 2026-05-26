@@ -97,9 +97,9 @@ const Dashboard = () => {
           {/* Header Banner - Editorial Brutalism Stance */}
           <div className="relative border-b border-charcoal/10 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
             <div>
-              <span className="text-xs font-bold text-scarlett-red uppercase tracking-widest block mb-2">// SHAREHOUSE PLATFORM</span>
-              <h2 className="font-headline text-4xl font-bold text-charcoal tracking-tight">Explore Tools</h2>
-              <p className="font-body text-base text-muted-silver mt-2 max-w-2xl leading-relaxed">
+              <span className="font-spec-tagline text-scarlett-red block mb-2">// SHAREHOUSE PLATFORM</span>
+              <h2 className="font-spec-title text-charcoal tracking-tight">Explore Tools</h2>
+              <p className="font-spec-lead text-muted-silver mt-2 max-w-2xl">
                 A surgical index of custom templates, automations, and prompts engineered by the RTB House team to accelerate daily productivity.
               </p>
             </div>
@@ -124,12 +124,12 @@ const Dashboard = () => {
 
           {/* Topics Selector - Fixed Crop Bug by adding py-3 instead of pb-2 */}
           <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-charcoal/5 hide-scrollbar">
-            <span className="text-muted-silver font-label text-xs uppercase tracking-wider mr-4 shrink-0">Filter by topic:</span>
+            <span className="text-muted-silver font-spec-tagline mr-4 shrink-0">Filter by topic:</span>
             {['All', 'IT', 'Marketing', 'Finance', 'Operations', 'Sales', 'HR'].map((t) => (
               <button
                 key={t}
                 onClick={() => setTopic(t)}
-                className={`px-4 py-2 font-label text-xs rounded-lg border transition-all duration-300 hover:scale-105 active:scale-95 shrink-0 ${
+                className={`px-4 py-2 font-spec-lead font-bold rounded-lg border transition-all duration-300 hover:scale-105 active:scale-95 shrink-0 ${
                   topic === t
                     ? 'bg-scarlett-red text-pure-white border-scarlett-red font-semibold shadow-md shadow-scarlett-red/10'
                     : 'bg-pure-white text-muted-silver border-border-gray hover:border-charcoal hover:text-charcoal'
@@ -162,36 +162,36 @@ const Dashboard = () => {
                     <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-scarlett-red/5 to-transparent pointer-events-none"></div>
                     <div>
                       <div className="flex justify-between items-center mb-6">
-                        <span className="font-label text-xs font-bold text-scarlett-red uppercase tracking-wider border-b-2 border-scarlett-red pb-1">
+                        <span className="font-spec-tagline text-scarlett-red border-b-2 border-scarlett-red pb-1">
                           Featured {tool.category}
                         </span>
-                        <span className="bg-smoke border border-border-gray text-charcoal px-3 py-1 font-label text-xs font-semibold uppercase rounded-md">
+                        <span className="bg-smoke border border-border-gray text-charcoal px-2 py-0.5 font-spec-tagline rounded-md">
                           Saves {tool.hoursSaved}h
                         </span>
                       </div>
-                      <h3 className="font-headline text-2xl font-bold text-charcoal mb-4 group-hover:text-scarlett-red transition-colors leading-tight">
+                      <h3 className="font-spec-h1 font-bold text-charcoal mb-4 group-hover:text-scarlett-red transition-colors leading-tight">
                         {tool.title}
                       </h3>
-                      <p className="font-body text-sm text-secondary leading-relaxed mb-8 max-w-xl">
+                      <p className="font-spec-body text-secondary leading-relaxed mb-8 max-w-xl">
                         {tool.description}
                       </p>
                     </div>
                     <div className="border-t border-border-gray pt-6 flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         <img className="w-8 h-8 rounded-full border border-border-gray object-cover" src={tool.authorAvatar} alt={tool.author} />
-                        <span className="font-label text-xs text-charcoal font-semibold">{tool.author}</span>
+                        <span className="font-spec-name text-charcoal">{tool.author}</span>
                       </div>
                       <div className="flex items-center gap-4">
-                        <span className="font-label text-[11px] text-muted-silver font-semibold uppercase">{tool.uses || 0} Uses</span>
+                        <span className="font-spec-tagline text-muted-silver">{tool.uses || 0} Uses</span>
                         <button 
                           onClick={(e) => handleLike(tool.id, e)}
-                          className="flex items-center gap-1.5 bg-smoke hover:bg-scarlett-red/10 border border-border-gray px-3 py-1.5 rounded-lg text-charcoal hover:text-scarlett-red transition-all font-bold text-xs select-none active:scale-95 cursor-pointer"
+                          className="flex items-center gap-1.5 bg-smoke hover:bg-scarlett-red/10 border border-border-gray px-3 py-1.5 rounded-lg text-charcoal hover:text-scarlett-red transition-all font-spec-lead font-bold select-none active:scale-95 cursor-pointer"
                           title="Upvote tool"
                         >
                           <span className="material-symbols-outlined text-[14px]">thumb_up</span>
                           <span>{tool.likes}</span>
                         </button>
-                        <button className="text-scarlett-red font-label text-xs font-bold flex items-center gap-1">
+                        <button className="text-scarlett-red font-spec-lead font-bold flex items-center gap-1">
                           View Details
                           <span className="material-symbols-outlined text-sm font-bold group-hover:translate-x-1 transition-transform">arrow_forward</span>
                         </button>
@@ -210,33 +210,33 @@ const Dashboard = () => {
                   >
                     <div>
                       <div className="flex justify-between items-start mb-6">
-                        <span className="font-label text-[10px] font-bold text-muted-silver uppercase tracking-widest border border-border-gray px-2 py-0.5 rounded">
+                        <span className="font-spec-tagline text-muted-silver border border-border-gray px-2 py-0.5 rounded">
                           {tool.category}
                         </span>
                         {tool.popular && (
-                          <span className="bg-red-50 text-scarlett-red border border-red-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 rounded-md">
+                          <span className="bg-red-50 text-scarlett-red border border-red-100 px-2 py-0.5 font-spec-tagline flex items-center gap-1 rounded-md">
                             <span className="material-symbols-outlined text-xs filled-icon">local_fire_department</span>
                             POPULAR
                           </span>
                         )}
                       </div>
-                      <h4 className="font-headline text-lg font-bold text-charcoal mb-3 group-hover:text-scarlett-red transition-colors leading-snug">
+                      <h4 className="font-spec-h2 font-bold text-charcoal mb-3 group-hover:text-scarlett-red transition-colors leading-snug">
                         {tool.title}
                       </h4>
-                      <p className="font-body text-xs text-secondary leading-relaxed mb-6">
+                      <p className="font-spec-body text-secondary leading-relaxed mb-6">
                         {tool.description}
                       </p>
                     </div>
                     <div className="border-t border-border-gray pt-4 flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <img className="w-6 h-6 rounded-full border border-border-gray object-cover" src={tool.authorAvatar} alt={tool.author} />
-                        <span className="font-label text-[11px] text-charcoal font-semibold">{tool.author}</span>
+                        <span className="font-spec-name text-charcoal">{tool.author}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="font-label text-[10px] text-muted-silver font-semibold uppercase">{tool.uses || 0} Uses</span>
+                        <span className="font-spec-tagline text-muted-silver">{tool.uses || 0} Uses</span>
                         <button
                           onClick={(e) => handleLike(tool.id, e)}
-                          className="flex items-center gap-1 bg-smoke hover:bg-scarlett-red/10 border border-border-gray px-2 py-1 rounded text-charcoal hover:text-scarlett-red transition-all font-bold text-[10px] select-none active:scale-95 cursor-pointer"
+                          className="flex items-center gap-1 bg-smoke hover:bg-scarlett-red/10 border border-border-gray px-2 py-1 rounded text-charcoal hover:text-scarlett-red transition-all font-bold font-spec-tagline select-none active:scale-95 cursor-pointer"
                           title="Upvote tool"
                         >
                           <span className="material-symbols-outlined text-[12px]">thumb_up</span>
@@ -258,8 +258,8 @@ const Dashboard = () => {
               <Reveal className="w-full" delay={250} duration={700}>
                 <div className="bg-pure-white border border-charcoal/10 p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300">
                   <div className="flex items-center gap-2 pb-4 mb-6 border-b border-border-gray">
-                    <span className="material-symbols-outlined text-scarlett-red filled-icon text-xl">star</span>
-                    <h3 className="font-headline text-base font-bold text-charcoal uppercase tracking-wide">Top 5 Popular</h3>
+                    <span className="material-symbols-outlined text-scarlett-red filled-icon text-base">star</span>
+                    <h3 className="font-spec-h2 font-bold text-charcoal uppercase">Top 5 Popular</h3>
                   </div>
                   
                   <div className="flex flex-col gap-4">
@@ -270,25 +270,25 @@ const Dashboard = () => {
                         className="flex gap-4 items-start pb-4 border-b border-border-light last:border-0 last:pb-0 group cursor-pointer transition-all duration-200 hover:translate-x-1"
                       >
                         {/* Rank box */}
-                        <div className="w-6 h-6 bg-charcoal text-pure-white text-xs font-bold flex items-center justify-center shrink-0 rounded group-hover:bg-scarlett-red transition-colors">
+                        <div className="w-6 h-6 bg-charcoal text-pure-white font-spec-lead font-bold flex items-center justify-center shrink-0 rounded group-hover:bg-scarlett-red transition-colors">
                           {tool.rank}
                         </div>
                         
                         {/* Tool details */}
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-headline text-xs font-bold text-charcoal truncate group-hover:text-scarlett-red transition-colors">
+                          <h4 className="font-spec-h3 font-bold text-charcoal truncate group-hover:text-scarlett-red transition-colors">
                             {tool.title}
                           </h4>
                           <div className="flex justify-between items-center mt-1">
-                            <span className="text-[10px] text-muted-silver font-semibold uppercase">{tool.category}</span>
-                            <span className="text-[10px] text-secondary font-medium">by {tool.author}</span>
+                            <span className="font-spec-tagline text-muted-silver">{tool.category}</span>
+                            <span className="font-spec-position text-secondary">by {tool.author}</span>
                           </div>
                         </div>
                         
                         {/* Likes badge */}
                         <button
                           onClick={(e) => handleLike(tool.id, e)}
-                          className="flex items-center gap-0.5 text-xs text-muted-silver hover:text-scarlett-red hover:scale-110 active:scale-95 transition-all shrink-0 font-bold bg-smoke px-2 py-1 rounded border border-border-light cursor-pointer select-none"
+                          className="flex items-center gap-0.5 font-spec-lead text-muted-silver hover:text-scarlett-red hover:scale-110 active:scale-95 transition-all shrink-0 font-bold bg-smoke px-2 py-1 rounded border border-border-light cursor-pointer select-none"
                           title="Upvote tool"
                         >
                           <span className="material-symbols-outlined text-xs">thumb_up</span>
@@ -305,10 +305,10 @@ const Dashboard = () => {
                 <div className="bg-pure-white border border-charcoal/10 p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300">
                   <div className="flex items-center justify-between pb-4 mb-6 border-b border-border-gray">
                     <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-scarlett-red filled-icon text-xl">leaderboard</span>
-                      <h3 className="font-headline text-base font-bold text-charcoal uppercase tracking-wide">Leaderboard</h3>
+                      <span className="material-symbols-outlined text-scarlett-red filled-icon text-base">leaderboard</span>
+                      <h3 className="font-spec-h2 font-bold text-charcoal uppercase">Leaderboard</h3>
                     </div>
-                    <Link to="/leaderboard" className="text-[11px] text-scarlett-red font-bold hover:underline flex items-center gap-0.5">
+                    <Link to="/leaderboard" className="font-spec-lead text-scarlett-red font-bold hover:underline flex items-center gap-0.5">
                       View All
                       <span className="material-symbols-outlined text-[10px] font-bold">arrow_forward</span>
                     </Link>
@@ -322,7 +322,7 @@ const Dashboard = () => {
                         className="flex gap-3 items-center pb-4 border-b border-border-light last:border-0 last:pb-0 group cursor-pointer transition-all duration-200 hover:translate-x-1"
                       >
                         {/* Rank badge */}
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center font-spec-lead font-bold shrink-0 ${
                           idx === 0 ? 'bg-amber-400 text-charcoal' :
                           idx === 1 ? 'bg-slate-300 text-charcoal' :
                           'bg-amber-700 text-pure-white'
@@ -335,14 +335,14 @@ const Dashboard = () => {
                         
                         {/* Details */}
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-headline text-xs font-bold text-charcoal truncate group-hover:text-scarlett-red transition-colors">
+                          <h4 className="font-spec-h3 font-bold text-charcoal truncate group-hover:text-scarlett-red transition-colors">
                             {user.name}
                           </h4>
-                          <p className="text-[10px] text-muted-silver truncate">{user.title}</p>
+                          <p className="font-spec-position text-muted-silver truncate">{user.title}</p>
                         </div>
                         
                         {/* XP */}
-                        <div className="text-[11px] font-bold text-scarlett-red shrink-0">
+                        <div className="font-spec-lead font-bold text-scarlett-red shrink-0">
                           {user.karma}
                         </div>
                       </div>
@@ -357,8 +357,8 @@ const Dashboard = () => {
 
           {/* Platform Performance & Analytics (Bento Grid Style) */}
           <div className="border-t border-charcoal/10 pt-10 mt-6">
-            <span className="text-xs font-bold text-scarlett-red uppercase tracking-widest block mb-2">// METRICS BOARD</span>
-            <h3 className="font-headline text-2xl font-bold text-charcoal mb-8">Platform Performance</h3>
+            <span className="font-spec-tagline text-scarlett-red block mb-2">// METRICS BOARD</span>
+            <h3 className="font-spec-title text-charcoal mb-8">Platform Performance</h3>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
@@ -367,10 +367,10 @@ const Dashboard = () => {
                 <div className="bg-pure-white p-6 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full relative overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="text-xs font-bold text-muted-silver uppercase tracking-wider">Total Karma Points</p>
-                      <p className="font-headline text-3xl font-bold text-charcoal mt-2">{karma.toLocaleString()} XP</p>
+                      <p className="font-spec-tagline text-muted-silver">Total Karma Points</p>
+                      <p className="font-spec-number text-charcoal mt-2">{karma.toLocaleString()} XP</p>
                     </div>
-                    <span className="material-symbols-outlined text-scarlett-red text-xl">local_fire_department</span>
+                    <span className="material-symbols-outlined text-scarlett-red text-base">local_fire_department</span>
                   </div>
                   {/* SVG Sparkline Sparking Dynamic Data */}
                   <div className="h-12 w-full mt-4">
@@ -378,7 +378,7 @@ const Dashboard = () => {
                       <path
                         d="M0,25 L15,22 L30,28 L45,18 L60,20 L75,10 L90,15 L100,5"
                         fill="none"
-                        stroke="#e60000"
+                        stroke="#EE4137"
                         strokeWidth="2"
                       />
                       <path
@@ -388,13 +388,13 @@ const Dashboard = () => {
                       />
                       <defs>
                         <linearGradient id="gradient-red" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#e60000" />
-                          <stop offset="100%" stopColor="#e60000" stopOpacity="0" />
+                          <stop offset="0%" stopColor="#EE4137" />
+                          <stop offset="100%" stopColor="#EE4137" stopOpacity="0" />
                         </linearGradient>
                       </defs>
                     </svg>
                   </div>
-                  <div className="flex justify-between items-center text-[10px] font-semibold text-muted-silver border-t border-border-gray pt-3 mt-4">
+                  <div className="flex justify-between items-center font-spec-position text-muted-silver border-t border-border-gray pt-3 mt-4">
                     <span>+12% vs last month</span>
                     <span>Live sync</span>
                   </div>
@@ -406,10 +406,10 @@ const Dashboard = () => {
                 <div className="bg-pure-white p-6 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="text-xs font-bold text-muted-silver uppercase tracking-wider">Shared Automation Modules</p>
-                      <p className="font-headline text-3xl font-bold text-charcoal mt-2">{toolsShared}</p>
+                      <p className="font-spec-tagline text-muted-silver">Shared Automation Modules</p>
+                      <p className="font-spec-number text-charcoal mt-2">{toolsShared}</p>
                     </div>
-                    <span className="material-symbols-outlined text-charcoal text-xl">handyman</span>
+                    <span className="material-symbols-outlined text-charcoal text-base">handyman</span>
                   </div>
                   {/* SVG Sparkline */}
                   <div className="h-12 w-full mt-4">
@@ -422,7 +422,7 @@ const Dashboard = () => {
                       />
                     </svg>
                   </div>
-                  <div className="flex justify-between items-center text-[10px] font-semibold text-muted-silver border-t border-border-gray pt-3 mt-4">
+                  <div className="flex justify-between items-center font-spec-position text-muted-silver border-t border-border-gray pt-3 mt-4">
                     <span>Steady growth curve</span>
                     <span>Updated daily</span>
                   </div>
@@ -434,10 +434,10 @@ const Dashboard = () => {
                 <div className="bg-pure-white p-6 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="text-xs font-bold text-muted-silver uppercase tracking-wider">Collective Hours Saved</p>
-                      <p className="font-headline text-3xl font-bold text-charcoal mt-2">{hoursSaved.toLocaleString()}h</p>
+                      <p className="font-spec-tagline text-muted-silver">Collective Hours Saved</p>
+                      <p className="font-spec-number text-charcoal mt-2">{hoursSaved.toLocaleString()}h</p>
                     </div>
-                    <span className="material-symbols-outlined text-scarlett-red text-xl">schedule</span>
+                    <span className="material-symbols-outlined text-scarlett-red text-base">schedule</span>
                   </div>
                   {/* SVG Sparkline */}
                   <div className="h-12 w-full mt-4">
@@ -445,12 +445,12 @@ const Dashboard = () => {
                       <path
                         d="M0,26 L10,24 L25,27 L40,20 L55,22 L70,12 L85,8 L100,3"
                         fill="none"
-                        stroke="#e60000"
+                        stroke="#EE4137"
                         strokeWidth="2"
                       />
                     </svg>
                   </div>
-                  <div className="flex justify-between items-center text-[10px] font-semibold text-muted-silver border-t border-border-gray pt-3 mt-4">
+                  <div className="flex justify-between items-center font-spec-position text-muted-silver border-t border-border-gray pt-3 mt-4">
                     <span>Saves approx. 32h per developer</span>
                     <span>Est. quarterly value: $450k</span>
                   </div>

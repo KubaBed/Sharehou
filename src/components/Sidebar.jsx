@@ -59,7 +59,7 @@ const Sidebar = () => {
         {isCollapsed ? (
           <Link
             to="/"
-            className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-pure-white font-display font-bold text-xl select-none animate-fade-in-scale cursor-pointer"
+            className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-pure-white font-spec-h1 font-bold select-none animate-fade-in-scale cursor-pointer"
             title="Go to Landing Page"
           >
             S
@@ -71,7 +71,7 @@ const Sidebar = () => {
               className="h-9 object-contain"
               src="/logo-dark-bg.png"
             />
-            <p className="font-body text-[10px] text-muted-silver mt-2 uppercase tracking-wider">// Internal Marketplace</p>
+            <p className="font-spec-tagline text-muted-silver mt-2 block">// Internal Marketplace</p>
           </Link>
         )}
       </div>
@@ -93,10 +93,10 @@ const Sidebar = () => {
                       : 'text-menu-gray hover:bg-inverse-surface hover:text-pure-white hover:scale-105 border-l-4 border-transparent'
                   }`}
                 >
-                  <span className={`material-symbols-outlined ${isActive ? 'filled-icon' : ''}`}>
+                  <span className={`material-symbols-outlined text-base ${isActive ? 'filled-icon' : ''}`}>
                     {item.icon}
                   </span>
-                  <span className={`font-body text-base transition-all duration-300 whitespace-nowrap overflow-hidden ${
+                  <span className={`font-spec-lead font-semibold transition-all duration-300 whitespace-nowrap overflow-hidden ${
                     isCollapsed ? 'opacity-0 w-0 pointer-events-none' : 'opacity-100'
                   }`}>
                     {item.name}
@@ -118,8 +118,8 @@ const Sidebar = () => {
                 isCollapsed ? 'justify-center py-3 px-2' : 'gap-3 py-3 px-5'
               } text-menu-gray hover:bg-inverse-surface hover:text-pure-white hover:scale-105 border-l-4 border-transparent`}
             >
-              <span className="material-symbols-outlined">settings</span>
-              <span className={`font-body text-base transition-all duration-300 whitespace-nowrap overflow-hidden ${
+              <span className="material-symbols-outlined text-base">settings</span>
+              <span className={`font-spec-lead transition-all duration-300 whitespace-nowrap overflow-hidden ${
                 isCollapsed ? 'opacity-0 w-0 pointer-events-none' : 'opacity-100'
               }`}>
                 Settings
@@ -134,8 +134,8 @@ const Sidebar = () => {
                 isCollapsed ? 'justify-center py-3 px-2' : 'gap-3 py-3 px-5'
               } text-menu-gray hover:bg-inverse-surface hover:text-pure-white hover:scale-105 border-l-4 border-transparent`}
             >
-              <span className="material-symbols-outlined">help_outline</span>
-              <span className={`font-body text-base transition-all duration-300 whitespace-nowrap overflow-hidden ${
+              <span className="material-symbols-outlined text-base">help_outline</span>
+              <span className={`font-spec-lead transition-all duration-300 whitespace-nowrap overflow-hidden ${
                 isCollapsed ? 'opacity-0 w-0 pointer-events-none' : 'opacity-100'
               }`}>
                 Help
@@ -158,8 +158,8 @@ const Sidebar = () => {
           <div className={`transition-all duration-300 overflow-hidden whitespace-nowrap ${
             isCollapsed ? 'opacity-0 w-0 pointer-events-none' : 'opacity-100'
           }`}>
-            <p className="font-label text-sm text-pure-white font-semibold">Alex Rivera</p>
-            <p className="font-body text-xs text-muted-silver">alex.r@sharehouse.inc</p>
+            <p className="font-spec-name text-pure-white">Alex Rivera</p>
+            <p className="font-spec-position text-muted-silver">alex.r@sharehouse.inc</p>
           </div>
         </div>
       </div>

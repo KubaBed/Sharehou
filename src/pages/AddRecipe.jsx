@@ -194,21 +194,21 @@ const AddRecipe = () => {
               <div className="flex-1 bg-pure-white p-8 rounded-2xl border border-border-light shadow-[0_4px_25px_rgba(0,0,0,0.02)]">
                 {/* Page Header */}
                 <div className="mb-8 border-b border-[#f0f0f0] pb-6">
-                  <h2 className="font-headline text-2xl font-bold text-charcoal mb-2">Add New Recipe</h2>
-                  <p className="font-body text-sm text-muted-silver">Share a new automation flow, template, or prompt with the ShareHouse community.</p>
+                  <h2 className="font-spec-title text-charcoal mb-2 font-bold">Add New Recipe</h2>
+                  <p className="font-spec-lead text-muted-silver">Share a new automation flow, template, or prompt with the ShareHouse community.</p>
                 </div>
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block font-label text-sm text-charcoal font-bold mb-2">Recipe Title *</label>
+                    <label className="block font-spec-h2 text-charcoal font-bold mb-2">Recipe Title *</label>
                     <input
                       type="text"
                       required
                       placeholder="e.g., Salesforce Opportunity Syncer (type 'onboarding' to test similarity detector)"
                       value={formData.title}
                       onChange={(e) => handleTitleChange(e.target.value)}
-                      className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-body text-sm text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20"
+                      className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-spec-lead text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20"
                     />
                     
                     {/* Similarity Warning Banner */}
@@ -217,8 +217,8 @@ const AddRecipe = () => {
                         <div className="flex items-start gap-2.5">
                           <span className="material-symbols-outlined text-scarlett-red text-xl mt-0.5">warning</span>
                           <div>
-                            <p className="font-headline text-xs font-bold text-charcoal">Similar Recipe Detected</p>
-                            <p className="font-body text-xs text-secondary mt-0.5">
+                            <p className="font-spec-h2 font-bold text-charcoal">Similar Recipe Detected</p>
+                            <p className="font-spec-body text-secondary mt-0.5">
                               "{similarityWarning.title}" already exists in the {similarityWarning.category} library.
                             </p>
                           </div>
@@ -227,14 +227,14 @@ const AddRecipe = () => {
                           <button
                             type="button"
                             onClick={() => navigate(`/tool/${similarityWarning.id}`)}
-                            className="text-xs font-label font-bold text-charcoal bg-pure-white border border-border-gray hover:bg-smoke px-3 py-1.5 rounded-lg transition-all duration-200"
+                            className="font-spec-lead font-bold text-charcoal bg-pure-white border border-border-gray hover:bg-smoke px-3 py-1.5 rounded-lg transition-all duration-200"
                           >
                             View Existing
                           </button>
                           <button
                             type="button"
                             onClick={() => setShowComparisonModal(true)}
-                            className="text-xs font-label font-bold text-pure-white bg-scarlett-red hover:bg-[#d8352b] px-3 py-1.5 rounded-lg transition-all duration-200 shadow-sm"
+                            className="font-spec-lead font-bold text-pure-white bg-scarlett-red hover:bg-[#d8352b] px-3 py-1.5 rounded-lg transition-all duration-200 shadow-sm"
                           >
                             Suggest Edits
                           </button>
@@ -245,11 +245,11 @@ const AddRecipe = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block font-label text-sm text-charcoal font-bold mb-2">Category *</label>
+                      <label className="block font-spec-h2 text-charcoal font-bold mb-2">Category *</label>
                       <select
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-body text-sm text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20 cursor-pointer"
+                        className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-spec-lead text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20 cursor-pointer"
                       >
                         <option>Marketing</option>
                         <option>Coding</option>
@@ -261,38 +261,38 @@ const AddRecipe = () => {
                     </div>
 
                     <div>
-                      <label className="block font-label text-sm text-charcoal font-bold mb-2">Est. Hours Saved / Week</label>
+                      <label className="block font-spec-h2 text-charcoal font-bold mb-2">Est. Hours Saved / Week</label>
                       <input
                         type="number"
                         min="1"
                         value={formData.hoursSaved}
                         onChange={(e) => setFormData({ ...formData, hoursSaved: e.target.value })}
-                        className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-body text-sm text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20"
+                        className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-spec-lead text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block font-label text-sm text-charcoal font-bold mb-2">Short Description *</label>
+                    <label className="block font-spec-h2 text-charcoal font-bold mb-2">Short Description *</label>
                     <textarea
                       required
                       rows="3"
                       placeholder="Describe what this recipe does and how it saves time..."
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-body text-sm text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20"
+                      className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-spec-lead text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-label text-sm text-charcoal font-bold mb-2">Prompt / Code Content *</label>
+                    <label className="block font-spec-h2 text-charcoal font-bold mb-2">Prompt / Code Content *</label>
                     <textarea
                       required
                       rows="6"
                       placeholder="Paste the prompt guidelines or script code here..."
                       value={formData.text}
                       onChange={(e) => setFormData({ ...formData, text: e.target.value })}
-                      className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-body text-sm text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20 font-mono leading-relaxed"
+                      className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-spec-lead text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20 font-mono leading-relaxed"
                     />
                   </div>
 
@@ -301,13 +301,13 @@ const AddRecipe = () => {
                     <button
                       type="button"
                       onClick={() => navigate('/dashboard')}
-                      className="bg-transparent border border-border-light hover:bg-smoke hover:border-charcoal/20 text-charcoal px-6 py-3 rounded-lg font-label text-sm transition-all duration-300 hover:scale-105 active:scale-95"
+                      className="bg-transparent border border-border-light hover:bg-smoke hover:border-charcoal/20 text-charcoal px-6 py-3 rounded-lg font-spec-lead font-bold transition-all duration-300 hover:scale-105 active:scale-95"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="bg-scarlett-red hover:bg-[#d8352b] text-pure-white px-8 py-3 rounded-lg font-label text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm hover:shadow-md hover:shadow-scarlett-red/10"
+                      className="bg-scarlett-red hover:bg-[#d8352b] text-pure-white px-8 py-3 rounded-lg font-spec-lead font-bold transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm hover:shadow-md hover:shadow-scarlett-red/10"
                     >
                       Share Recipe
                     </button>
@@ -320,24 +320,24 @@ const AddRecipe = () => {
                 <div>
                   <div className="flex items-center gap-2 pb-4 mb-6 border-b border-border-gray">
                     <span className="material-symbols-outlined text-scarlett-red filled-icon">bolt</span>
-                    <h3 className="font-headline text-base font-bold text-charcoal uppercase tracking-wide">AI Copilot Assistant</h3>
+                    <h3 className="font-spec-h1 font-bold text-charcoal uppercase tracking-wide">AI Copilot Assistant</h3>
                   </div>
 
-                  <p className="font-body text-xs text-secondary leading-relaxed mb-6">
+                  <p className="font-spec-body text-secondary leading-relaxed mb-6">
                     Don't want to fill in everything manually? Try one of our quick presets or type your own raw bullet points below to let the AI draft the title, category, description, and code automatically.
                   </p>
 
                   <div className="space-y-4">
                     {/* Preset Templates Selector */}
                     <div>
-                      <span className="block font-label text-[11px] text-muted-silver font-bold uppercase tracking-wider mb-2">Try a Preset Draft:</span>
+                      <span className="block font-spec-tagline text-muted-silver mb-2">Try a Preset Draft:</span>
                       <div className="flex flex-wrap gap-2">
                         {presets.map((preset) => (
                           <button
                             key={preset.id}
                             type="button"
                             onClick={() => handleSelectPreset(preset)}
-                            className={`text-[10px] font-label font-bold px-2.5 py-1.5 rounded-lg border transition-all duration-300 cursor-pointer ${
+                            className={`font-spec-tagline px-2.5 py-1.5 rounded-lg border transition-all duration-300 cursor-pointer ${
                               activePresetId === preset.id
                                 ? 'bg-scarlett-red text-pure-white border-scarlett-red shadow-sm'
                                 : 'bg-smoke text-secondary border-border-light hover:bg-hover-gray hover:text-charcoal'
@@ -350,7 +350,7 @@ const AddRecipe = () => {
                     </div>
 
                     <div>
-                      <label className="block font-label text-[11px] text-muted-silver font-bold uppercase tracking-wider mb-2">Raw Notes / Bullet Points</label>
+                      <label className="block font-spec-tagline text-muted-silver mb-2">Raw Notes / Bullet Points</label>
                       <textarea
                         rows="6"
                         placeholder="e.g.,&#10;- script to sync jira to confluence&#10;- run once a week&#10;- send slack alerts on fail"
@@ -359,7 +359,7 @@ const AddRecipe = () => {
                           setAiInput(e.target.value);
                           setActivePresetId(null);
                         }}
-                        className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-body text-xs text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20"
+                        className="w-full bg-smoke p-4 border border-border-light rounded-xl focus:ring-2 focus:ring-scarlett-red focus:border-transparent font-spec-body text-charcoal outline-none transition-all duration-300 hover:border-charcoal/20"
                       />
                     </div>
 
@@ -367,7 +367,7 @@ const AddRecipe = () => {
                       type="button"
                       onClick={handleAiEnhance}
                       disabled={isEnhancing}
-                      className="w-full bg-charcoal hover:bg-charcoal/90 text-pure-white hover:text-scarlett-red py-3 rounded-lg text-xs font-semibold font-label transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm hover:shadow-md flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                      className="w-full bg-charcoal hover:bg-charcoal/90 text-pure-white hover:text-scarlett-red py-3 rounded-lg font-spec-lead font-bold transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm hover:shadow-md flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                     >
                       {isEnhancing ? (
                         <>
@@ -385,7 +385,7 @@ const AddRecipe = () => {
                 </div>
 
                 <div className="border-t border-[#f0f0f0] pt-4 mt-8 bg-smoke/50 p-4 rounded-xl text-center">
-                  <p className="text-[10px] text-muted-silver leading-relaxed">
+                  <p className="font-spec-boilerplate text-muted-silver leading-relaxed">
                     Powered by ShareHouse AI Core.<br />
                     Tuned to company design guidelines.
                   </p>
@@ -402,8 +402,8 @@ const AddRecipe = () => {
                 <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="material-symbols-outlined text-3xl">check_circle</span>
                 </div>
-                <h3 className="font-headline text-lg font-bold text-charcoal mb-2">Recipe Shared!</h3>
-                <p className="font-body text-xs text-muted-silver">
+                <h3 className="font-spec-h1 font-bold text-charcoal mb-2">Recipe Shared!</h3>
+                <p className="font-spec-body text-muted-silver">
                   Your recipe has been added to the database and shared with the team. Redirecting...
                 </p>
               </div>
@@ -417,11 +417,11 @@ const AddRecipe = () => {
                 {/* Modal Header */}
                 <div className="bg-smoke p-6 border-b border-border-light flex justify-between items-start">
                   <div>
-                    <h3 className="font-headline text-lg font-bold text-charcoal flex items-center gap-2">
+                    <h3 className="font-spec-h1 font-bold text-charcoal flex items-center gap-2">
                       <span className="material-symbols-outlined text-scarlett-red">compare_arrows</span>
                       Similar Recipe Detected: Suggest Edits Instead?
                     </h3>
-                    <p className="font-body text-xs text-muted-silver mt-1">
+                    <p className="font-spec-body text-muted-silver mt-1">
                       An existing recipe already covers this use case. Suggesting changes is preferred as it keeps the catalog clean and earns you <strong className="text-scarlett-red">25 Karma Points</strong>.
                     </p>
                   </div>
@@ -440,48 +440,48 @@ const AddRecipe = () => {
                     {/* Left Box: Your Draft */}
                     <div className="bg-smoke/30 p-4 border border-border-light rounded-xl space-y-4">
                       <div className="flex items-center justify-between border-b border-border-light pb-2">
-                        <span className="font-label text-xs font-bold text-muted-silver uppercase tracking-wider">Your Draft</span>
+                        <span className="font-spec-tagline text-muted-silver">Your Draft</span>
                         <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">New Draft</span>
                       </div>
                       <div>
-                        <label className="text-[10px] font-label text-muted-silver font-bold uppercase block mb-1">Title</label>
-                        <p className="font-headline text-sm font-bold text-charcoal">{formData.title || '(No Title)'}</p>
+                        <label className="font-spec-tagline text-muted-silver block mb-1">Title</label>
+                        <p className="font-spec-h2 font-bold text-charcoal">{formData.title || '(No Title)'}</p>
                       </div>
                       <div>
-                        <label className="text-[10px] font-label text-muted-silver font-bold uppercase block mb-1">Category</label>
-                        <p className="font-body text-xs text-secondary">{formData.category}</p>
+                        <label className="font-spec-tagline text-muted-silver block mb-1">Category</label>
+                        <p className="font-spec-body text-secondary">{formData.category}</p>
                       </div>
                       <div>
-                        <label className="text-[10px] font-label text-muted-silver font-bold uppercase block mb-1">Description</label>
-                        <p className="font-body text-xs text-secondary leading-relaxed bg-pure-white p-3 rounded-lg border border-border-light max-h-[120px] overflow-y-auto">{formData.description || '(No Description)'}</p>
+                        <label className="font-spec-tagline text-muted-silver block mb-1">Description</label>
+                        <p className="font-spec-body text-secondary leading-relaxed bg-pure-white p-3 rounded-lg border border-border-light max-h-[120px] overflow-y-auto">{formData.description || '(No Description)'}</p>
                       </div>
                       <div>
-                        <label className="text-[10px] font-label text-muted-silver font-bold uppercase block mb-1">Prompt / Code Snippet</label>
-                        <pre className="font-mono text-[10px] text-charcoal bg-pure-white p-3 rounded-lg border border-border-light max-h-[150px] overflow-y-auto leading-relaxed whitespace-pre-wrap">{formData.text || '(No Code)'}</pre>
+                        <label className="font-spec-tagline text-muted-silver block mb-1">Prompt / Code Snippet</label>
+                        <pre className="font-mono font-spec-boilerplate text-charcoal bg-pure-white p-3 rounded-lg border border-border-light max-h-[150px] overflow-y-auto leading-relaxed whitespace-pre-wrap">{formData.text || '(No Code)'}</pre>
                       </div>
                     </div>
 
                     {/* Right Box: Existing Tool */}
                     <div className="bg-smoke/30 p-4 border border-border-light rounded-xl space-y-4">
                       <div className="flex items-center justify-between border-b border-border-light pb-2">
-                        <span className="font-label text-xs font-bold text-muted-silver uppercase tracking-wider">Existing Recipe</span>
+                        <span className="font-spec-tagline text-muted-silver">Existing Recipe</span>
                         <span className="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Active Catalog</span>
                       </div>
                       <div>
-                        <label className="text-[10px] font-label text-muted-silver font-bold uppercase block mb-1">Title</label>
-                        <p className="font-headline text-sm font-bold text-charcoal">{similarityWarning.existing?.title || similarityWarning.title}</p>
+                        <label className="font-spec-tagline text-muted-silver block mb-1">Title</label>
+                        <p className="font-spec-h2 font-bold text-charcoal">{similarityWarning.existing?.title || similarityWarning.title}</p>
                       </div>
                       <div>
-                        <label className="text-[10px] font-label text-muted-silver font-bold uppercase block mb-1">Category</label>
-                        <p className="font-body text-xs text-secondary">{similarityWarning.existing?.category || similarityWarning.category}</p>
+                        <label className="font-spec-tagline text-muted-silver block mb-1">Category</label>
+                        <p className="font-spec-body text-secondary">{similarityWarning.existing?.category || similarityWarning.category}</p>
                       </div>
                       <div>
-                        <label className="text-[10px] font-label text-muted-silver font-bold uppercase block mb-1">Description</label>
-                        <p className="font-body text-xs text-secondary leading-relaxed bg-pure-white p-3 rounded-lg border border-border-light max-h-[120px] overflow-y-auto">{similarityWarning.existing?.description || 'Streamlined workflow automation.'}</p>
+                        <label className="font-spec-tagline text-muted-silver block mb-1">Description</label>
+                        <p className="font-spec-body text-secondary leading-relaxed bg-pure-white p-3 rounded-lg border border-border-light max-h-[120px] overflow-y-auto">{similarityWarning.existing?.description || 'Streamlined workflow automation.'}</p>
                       </div>
                       <div>
-                        <label className="text-[10px] font-label text-muted-silver font-bold uppercase block mb-1">Prompt / Code Snippet</label>
-                        <pre className="font-mono text-[10px] text-charcoal bg-pure-white p-3 rounded-lg border border-border-light max-h-[150px] overflow-y-auto leading-relaxed whitespace-pre-wrap">{similarityWarning.existing?.text || '// Code structure'}</pre>
+                        <label className="font-spec-tagline text-muted-silver block mb-1">Prompt / Code Snippet</label>
+                        <pre className="font-mono font-spec-boilerplate text-charcoal bg-pure-white p-3 rounded-lg border border-border-light max-h-[150px] overflow-y-auto leading-relaxed whitespace-pre-wrap">{similarityWarning.existing?.text || '// Code structure'}</pre>
                       </div>
                     </div>
 
@@ -496,7 +496,7 @@ const AddRecipe = () => {
                       setShowComparisonModal(false);
                       handleSubmit({ preventDefault: () => {} });
                     }}
-                    className="text-xs font-label font-bold text-muted-silver hover:text-charcoal bg-transparent hover:bg-smoke-dark px-4 py-2.5 rounded-lg transition-all cursor-pointer"
+                    className="font-spec-lead font-bold text-muted-silver hover:text-charcoal bg-transparent hover:bg-smoke-dark px-4 py-2.5 rounded-lg transition-all cursor-pointer"
                   >
                     Create New Recipe Anyway
                   </button>
@@ -505,7 +505,7 @@ const AddRecipe = () => {
                     <button
                       type="button"
                       onClick={() => setShowComparisonModal(false)}
-                      className="text-xs font-label font-semibold text-charcoal bg-pure-white border border-border-light hover:bg-smoke px-4 py-2.5 rounded-lg transition-all cursor-pointer"
+                      className="font-spec-lead font-semibold text-charcoal bg-pure-white border border-border-light hover:bg-smoke px-4 py-2.5 rounded-lg transition-all cursor-pointer"
                     >
                       Keep Editing
                     </button>
@@ -513,7 +513,7 @@ const AddRecipe = () => {
                       type="button"
                       onClick={handleSubmitSuggestion}
                       disabled={isSubmittingSuggestion}
-                      className="text-xs font-label font-bold text-pure-white bg-scarlett-red hover:bg-[#d8352b] disabled:opacity-50 px-6 py-2.5 rounded-lg transition-all shadow-sm hover:shadow-md flex items-center gap-2 cursor-pointer"
+                      className="font-spec-lead font-bold text-pure-white bg-scarlett-red hover:bg-[#d8352b] disabled:opacity-50 px-6 py-2.5 rounded-lg transition-all shadow-sm hover:shadow-md flex items-center gap-2 cursor-pointer"
                     >
                       {isSubmittingSuggestion ? (
                         <>
@@ -538,17 +538,17 @@ const AddRecipe = () => {
                     <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
                       <span className="material-symbols-outlined text-3xl">emoji_events</span>
                     </div>
-                    <h3 className="font-headline text-lg font-bold text-charcoal mb-2">Suggestion Submitted!</h3>
-                    <p className="font-body text-xs text-charcoal mb-1">
+                    <h3 className="font-spec-h1 font-bold text-charcoal mb-2">Suggestion Submitted!</h3>
+                    <p className="font-spec-body text-charcoal mb-1">
                       You've successfully suggested improvements to:
                     </p>
-                    <p className="font-body text-xs font-bold text-scarlett-red mb-3">
+                    <p className="font-spec-body font-bold text-scarlett-red mb-3">
                       "{similarityWarning.title}"
                     </p>
-                    <p className="font-label text-xs text-secondary bg-smoke p-2 rounded-lg border border-border-light inline-block font-semibold mb-4 text-green-700">
+                    <p className="font-spec-lead text-secondary bg-smoke p-2 rounded-lg border border-border-light inline-block font-semibold mb-4 text-green-700">
                       🏆 +25 Karma Points Awarded!
                     </p>
-                    <p className="font-body text-[10px] text-muted-silver">
+                    <p className="font-spec-boilerplate text-muted-silver">
                       The tool owner has been notified to review your suggestion. Redirecting to dashboard...
                     </p>
                   </div>
