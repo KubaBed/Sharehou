@@ -144,8 +144,8 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Proxima Nova', system-ui, -apple-system, 
 /* RTB House Brand Typography Classes (Scaled up by ~25% for readability) */
 .font-spec-title {
   font-family: 'Proxima Nova', sans-serif;
-  font-size: 34px;
-  line-height: 40px;
+  font-size: 40px;
+  line-height: 48px;
   font-weight: 400;
 }
 
@@ -158,8 +158,8 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Proxima Nova', system-ui, -apple-system, 
 
 .font-spec-h1 {
   font-family: 'Proxima Nova', sans-serif;
-  font-size: 22px;
-  line-height: 26px;
+  font-size: 26px;
+  line-height: 32px;
   font-weight: 400;
 }
 
