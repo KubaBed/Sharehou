@@ -132,7 +132,10 @@ const Landing = () => {
         {/* Visual Mockup Section overlaying Scene 5 */}
         <Reveal delay={450} duration={800} className="w-full relative max-w-4xl mx-auto mt-6">
           {/* Background Animated Gradient image */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[120%] pointer-events-none z-0 overflow-visible flex items-center justify-center">
+          <div 
+            className="absolute top-1/2 left-1/2 w-[160%] h-[160%] pointer-events-none z-0 overflow-visible flex items-center justify-center"
+            style={{ transform: 'translate(-50%, -50%)' }}
+          >
             <div 
               ref={parallaxRef}
               className="w-full h-full opacity-85 flex items-center justify-center"
@@ -143,7 +146,7 @@ const Landing = () => {
                 src="/hero-gradient-pattern.png"
                 alt="Animated decorative background grid"
                 className="w-full h-full object-contain"
-                style={{ willChange: 'transform' }}
+                style={{ willChange: 'transform', mixBlendMode: 'multiply' }}
               />
             </div>
           </div>
