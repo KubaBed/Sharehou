@@ -27,27 +27,54 @@ const ToolDetail = () => {
       });
   }, [id]);
 
+  const fallbackCopyText = (text) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.position = 'fixed';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+    } catch (err) {
+      console.error('Fallback copy failed:', err);
+    }
+    document.body.removeChild(textArea);
+  };
+
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const link = window.location.href;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(link).catch(err => {
+        console.warn('Clipboard write failed, using fallback:', err);
+        fallbackCopyText(link);
+      });
+    } else {
+      fallbackCopyText(link);
+    }
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDeploy = () => {
-    if (tool.category === 'Prompts') {
-      navigator.clipboard.writeText(tool.text || '');
-      setToastMessage('Prompt copied to clipboard!');
-      setTimeout(() => setToastMessage(''), 3000);
+  const handleCopyToClipboard = () => {
+    const textToCopy = tool.text || `${tool.title}\n\n${tool.description}`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy).catch(err => {
+        console.warn('Clipboard write failed, using fallback:', err);
+        fallbackCopyText(textToCopy);
+      });
+    } else {
+      fallbackCopyText(textToCopy);
     }
+    setToastMessage('Recipe copied to clipboard!');
+    setTimeout(() => setToastMessage(''), 3000);
     
     api.incrementUses(tool.id)
       .then(res => {
         if (res.success) {
           setTool(prev => ({ ...prev, uses: res.uses }));
-          if (tool.category !== 'Prompts') {
-            setToastMessage(`Successfully registered deploy for ${tool.title}!`);
-            setTimeout(() => setToastMessage(''), 3000);
-          }
         }
       })
       .catch(err => {
@@ -121,13 +148,13 @@ const ToolDetail = () => {
                         {copied ? 'Link Copied' : 'Share Link'}
                       </button>
                       <button 
-                        onClick={handleDeploy}
+                        onClick={handleCopyToClipboard}
                         className="bg-scarlett-red hover:bg-opacity-90 text-pure-white px-5 py-2 rounded-lg font-spec-lead font-semibold flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-md hover:shadow-scarlett-red/10 cursor-pointer"
                       >
                         <span className="material-symbols-outlined text-xs">
-                          {tool.category === 'Prompts' ? 'content_copy' : tool.category === 'Templates' ? 'download' : 'rocket_launch'}
+                          content_copy
                         </span>
-                        {tool.category === 'Prompts' ? 'Copy Prompt' : tool.category === 'Templates' ? 'Download Template' : 'Deploy Recipe'}
+                        Copy to clipboard
                       </button>
                     </div>
                   </div>
@@ -152,11 +179,11 @@ const ToolDetail = () => {
                             <div className="flex justify-between items-center bg-charcoal text-pure-white px-4 py-2 rounded-t-xl font-spec-tagline font-bold">
                               <span>PROMPT TEMPLATE</span>
                               <button 
-                                onClick={handleDeploy} 
+                                onClick={handleCopyToClipboard} 
                                 className="flex items-center gap-1 hover:text-scarlett-red transition-colors cursor-pointer"
                               >
                                 <span className="material-symbols-outlined text-xs">content_copy</span>
-                                Copy Prompt
+                                Copy to clipboard
                               </button>
                             </div>
                             <pre className="bg-pitch-black text-muted-silver p-4 rounded-b-xl font-spec-body font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed border border-charcoal/20">

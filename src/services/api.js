@@ -259,7 +259,7 @@ let mockTools = [
     ],
     installation: [
       'Configure email inbox listener.',
-      'Deploy the script to serverless Cloudflare Workers.'
+      'Set up the script in serverless Cloudflare Workers.'
     ],
     specs: {
       platform: 'JavaScript / Cloudflare Workers / OpenAI API',

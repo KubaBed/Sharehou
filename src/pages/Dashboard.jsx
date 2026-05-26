@@ -5,6 +5,50 @@ import Header from '../components/Header';
 import Reveal from '../components/Reveal';
 import { api } from '../services/api';
 
+const LikeSVGAnimation = () => (
+  <div 
+    className="w-full h-full"
+    dangerouslySetInnerHTML={{
+      __html: `
+        <svg fill="none" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+          <g transform="matrix(1,0,0,1,250,250)" visibility="hidden" id="pop">
+            <animate repeatCount="indefinite" begin="0.133s" calcMode="discrete" fill="freeze" dur="1.001s" values="visible; visible" keyTimes="0; 1" attributeName="visibility" />
+            <g id="Shape 1"><path stroke-linejoin="round" stroke-linecap="round" stroke-width="6" stroke-opacity="1" stroke="#f04916" fill="#ff0000" fill-opacity="1" d="M0,-1L0,-86" /></g>
+          </g>
+          <g opacity="0" id="heart">
+            <animate repeatCount="indefinite" attributeName="opacity" dur="0.433767100433769s" begin="0s" calcMode="spline" values="0; 1" keyTimes="0; 1" keySplines="0.493 -0.017 0.121 1.068" fill="freeze" />
+            <g transform="translate(250.069,253.81)">
+              <g transform="scale(0.25,0.25)">
+                <animateTransform repeatCount="indefinite" type="scale" attributeName="transform" dur="0.434s" begin="0s" calcMode="spline" values="0.25 0.25; 1 1" keyTimes="0; 1" keySplines="0.56 0 0.07 1" fill="freeze" />
+                <g transform="translate(-44.5,-37)">
+                  <g id="Group 1" transform="matrix(1,0,0,1,44.431,37.19)">
+                    <path fill="#f04916" fill-opacity="1" d="M43.784,-15.108C43.784,-15.131,43.788,-15.156,43.788,-15.185C43.788,-16.144,43.69,-16.996,43.55,-17.804C41.939,-28.247,31.454,-36.324,20.33,-36.324C10.994,-36.324,3.044,-30.629,-0.104,-22.63C-3.677,-30.629,-12.557,-36.324,-21.894,-36.324C-33.63,-36.324,-43.182,-27.337,-43.735,-16.061C-43.749,-15.763,-43.788,-15.495,-43.788,-15.185C-43.788,-15.16,-43.785,-15.135,-43.785,-15.111C-43.785,-15.088,-43.788,-15.061,-43.788,-15.034C-43.788,-12.529,-43.32,-10.135,-42.503,-7.908C-35.318,13.734,0,36.324,0,36.324C0,36.324,40.04,10.71,43.519,-12.094C43.678,-13.061,43.788,-14.034,43.788,-15.034C43.788,-15.061,43.784,-15.083,43.784,-15.108Z" />
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g visibility="hidden" id="drop shape">
+            <animate repeatCount="indefinite" begin="0.033s" calcMode="discrete" fill="freeze" dur="0.968s" values="visible; visible" keyTimes="0; 1" attributeName="visibility" />
+            <g transform="translate(250,250)">
+              <g transform="scale(0,0)">
+                <animateTransform repeatCount="indefinite" type="scale" attributeName="transform" dur="0.2s" begin="0.033s" calcMode="spline" values="0 0; 0.9 0.9; 0.7 0.7" keyTimes="0; 0.833; 1" keySplines="0.167 0.167 0.298 1; 0 0 1 1" fill="freeze" />
+                <g transform="translate(0,0)">
+                  <g id="Ellipse 1" transform="matrix(1,0,0,1,0,-2)">
+                    <ellipse ry="111.801" rx="111.801" cy="0" cx="0" stroke-linejoin="miter" stroke-linecap="butt" stroke-width="50" stroke-opacity="1" stroke="#ff2f0f">
+                      <animate repeatCount="indefinite" attributeName="stroke-width" dur="0.16683350152588713s" begin="0.03336669867431323s" calcMode="spline" values="50; 0" keyTimes="0; 1" keySplines="0.167 0.167 0.298 0.993" fill="freeze" />
+                    </ellipse>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </svg>
+      `
+    }}
+  />
+);
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState('Newest');
@@ -12,6 +56,7 @@ const Dashboard = () => {
   const [tools, setTools] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [likeAnimations, setLikeAnimations] = useState([]);
   
   // Counters state for Bento Grid
   const [karma, setKarma] = useState(0);
@@ -57,10 +102,23 @@ const Dashboard = () => {
     };
   }, []);
 
+  const spawnLikeAnimation = (e) => {
+    if (!e) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const animId = Date.now() + Math.random();
+    setLikeAnimations(prev => [...prev, { id: animId, x, y }]);
+    setTimeout(() => {
+      setLikeAnimations(prev => prev.filter(anim => anim.id !== animId));
+    }, 1000);
+  };
+
   const handleLike = (id, e) => {
     if (e) {
       e.stopPropagation(); // Stop navigation to details page
     }
+    spawnLikeAnimation(e);
     api.likeTool(id)
       .then(res => {
         if (res.success) {
@@ -462,6 +520,25 @@ const Dashboard = () => {
 
         </main>
       </div>
+      
+      {/* Global Floating Like Animations */}
+      {likeAnimations.map(anim => (
+        <div
+          key={anim.id}
+          style={{
+            position: 'fixed',
+            left: anim.x,
+            top: anim.y,
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
+            zIndex: 9999,
+            width: '120px',
+            height: '120px'
+          }}
+        >
+          <LikeSVGAnimation />
+        </div>
+      ))}
     </div>
   );
 };

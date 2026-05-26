@@ -371,3 +371,33 @@ body.sidebar-collapsed {
 }
 
 
+
+@keyframes slide-up-fade-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up-fade-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-up-fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-out {
+  animation: slide-up-fade-out 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

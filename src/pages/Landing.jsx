@@ -1,6 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Reveal from '../components/Reveal';
+
+const DynamicHeroText = () => {
+  const words = ["AI Prompts", "AppsScripts", "Asana Templates", "Slack Bots", "Workflows"];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [animClass, setAnimClass] = useState('animate-slide-in');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimClass('animate-slide-out');
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % words.length);
+        setAnimClass('animate-slide-in');
+      }, 250); // duration of exit animation
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <span className="inline-block relative overflow-hidden align-bottom h-[1.25em] text-scarlett-red font-semibold min-w-[240px] md:min-w-[320px] text-left">
+      <span key={currentIndex} className={`${animClass} absolute left-0 bottom-0 block w-full`}>
+        {words[currentIndex]}
+      </span>
+    </span>
+  );
+};
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -50,9 +76,10 @@ const Landing = () => {
 
             {/* Main Heading */}
             <Reveal delay={150} duration={700}>
-              <h1 className="font-spec-title text-charcoal tracking-tight max-w-md mb-6 mx-auto md:mx-0">
-                Your internal marketplace<br />
-                for everyday efficiency.
+              <h1 className="font-spec-title text-charcoal tracking-tight max-w-lg mb-6 mx-auto md:mx-0 leading-tight">
+                Share your best <br />
+                <DynamicHeroText /> <br />
+                with the Hive Mind.
               </h1>
             </Reveal>
 
