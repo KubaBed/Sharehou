@@ -20,7 +20,7 @@ const Landing = () => {
         <Link to="/" className="flex items-center gap-2">
           <img
             alt="ShareHouse"
-            className="h-7 object-contain"
+            className="h-9 object-contain"
             src="/logo-light-bg.png"
           />
         </Link>

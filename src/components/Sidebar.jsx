@@ -68,7 +68,7 @@ const Sidebar = () => {
           <Link to="/" className="animate-fade-in-scale block cursor-pointer" title="Go to Landing Page">
             <img
               alt="ShareHouse"
-              className="h-9 object-contain"
+              className="h-[47px] object-contain"
               src="/logo-dark-bg.png"
             />
             <p className="font-spec-tagline text-muted-silver mt-2 block">// Internal Marketplace</p>
