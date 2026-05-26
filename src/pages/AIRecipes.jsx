@@ -314,6 +314,7 @@ const AIRecipes = () => {
   const [loading, setLoading] = useState(true);
   const [likeAnimations, setLikeAnimations] = useState([]);
   const [toastMessage, setToastMessage] = useState('');
+  const [likedRecipes, setLikedRecipes] = useState(new Set());
 
   useEffect(() => {
     api.getRecipes()
@@ -344,12 +345,18 @@ const AIRecipes = () => {
       e.stopPropagation();
     }
     spawnLikeAnimation(e);
+    if (likedRecipes.has(id)) return;
     api.likeRecipe(id)
       .then(res => {
         if (res.success) {
           setRecipesList(prev =>
             prev.map(r => (r.id === id ? { ...r, likes: res.likes } : r))
           );
+          setLikedRecipes(prev => {
+            const next = new Set(prev);
+            next.add(id);
+            return next;
+          });
         }
       })
       .catch(err => console.error('Failed to like recipe:', err));
@@ -469,9 +476,13 @@ const AIRecipes = () => {
                             <div className="flex items-center gap-3">
                               <button
                                 onClick={(e) => handleLike(featuredRecipe.id, e)}
-                                className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-smoke hover:bg-border-light transition-colors font-spec-lead text-charcoal border border-border-light hover:scale-105 active:scale-95 duration-200 cursor-pointer animate-fade-in-scale"
+                                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all font-spec-lead border active:scale-95 duration-200 cursor-pointer animate-fade-in-scale ${
+                                  likedRecipes.has(featuredRecipe.id)
+                                    ? 'bg-scarlett-red/10 border-scarlett-red/30 text-scarlett-red'
+                                    : 'bg-smoke border-border-light text-charcoal hover:bg-scarlett-red/10 hover:text-scarlett-red hover:border-scarlett-red/20'
+                                }`}
                               >
-                                <span className="material-symbols-outlined text-xs">thumb_up</span>
+                                <span className={`material-symbols-outlined text-xs transition-colors duration-200 ${likedRecipes.has(featuredRecipe.id) ? 'text-scarlett-red filled-icon' : ''}`}>favorite</span>
                                 <span>{featuredRecipe.likes}</span>
                               </button>
                               <span className="font-spec-tagline text-muted-silver">{featuredRecipe.uses || 0} Uses</span>
@@ -552,13 +563,17 @@ const AIRecipes = () => {
                         </div>
                         <div className="border-t border-[#f0f0f0] pt-4 mt-auto flex justify-between items-center">
                           <div className="flex items-center gap-3">
-                            <button
-                              onClick={(e) => handleLike(recipe.id, e)}
-                              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-smoke hover:bg-border-light transition-colors font-spec-lead text-charcoal border border-border-light hover:scale-105 active:scale-95 duration-200 cursor-pointer"
-                            >
-                              <span className="material-symbols-outlined text-xs">thumb_up</span>
-                              <span>{recipe.likes}</span>
-                            </button>
+                             <button
+                               onClick={(e) => handleLike(recipe.id, e)}
+                               className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all font-spec-lead border active:scale-95 duration-200 cursor-pointer ${
+                                 likedRecipes.has(recipe.id)
+                                   ? 'bg-scarlett-red/10 border-scarlett-red/30 text-scarlett-red'
+                                   : 'bg-smoke border-border-light text-charcoal hover:bg-scarlett-red/10 hover:text-scarlett-red hover:border-scarlett-red/20'
+                               }`}
+                             >
+                               <span className={`material-symbols-outlined text-xs transition-colors duration-200 ${likedRecipes.has(recipe.id) ? 'text-scarlett-red filled-icon' : ''}`}>favorite</span>
+                               <span>{recipe.likes}</span>
+                             </button>
                             <span className="font-spec-tagline text-muted-silver">{recipe.uses || 0} Uses</span>
                           </div>
                           <button 

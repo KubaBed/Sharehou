@@ -367,6 +367,7 @@ const Dashboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [likeAnimations, setLikeAnimations] = useState([]);
+  const [likedTools, setLikedTools] = useState(new Set());
   
   // Counters state for Bento Grid
   const [karma, setKarma] = useState(0);
@@ -429,10 +430,16 @@ const Dashboard = () => {
       e.stopPropagation(); // Stop navigation to details page
     }
     spawnLikeAnimation(e);
+    if (likedTools.has(id)) return;
     api.likeTool(id)
       .then(res => {
         if (res.success) {
           setTools(prev => prev.map(t => t.id === id ? { ...t, likes: res.likes } : t));
+          setLikedTools(prev => {
+            const next = new Set(prev);
+            next.add(id);
+            return next;
+          });
         }
       })
       .catch(err => console.error('Failed to like tool:', err));
@@ -649,10 +656,14 @@ const Dashboard = () => {
                         <span className="font-spec-tagline text-muted-silver">{tool.uses || 0} Uses</span>
                         <button 
                           onClick={(e) => handleLike(tool.id, e)}
-                          className="flex items-center gap-1.5 bg-smoke hover:bg-scarlett-red/10 border border-border-gray px-3 py-1.5 rounded-lg text-charcoal hover:text-scarlett-red transition-all font-spec-lead font-bold select-none active:scale-95 cursor-pointer"
+                          className={`flex items-center gap-1.5 border px-3 py-1.5 rounded-lg transition-all font-spec-lead font-bold select-none active:scale-95 cursor-pointer ${
+                            likedTools.has(tool.id)
+                              ? 'bg-scarlett-red/10 border-scarlett-red/30 text-scarlett-red'
+                              : 'bg-smoke border-border-gray text-charcoal hover:bg-scarlett-red/10 hover:text-scarlett-red hover:border-scarlett-red/20'
+                          }`}
                           title="Upvote tool"
                         >
-                          <span className="material-symbols-outlined text-[14px]">thumb_up</span>
+                          <span className={`material-symbols-outlined text-[14px] transition-colors duration-200 ${likedTools.has(tool.id) ? 'text-scarlett-red filled-icon' : ''}`}>favorite</span>
                           <span>{tool.likes}</span>
                         </button>
                         <button className="text-scarlett-red font-spec-lead font-bold flex items-center gap-1">
@@ -701,10 +712,14 @@ const Dashboard = () => {
                         <span className="font-spec-tagline text-muted-silver">{tool.uses || 0} Uses</span>
                         <button
                           onClick={(e) => handleLike(tool.id, e)}
-                          className="flex items-center gap-1 bg-smoke hover:bg-scarlett-red/10 border border-border-gray px-2 py-1 rounded text-charcoal hover:text-scarlett-red transition-all font-bold font-spec-tagline select-none active:scale-95 cursor-pointer"
+                          className={`flex items-center gap-1 border px-2 py-1 rounded text-charcoal hover:text-scarlett-red transition-all font-bold font-spec-tagline select-none active:scale-95 cursor-pointer ${
+                            likedTools.has(tool.id)
+                              ? 'bg-scarlett-red/10 border-scarlett-red/30 text-scarlett-red'
+                              : 'bg-smoke border-border-gray text-charcoal hover:bg-scarlett-red/10 hover:text-scarlett-red hover:border-scarlett-red/20'
+                          }`}
                           title="Upvote tool"
                         >
-                          <span className="material-symbols-outlined text-[12px]">thumb_up</span>
+                          <span className={`material-symbols-outlined text-[12px] transition-colors duration-200 ${likedTools.has(tool.id) ? 'text-scarlett-red filled-icon' : ''}`}>favorite</span>
                           <span>{tool.likes}</span>
                         </button>
                       </div>
@@ -753,10 +768,14 @@ const Dashboard = () => {
                         {/* Likes badge */}
                         <button
                           onClick={(e) => handleLike(tool.id, e)}
-                          className="flex items-center gap-0.5 font-spec-lead text-muted-silver hover:text-scarlett-red hover:scale-110 active:scale-95 transition-all shrink-0 font-bold bg-smoke px-2 py-1 rounded border border-border-light cursor-pointer select-none"
+                          className={`flex items-center gap-0.5 font-spec-lead transition-all shrink-0 font-bold px-2 py-1 rounded border cursor-pointer select-none ${
+                            likedTools.has(tool.id)
+                              ? 'bg-scarlett-red/10 border-scarlett-red/30 text-scarlett-red'
+                              : 'bg-smoke border-border-light text-muted-silver hover:bg-scarlett-red/10 hover:text-scarlett-red hover:border-scarlett-red/20'
+                          }`}
                           title="Upvote tool"
                         >
-                          <span className="material-symbols-outlined text-xs">thumb_up</span>
+                          <span className={`material-symbols-outlined text-xs transition-colors duration-200 ${likedTools.has(tool.id) ? 'text-scarlett-red filled-icon' : ''}`}>favorite</span>
                           <span>{tool.likes}</span>
                         </button>
                       </div>
