@@ -1,58 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { animate } from 'animejs';
 import Reveal from '../components/Reveal';
 
 const Landing = () => {
   const navigate = useNavigate();
-  const heroRef = useRef(null);
-  const parallaxRef = useRef(null);
-  const gradientRef = useRef(null);
-
-  useEffect(() => {
-    // 1. Continuous gentle floating animation using anime.js v4
-    const floatAnim = animate(gradientRef.current, {
-      translateY: [-12, 12],
-      translateX: [-8, 8],
-      rotate: [-1.5, 1.5],
-      scale: [0.98, 1.02],
-      duration: 6500,
-      direction: 'alternate',
-      loop: true,
-      ease: 'inOutSine'
-    });
-
-    // 2. Interactive mouse move parallax using anime.js v4
-    const handleMouseMove = (e) => {
-      if (!heroRef.current || !parallaxRef.current) return;
-      const rect = heroRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      
-      // Calculate shift values (very subtle, up to 20px max)
-      const moveX = -(x * 0.035);
-      const moveY = -(y * 0.035);
-
-      animate(parallaxRef.current, {
-        translateX: moveX,
-        translateY: moveY,
-        ease: 'outQuad',
-        duration: 700
-      });
-    };
-
-    const container = heroRef.current;
-    if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
-    }
-
-    return () => {
-      floatAnim.pause();
-      if (container) {
-        container.removeEventListener('mousemove', handleMouseMove);
-      }
-    };
-  }, []);
 
   const handleScrollToFeatures = (e) => {
     e.preventDefault();
@@ -84,10 +35,7 @@ const Landing = () => {
       </header>
 
       {/* Section 1: Hero Header */}
-      <section 
-        ref={heroRef}
-        className="relative flex flex-col items-center justify-center pt-20 pb-32 px-6 text-center max-w-6xl mx-auto w-full min-h-[85vh]"
-      >
+      <section className="relative flex flex-col items-center justify-center pt-20 pb-32 px-6 text-center max-w-6xl mx-auto w-full min-h-[85vh]">
         {/* Top announcement pill */}
         <Reveal delay={50} duration={600}>
           <div className="inline-flex items-center gap-2 bg-scarlett-red/5 border border-scarlett-red/10 px-4 py-1.5 rounded-full text-[10px] font-bold text-scarlett-red uppercase tracking-wider mb-6">
@@ -131,25 +79,7 @@ const Landing = () => {
 
         {/* Visual Mockup Section overlaying Scene 5 */}
         <Reveal delay={450} duration={800} className="w-full relative max-w-4xl mx-auto mt-6">
-          {/* Background Animated Gradient image */}
-          <div 
-            className="absolute top-1/2 left-1/2 w-[160%] h-[160%] pointer-events-none z-0 overflow-visible flex items-center justify-center"
-            style={{ transform: 'translate(-50%, -50%)' }}
-          >
-            <div 
-              ref={parallaxRef}
-              className="w-full h-full opacity-85 flex items-center justify-center"
-              style={{ willChange: 'transform' }}
-            >
-              <img
-                ref={gradientRef}
-                src="/hero-gradient-pattern.png"
-                alt="Animated decorative background grid"
-                className="w-full h-full object-contain"
-                style={{ willChange: 'transform', mixBlendMode: 'multiply' }}
-              />
-            </div>
-          </div>
+
 
           {/* Browser Mockup Window */}
           <div className="relative bg-pure-white rounded-2xl border border-charcoal/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] overflow-hidden z-10 select-none transform hover:scale-[1.01] transition-transform duration-300">
