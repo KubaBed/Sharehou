@@ -95,7 +95,7 @@ const Dashboard = () => {
         <main className="flex-1 overflow-y-auto px-8 py-8 hide-scrollbar flex flex-col gap-8">
           
           {/* Header Banner - Editorial Brutalism Stance */}
-          <div className="relative border-b border-charcoal/10 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div className="relative border-b border-charcoal/10 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 shrink-0">
             <div>
               <span className="font-spec-tagline text-scarlett-red block mb-2">// SHAREHOUSE PLATFORM</span>
               <h2 className="font-spec-title text-charcoal tracking-tight">Explore Tools</h2>
@@ -105,7 +105,7 @@ const Dashboard = () => {
             </div>
             
             {/* Quick Actions / Filters */}
-            <div className="flex items-center gap-3 overflow-x-auto w-full md:w-auto pb-1 hide-scrollbar">
+            <div className="flex items-center gap-3 overflow-x-auto w-full md:w-auto py-3.5 shrink-0 hide-scrollbar">
               {['Newest', 'Top Rated', 'Gems'].map((f, i) => (
                 <button
                   key={f}
@@ -122,8 +122,8 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Topics Selector - Fixed Crop Bug by adding py-3 instead of pb-2 */}
-          <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-charcoal/5 hide-scrollbar">
+          {/* Topics Selector - Fixed Crop Bug by adding py-3.5 shrink-0 instead of pb-2 */}
+          <div className="flex items-center gap-2 overflow-x-auto py-3.5 shrink-0 border-b border-charcoal/5 hide-scrollbar">
             <span className="text-muted-silver font-spec-tagline mr-4 shrink-0">Filter by topic:</span>
             {['All', 'IT', 'Marketing', 'Finance', 'Operations', 'Sales', 'HR'].map((t) => (
               <button
