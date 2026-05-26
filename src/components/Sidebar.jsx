@@ -57,18 +57,22 @@ const Sidebar = () => {
 
       <div className={`px-5 mb-8 transition-all duration-300 ${isCollapsed ? 'flex justify-center px-2' : ''}`}>
         {isCollapsed ? (
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-pure-white font-display font-bold text-xl select-none animate-fade-in-scale">
+          <Link
+            to="/"
+            className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-pure-white font-display font-bold text-xl select-none animate-fade-in-scale cursor-pointer"
+            title="Go to Landing Page"
+          >
             S
-          </div>
+          </Link>
         ) : (
-          <div className="animate-fade-in-scale">
+          <Link to="/" className="animate-fade-in-scale block cursor-pointer" title="Go to Landing Page">
             <img
               alt="ShareHouse"
               className="h-9 object-contain"
               src="/logo-dark-bg.png"
             />
             <p className="font-body text-[10px] text-muted-silver mt-2 uppercase tracking-wider">// Internal Marketplace</p>
-          </div>
+          </Link>
         )}
       </div>
 

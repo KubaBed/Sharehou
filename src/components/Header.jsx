@@ -24,7 +24,7 @@ const Header = () => {
           className="bg-scarlett-red hover:bg-[#d8352b] text-pure-white px-6 py-2.5 rounded font-label text-sm flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-soft-2 shadow-sm"
         >
           <span className="material-symbols-outlined text-sm">add</span>
-          Add New Tool
+          Add New Recipe
         </Link>
       </div>
     </header>

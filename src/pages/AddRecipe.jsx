@@ -217,7 +217,7 @@ const AddRecipe = () => {
                         <div className="flex items-start gap-2.5">
                           <span className="material-symbols-outlined text-scarlett-red text-xl mt-0.5">warning</span>
                           <div>
-                            <p className="font-headline text-xs font-bold text-charcoal">Similar Tool Detected</p>
+                            <p className="font-headline text-xs font-bold text-charcoal">Similar Recipe Detected</p>
                             <p className="font-body text-xs text-secondary mt-0.5">
                               "{similarityWarning.title}" already exists in the {similarityWarning.category} library.
                             </p>
@@ -419,10 +419,10 @@ const AddRecipe = () => {
                   <div>
                     <h3 className="font-headline text-lg font-bold text-charcoal flex items-center gap-2">
                       <span className="material-symbols-outlined text-scarlett-red">compare_arrows</span>
-                      Similar Tool Detected: Suggest Edits Instead?
+                      Similar Recipe Detected: Suggest Edits Instead?
                     </h3>
                     <p className="font-body text-xs text-muted-silver mt-1">
-                      An existing tool already covers this use case. Suggesting changes is preferred as it keeps the catalog clean and earns you <strong className="text-scarlett-red">25 Karma Points</strong>.
+                      An existing recipe already covers this use case. Suggesting changes is preferred as it keeps the catalog clean and earns you <strong className="text-scarlett-red">25 Karma Points</strong>.
                     </p>
                   </div>
                   <button 
@@ -464,7 +464,7 @@ const AddRecipe = () => {
                     {/* Right Box: Existing Tool */}
                     <div className="bg-smoke/30 p-4 border border-border-light rounded-xl space-y-4">
                       <div className="flex items-center justify-between border-b border-border-light pb-2">
-                        <span className="font-label text-xs font-bold text-muted-silver uppercase tracking-wider">Existing Tool</span>
+                        <span className="font-label text-xs font-bold text-muted-silver uppercase tracking-wider">Existing Recipe</span>
                         <span className="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Active Catalog</span>
                       </div>
                       <div>
