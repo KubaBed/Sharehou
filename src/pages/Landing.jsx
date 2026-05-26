@@ -100,50 +100,13 @@ const Landing = () => {
               </div>
             </div>
             
-            {/* Dashboard Mock Content */}
-            <div className="p-6 text-left bg-smoke/50 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="md:col-span-2 space-y-4">
-                <div className="bg-pure-white p-5 rounded-xl border border-charcoal/5">
-                  <div className="flex justify-between items-center mb-3">
-                    <span className="text-[9px] font-bold text-scarlett-red uppercase tracking-wider">Featured Template</span>
-                    <span className="bg-smoke border border-border-gray px-2 py-0.5 text-[9px] font-semibold rounded">Saves 85h</span>
-                  </div>
-                  <h4 className="font-headline text-sm font-bold text-charcoal">Customer Success Onboarding Template</h4>
-                  <p className="font-body text-[11px] text-muted-silver mt-1">Streamline client kickoff with automated email sequences and task tracking.</p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-pure-white p-4 rounded-xl border border-charcoal/5">
-                    <span className="text-[8px] font-bold text-muted-silver uppercase tracking-wider block">SCRIPTS</span>
-                    <h5 className="font-headline text-xs font-bold text-charcoal mt-1 truncate">IT Asset Inventory</h5>
-                    <p className="text-[10px] text-muted-silver mt-1">Uses: 95</p>
-                  </div>
-                  <div className="bg-pure-white p-4 rounded-xl border border-charcoal/5">
-                    <span className="text-[8px] font-bold text-muted-silver uppercase tracking-wider block">PROMPTS</span>
-                    <h5 className="font-headline text-xs font-bold text-charcoal mt-1 truncate">Brand Voice Persona</h5>
-                    <p className="text-[10px] text-muted-silver mt-1">Uses: 312</p>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-pure-white p-5 rounded-xl border border-charcoal/5 h-full flex flex-col justify-between">
-                  <div>
-                    <h5 className="font-headline text-[11px] font-bold text-charcoal uppercase tracking-wider border-b border-border-gray pb-2 mb-3">Platform Stats</h5>
-                    <div className="space-y-2">
-                      <div>
-                        <span className="text-[9px] text-muted-silver">Collective Saved:</span>
-                        <p className="text-xs font-bold text-scarlett-red font-headline">12,500 Hours</p>
-                      </div>
-                      <div>
-                        <span className="text-[9px] text-muted-silver">Shared Recipes:</span>
-                        <p className="text-xs font-bold text-charcoal font-headline">143 Modules</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-4 pt-2 border-t border-border-gray">
-                    <button className="w-full bg-scarlett-red text-pure-white text-[10px] py-1.5 rounded font-semibold">Explore Marketplace</button>
-                  </div>
-                </div>
-              </div>
+            {/* Dashboard Screenshot */}
+            <div className="w-full overflow-hidden">
+              <img
+                src="/dashboard-screenshot.png"
+                alt="Sharehouse Dashboard"
+                className="w-full h-auto object-cover block"
+              />
             </div>
           </div>
         </Reveal>
