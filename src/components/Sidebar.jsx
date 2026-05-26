@@ -26,11 +26,6 @@ const Sidebar = () => {
       icon: 'explore',
     },
     {
-      name: 'Prompt Database',
-      path: '/prompts',
-      icon: 'database',
-    },
-    {
       name: 'AI Recipes',
       path: '/recipes',
       icon: 'apps',

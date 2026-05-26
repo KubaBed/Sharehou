@@ -59,10 +59,12 @@ When you are ready to test against your backend API:
 
 The frontend expects a RESTful API returning JSON responses. Below are the endpoints currently implemented in the frontend's API service layer (`src/services/api.js`).
 
-### 1. Tools & Resources
+### 1. Unified Resources (AI Recipes, Templates, Scripts & Prompts)
+
+All shared assets (including AI Recipes, Asana Templates, Python Scripts, and Generative Prompts) are unified under the same resource model to streamline browsing, detail viewing, and interaction.
 
 #### `GET /api/tools`
-Returns a list of all tools/resources shared.
+Returns a list of all resources shared in the marketplace.
 * **Response Payload:** `Array<Tool>`
 * **JSON Schema:**
 ```json
@@ -76,16 +78,26 @@ Returns a list of all tools/resources shared.
     "topic": "HR",
     "hoursSaved": 85,
     "likes": 42,
+    "uses": 124,
     "author": "Sarah Chen",
     "authorTitle": "Senior Product Designer",
     "authorAvatar": "/avatars/sarah.png",
-    "isFeatured": true
+    "isFeatured": true,
+    "comments": [
+      {
+        "id": 1,
+        "author": "Alex Rivera",
+        "avatar": "/avatars/alex.png",
+        "text": "This saved our team 10 hours last week!",
+        "date": "3 days ago"
+      }
+    ]
   }
 ]
 ```
 
 #### `GET /api/tools/:id`
-Returns detailed specs, key features, and installation instructions for a specific tool.
+Returns detailed specifications, key features, code text (for prompts or scripts), comments, and installation instructions for a specific resource.
 * **Response Payload:** `ToolDetail`
 * **JSON Schema:**
 ```json
@@ -98,6 +110,7 @@ Returns detailed specs, key features, and installation instructions for a specif
   "topic": "HR",
   "hoursSaved": 85,
   "likes": 42,
+  "uses": 124,
   "author": "Sarah Chen",
   "authorTitle": "Senior Product Designer",
   "authorAvatar": "/avatars/sarah.png",
@@ -115,12 +128,22 @@ Returns detailed specs, key features, and installation instructions for a specif
     "author": "Sarah Chen",
     "lastUpdated": "May 2026",
     "license": "Internal Use (ShareHouse)"
-  }
+  },
+  "text": "Task Name,Assignee,Start Date,Due Date,Description...",
+  "comments": [
+    {
+      "id": 1,
+      "author": "Alex Rivera",
+      "avatar": "/avatars/alex.png",
+      "text": "This saved our team 10 hours last week!",
+      "date": "3 days ago"
+    }
+  ]
 }
 ```
 
 #### `POST /api/tools`
-Creates a new tool submission.
+Creates a new resource submission.
 * **Request Payload:**
 ```json
 {
@@ -132,101 +155,56 @@ Creates a new tool submission.
   "hoursSaved": 15,
   "features": ["Feature A", "Feature B"],
   "installation": ["Step 1", "Step 2"],
-  "platform": "Python / Salesforce API"
+  "platform": "Python / Salesforce API",
+  "text": "# Code goes here..."
 }
 ```
 * **Response Payload:** `ToolDetail` (the created resource)
 
----
-
-### 2. Prompt Database
-
-#### `GET /api/prompts`
-Returns all custom generative prompts.
-* **Response Payload:** `Array<Prompt>`
-* **JSON Schema:**
-```json
-[
-  {
-    "id": 1,
-    "title": "Brand Voice Persona Injector",
-    "category": "Marketing",
-    "likes": 142,
-    "text": "\"Act as a senior brand strategist. Analyze the following copy...\""
-  }
-]
-```
-
-#### `POST /api/prompts`
-Creates a new prompt.
-* **Request Payload:**
-```json
-{
-  "title": "React Component Generator (Strict TS)",
-  "category": "Coding",
-  "text": "\"Generate a React functional component using TypeScript...\""
-}
-```
-* **Response Payload:** `Prompt` (the created resource)
-
-#### `POST /api/prompts/like/:id`
-Increments the like count for a prompt.
+#### `POST /api/tools/like/:id`
+Increments the upvote/like count for a resource.
 * **Response Payload:**
 ```json
 {
   "success": true,
-  "likes": 143
+  "likes": 43
 }
 ```
 
----
-
-### 3. AI Recipes
-
-#### `GET /api/recipes`
-Returns all ready-to-deploy AI recipes.
-* **Response Payload:** `Array<Recipe>`
-* **JSON Schema:**
-```json
-[
-  {
-    "id": "competitor-scraper",
-    "title": "Competitor Intelligence Scraper",
-    "description": "Automatically extracts pricing, feature updates...",
-    "category": "Marketing",
-    "likes": 185,
-    "trending": true,
-    "timeSaved": "12h / week"
-  }
-]
-```
-
-#### `POST /api/recipes`
-Adds a new AI recipe.
-* **Request Payload:**
-```json
-{
-  "title": "SEO Blog Generator",
-  "description": "Generates a full SEO-optimized article structure...",
-  "category": "Marketing",
-  "timeSaved": "8h / week"
-}
-```
-* **Response Payload:** `Recipe` (the created resource)
-
-#### `POST /api/recipes/like/:id`
-Increments the like count for a recipe.
+#### `POST /api/tools/deploy/:id`
+Increments the usage/deploy/download counter for a resource.
 * **Response Payload:**
 ```json
 {
   "success": true,
-  "likes": 186
+  "uses": 125
 }
+```
+
+#### `POST /api/tools/:id/comments`
+Appends a comment to the specified resource.
+* **Request Payload:**
+```json
+{
+  "text": "Awesome template, works like a charm!"
+}
+```
+* **Response Payload:** `Array<Comment>` (the updated list of comments)
+```json
+[
+  {
+    "id": 1690000000000,
+    "author": "Alex Rivera",
+    "avatar": "/avatars/alex.png",
+    "text": "Awesome template, works like a charm!",
+    "date": "Just now"
+  }
+]
 ```
 
 ---
 
-### 4. Leaderboard & Stats
+## 4. Leaderboard & Stats
 
 #### `GET /api/leaderboard`
 Returns top builders/contributors ranked by Karma XP.

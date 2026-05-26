@@ -11,6 +11,8 @@ const ToolDetail = () => {
   const [copied, setCopied] = useState(false);
   const [tool, setTool] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [commentText, setCommentText] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -29,6 +31,44 @@ const ToolDetail = () => {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDeploy = () => {
+    if (tool.category === 'Prompts') {
+      navigator.clipboard.writeText(tool.text || '');
+      setToastMessage('Prompt copied to clipboard!');
+      setTimeout(() => setToastMessage(''), 3000);
+    }
+    
+    api.incrementUses(tool.id)
+      .then(res => {
+        if (res.success) {
+          setTool(prev => ({ ...prev, uses: res.uses }));
+          if (tool.category !== 'Prompts') {
+            setToastMessage(`Successfully registered deploy for ${tool.title}!`);
+            setTimeout(() => setToastMessage(''), 3000);
+          }
+        }
+      })
+      .catch(err => {
+        console.error('Failed to increment uses:', err);
+      });
+  };
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    if (!commentText.trim()) return;
+    
+    api.addComment(tool.id, commentText)
+      .then(updatedComments => {
+        setTool(prev => ({ ...prev, comments: updatedComments }));
+        setCommentText('');
+        setToastMessage('Comment posted successfully!');
+        setTimeout(() => setToastMessage(''), 3000);
+      })
+      .catch(err => {
+        console.error('Failed to post comment:', err);
+      });
   };
 
   return (
@@ -71,7 +111,7 @@ const ToolDetail = () => {
                     onClick={handleCopyLink}
                     className={`px-5 py-2.5 rounded-lg font-label text-xs font-semibold border flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95 ${
                       copied
-                        ? 'bg-green-100 border-green-300 text-green-700'
+                        ? 'bg-green-100 border-green-300 text-green-700 font-bold'
                         : 'bg-pure-white border-border-light hover:bg-smoke text-charcoal hover:border-charcoal/30'
                     }`}
                   >
@@ -80,9 +120,14 @@ const ToolDetail = () => {
                     </span>
                     {copied ? 'Link Copied' : 'Share Link'}
                   </button>
-                  <button className="bg-scarlett-red hover:bg-[#d8352b] text-pure-white px-6 py-2.5 rounded-lg font-label text-xs font-semibold flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-md hover:shadow-scarlett-red/10">
-                    <span className="material-symbols-outlined text-sm">download</span>
-                    Download Template
+                  <button 
+                    onClick={handleDeploy}
+                    className="bg-scarlett-red hover:bg-[#d8352b] text-pure-white px-6 py-2.5 rounded-lg font-label text-xs font-semibold flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-md hover:shadow-scarlett-red/10 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-sm">
+                      {tool.category === 'Prompts' ? 'content_copy' : tool.category === 'Templates' ? 'download' : 'rocket_launch'}
+                    </span>
+                    {tool.category === 'Prompts' ? 'Copy Prompt' : tool.category === 'Templates' ? 'Download Template' : 'Deploy Recipe'}
                   </button>
                 </div>
               </div>
@@ -91,16 +136,34 @@ const ToolDetail = () => {
             {/* Main Details Layout (2 columns) */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
-              {/* Left Column: Details */}
+              {/* Left Column: Details & Comments */}
               <div className="lg:col-span-2 space-y-8">
                 
                 {/* Overview Card */}
                 <Reveal delay={100} duration={600}>
                   <div className="bg-pure-white p-8 rounded-2xl border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
                     <h3 className="font-headline text-lg font-bold text-charcoal mb-4 border-b border-[#f0f0f0] pb-2">Overview</h3>
-                    <p className="font-body text-sm text-secondary leading-relaxed">
+                    <p className="font-body text-sm text-secondary leading-relaxed mb-6">
                       {tool.description}
                     </p>
+
+                    {tool.category === 'Prompts' && tool.text && (
+                      <div className="mb-6">
+                        <div className="flex justify-between items-center bg-charcoal text-pure-white px-4 py-2.5 rounded-t-xl text-xs font-bold font-label">
+                          <span>PROMPT TEMPLATE</span>
+                          <button 
+                            onClick={handleDeploy} 
+                            className="flex items-center gap-1 hover:text-scarlett-red transition-colors cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-sm">content_copy</span>
+                            Copy Prompt
+                          </button>
+                        </div>
+                        <pre className="bg-pitch-black text-muted-silver p-4 rounded-b-xl text-xs font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed border border-charcoal/20">
+                          {tool.text}
+                        </pre>
+                      </div>
+                    )}
 
                     <h3 className="font-headline text-base font-bold text-charcoal mt-8 mb-4">Key Features</h3>
                     <ul className="space-y-3">
@@ -131,6 +194,63 @@ const ToolDetail = () => {
                   </div>
                 </Reveal>
 
+                {/* Comments Section */}
+                <Reveal delay={300} duration={600}>
+                  <div className="bg-pure-white p-8 rounded-2xl border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                    <h3 className="font-headline text-lg font-bold text-charcoal mb-6 border-b border-[#f0f0f0] pb-2 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-muted-silver">forum</span>
+                      Comments ({tool.comments?.length || 0})
+                    </h3>
+                    
+                    {/* Add Comment Form */}
+                    <form onSubmit={handleCommentSubmit} className="mb-8">
+                      <div className="flex gap-4 items-start">
+                        <img className="w-9 h-9 rounded-full border border-border-gray object-cover shrink-0" src="/avatars/alex.png" alt="Current User" />
+                        <div className="flex-grow">
+                          <textarea
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                            placeholder="Add a constructive comment..."
+                            rows="3"
+                            className="w-full bg-smoke border border-border-light rounded-xl p-3 text-sm focus:ring-2 focus:ring-scarlett-red focus:border-transparent outline-none resize-none transition-all duration-300 placeholder:text-muted-silver"
+                            required
+                          />
+                          <div className="flex justify-end mt-2">
+                            <button
+                              type="submit"
+                              className="bg-charcoal hover:bg-scarlett-red text-pure-white px-5 py-2 rounded-lg font-label text-xs font-bold transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+                            >
+                              Post Comment
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    
+                    {/* Comments List */}
+                    <div className="space-y-6">
+                      {!tool.comments || tool.comments.length === 0 ? (
+                        <p className="text-sm text-muted-silver italic text-center py-6">No comments yet. Be the first to share your thoughts!</p>
+                      ) : (
+                        tool.comments.map((comment) => (
+                          <div key={comment.id} className="flex gap-4 items-start border-b border-[#fcfcfc] pb-6 last:border-0 last:pb-0 hover:translate-x-0.5 transition-transform duration-200">
+                            <img className="w-9 h-9 rounded-full border border-border-gray object-cover shrink-0" src={comment.avatar || '/avatars/alex.png'} alt={comment.author} />
+                            <div className="flex-grow min-w-0">
+                              <div className="flex items-center justify-between mb-1.5">
+                                <h4 className="font-headline text-xs font-bold text-charcoal">{comment.author}</h4>
+                                <span className="text-[10px] text-muted-silver">{comment.date}</span>
+                              </div>
+                              <p className="font-body text-xs text-secondary leading-relaxed whitespace-pre-line">
+                                {comment.text}
+                              </p>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </Reveal>
+
               </div>
 
               {/* Right Column: Sidebar Bento info */}
@@ -140,14 +260,18 @@ const ToolDetail = () => {
                 <Reveal delay={150} duration={600}>
                   <div className="bg-pure-white p-6 rounded-2xl border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
                     <h3 className="font-headline text-base font-bold text-charcoal mb-4 border-b border-[#f0f0f0] pb-2">Impact Metrics</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-smoke p-4 rounded-xl text-center hover:scale-105 transition-transform duration-200">
-                        <p className="font-headline text-2xl font-bold text-scarlett-red">{tool.hoursSaved.split(' ')[0]}</p>
-                        <p className="text-[10px] text-muted-silver font-semibold mt-1">Est. Hours Saved</p>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="bg-smoke p-3 rounded-xl text-center hover:scale-105 transition-transform duration-200">
+                        <p className="font-headline text-xl font-bold text-scarlett-red">{String(tool.hoursSaved).split(' ')[0]}</p>
+                        <p className="text-[9px] text-muted-silver font-semibold mt-1">Est. Hours Saved</p>
                       </div>
-                      <div className="bg-smoke p-4 rounded-xl text-center hover:scale-105 transition-transform duration-200">
-                        <p className="font-headline text-2xl font-bold text-charcoal">{tool.likes}</p>
-                        <p className="text-[10px] text-muted-silver font-semibold mt-1">Total Likes</p>
+                      <div className="bg-smoke p-3 rounded-xl text-center hover:scale-105 transition-transform duration-200">
+                        <p className="font-headline text-xl font-bold text-charcoal">{tool.likes}</p>
+                        <p className="text-[9px] text-muted-silver font-semibold mt-1">Total Likes</p>
+                      </div>
+                      <div className="bg-smoke p-3 rounded-xl text-center hover:scale-105 transition-transform duration-200">
+                        <p className="font-headline text-xl font-bold text-charcoal">{tool.uses || 0}</p>
+                        <p className="text-[9px] text-muted-silver font-semibold mt-1">Total Uses</p>
                       </div>
                     </div>
                   </div>
@@ -201,6 +325,12 @@ const ToolDetail = () => {
         )}
       </div>
     </main>
+    {toastMessage && (
+      <div className="fixed bottom-6 right-6 bg-charcoal text-pure-white px-5 py-3 rounded-xl shadow-xl z-50 flex items-center gap-2 border border-scarlett-red/20 font-label text-xs animate-fade-in-scale">
+        <span className="material-symbols-outlined text-green-500">check_circle</span>
+        <span>{toastMessage}</span>
+      </div>
+    )}
   </div>
 </div>
   );

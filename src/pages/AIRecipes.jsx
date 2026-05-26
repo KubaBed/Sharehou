@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
 import { api } from '../services/api';
 
 const AIRecipes = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [recipesList, setRecipesList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,17 +23,22 @@ const AIRecipes = () => {
       });
   }, []);
 
-  const handleLike = (id) => {
+  const handleLike = (id, e) => {
+    if (e) {
+      e.stopPropagation();
+    }
     api.likeRecipe(id)
-      .then(() => {
-        setRecipesList(prev =>
-          prev.map(r => (r.id === id ? { ...r, likes: r.likes + 1 } : r))
-        );
+      .then(res => {
+        if (res.success) {
+          setRecipesList(prev =>
+            prev.map(r => (r.id === id ? { ...r, likes: res.likes } : r))
+          );
+        }
       })
       .catch(err => console.error('Failed to like recipe:', err));
   };
 
-  const categories = ['All Categories', 'Marketing', 'Data Engineering', 'Sales Ops'];
+  const categories = ['All Categories', 'Prompts', 'Templates', 'Scripts', 'Marketing', 'Data Engineering', 'Sales Ops'];
 
   const filteredRecipes = recipesList.filter(r => 
     selectedCategory === 'All Categories' || r.category === selectedCategory
@@ -76,7 +83,10 @@ const AIRecipes = () => {
                 {/* Featured Large Card */}
                 {featuredRecipe && (
                   <Reveal className="lg:col-span-2" delay={50} duration={700}>
-                    <div className="bg-pure-white border border-border-light rounded-2xl p-8 flex flex-col justify-between hover:shadow-[0_12px_25px_rgba(230,0,0,0.05)] hover:border-scarlett-red/20 transition-all duration-300 ease-out hover:scale-[1.01] hover:-translate-y-0.5 active:scale-[0.99] relative overflow-hidden group h-full">
+                    <div 
+                      onClick={() => navigate(`/tool/${featuredRecipe.id}`)}
+                      className="bg-pure-white border border-border-light rounded-2xl p-8 flex flex-col justify-between hover:shadow-[0_12px_25px_rgba(230,0,0,0.05)] hover:border-scarlett-red/20 transition-all duration-300 ease-out hover:scale-[1.01] hover:-translate-y-0.5 active:scale-[0.99] relative overflow-hidden group h-full cursor-pointer"
+                    >
                       <div className="absolute top-0 right-0 w-64 h-64 bg-scarlett-red/5 rounded-full -mr-16 -mt-16 transition-all group-hover:scale-110"></div>
                       <div className="relative">
                         <div className="flex justify-between items-start mb-4">
@@ -85,7 +95,7 @@ const AIRecipes = () => {
                           </span>
                           <span className="text-xs text-muted-silver flex items-center gap-1 font-semibold">
                             <span className="material-symbols-outlined text-sm">schedule</span>
-                            Saves {featuredRecipe.timeSaved}
+                            Saves {featuredRecipe.hoursSaved}h
                           </span>
                         </div>
                         <h4 className="font-headline text-xl font-bold text-charcoal mb-4 group-hover:text-scarlett-red transition-colors">
@@ -96,14 +106,23 @@ const AIRecipes = () => {
                         </p>
                       </div>
                       <div className="border-t border-border-light pt-6 mt-6 flex justify-between items-center relative">
-                        <button
-                          onClick={() => handleLike(featuredRecipe.id)}
-                          className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-smoke hover:bg-border-light transition-colors text-xs text-charcoal border border-border-light hover:scale-105 active:scale-95 duration-200"
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={(e) => handleLike(featuredRecipe.id, e)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-smoke hover:bg-border-light transition-colors text-xs text-charcoal border border-border-light hover:scale-105 active:scale-95 duration-200 cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-sm">thumb_up</span>
+                            <span>{featuredRecipe.likes}</span>
+                          </button>
+                          <span className="text-[11px] text-muted-silver font-semibold uppercase">{featuredRecipe.uses || 0} Uses</span>
+                        </div>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/tool/${featuredRecipe.id}`);
+                          }}
+                          className="bg-scarlett-red hover:bg-[#d8352b] text-pure-white px-5 py-2 rounded-lg text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-md hover:shadow-scarlett-red/15"
                         >
-                          <span className="material-symbols-outlined text-sm">thumb_up</span>
-                          <span>{featuredRecipe.likes}</span>
-                        </button>
-                        <button className="bg-scarlett-red hover:bg-[#d8352b] text-pure-white px-5 py-2 rounded-lg text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-md hover:shadow-scarlett-red/15">
                           Deploy Recipe
                         </button>
                       </div>
@@ -153,7 +172,8 @@ const AIRecipes = () => {
               {filteredRecipes.map((recipe, index) => (
                 <Reveal key={recipe.id} delay={index * 100} duration={600}>
                   <div
-                    className="bg-pure-white p-6 rounded-2xl border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(230,0,0,0.05)] hover:border-scarlett-red/20 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 ease-out flex flex-col justify-between h-full"
+                    onClick={() => navigate(`/tool/${recipe.id}`)}
+                    className="bg-pure-white p-6 rounded-2xl border border-border-light shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(230,0,0,0.05)] hover:border-scarlett-red/20 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 ease-out flex flex-col justify-between h-full cursor-pointer group"
                   >
                     <div>
                       <div className="flex justify-between items-start mb-4">
@@ -162,10 +182,10 @@ const AIRecipes = () => {
                         </span>
                         <span className="text-[11px] text-muted-silver flex items-center gap-0.5 font-semibold">
                           <span className="material-symbols-outlined text-[14px]">schedule</span>
-                          {recipe.timeSaved}
+                          Saves {recipe.hoursSaved}h
                         </span>
                       </div>
-                      <h4 className="font-headline text-base font-bold text-charcoal mb-2 hover:text-scarlett-red transition-colors cursor-pointer">
+                      <h4 className="font-headline text-base font-bold text-charcoal mb-2 group-hover:text-scarlett-red transition-colors">
                         {recipe.title}
                       </h4>
                       <p className="font-body text-xs text-secondary leading-relaxed mb-6 line-clamp-3">
@@ -173,14 +193,23 @@ const AIRecipes = () => {
                       </p>
                     </div>
                     <div className="border-t border-[#f0f0f0] pt-4 mt-auto flex justify-between items-center">
-                      <button
-                        onClick={() => handleLike(recipe.id)}
-                        className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-smoke hover:bg-border-light transition-colors text-xs text-charcoal border border-border-light hover:scale-105 active:scale-95 duration-200"
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={(e) => handleLike(recipe.id, e)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-smoke hover:bg-border-light transition-colors text-xs text-charcoal border border-border-light hover:scale-105 active:scale-95 duration-200 cursor-pointer"
+                        >
+                          <span className="material-symbols-outlined text-xs">thumb_up</span>
+                          <span>{recipe.likes}</span>
+                        </button>
+                        <span className="text-[10px] text-muted-silver font-semibold uppercase">{recipe.uses || 0} Uses</span>
+                      </div>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/tool/${recipe.id}`);
+                        }}
+                        className="bg-transparent border border-border-light hover:border-scarlett-red hover:text-scarlett-red text-charcoal px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-sm"
                       >
-                        <span className="material-symbols-outlined text-xs">thumb_up</span>
-                        <span>{recipe.likes}</span>
-                      </button>
-                      <button className="bg-transparent border border-border-light hover:border-scarlett-red hover:text-scarlett-red text-charcoal px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-sm">
                         Deploy
                       </button>
                     </div>

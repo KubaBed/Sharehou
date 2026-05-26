@@ -28,6 +28,7 @@ let mockTools = [
     topic: 'HR',
     hoursSaved: 85,
     likes: 42,
+    uses: 124,
     author: 'Sarah Chen',
     authorTitle: 'Senior Product Designer',
     authorAvatar: '/avatars/sarah.png',
@@ -50,7 +51,12 @@ let mockTools = [
       author: 'Sarah Chen',
       lastUpdated: 'May 2026',
       license: 'Internal Use (ShareHouse)'
-    }
+    },
+    text: `Task Name,Assignee,Start Date,Due Date,Description\nKickoff Call,,Day 1,Day 1,Schedule client kickoff call\nSend Questionnaire,,Day 1,Day 3,Request account setup information`,
+    comments: [
+      { id: 1, author: 'Alex Rivera', avatar: '/avatars/alex.png', text: 'This saved our team 10 hours last week! Highly recommend.', date: '3 days ago' },
+      { id: 2, author: 'David M.', avatar: '/avatars/david.png', text: 'Works perfectly on Asana Enterprise. Very helpful template.', date: '1 day ago' }
+    ]
   },
   {
     id: 'marketing-tracker',
@@ -59,8 +65,9 @@ let mockTools = [
     description: 'Centralize multi-channel campaign ROI and spend analysis in one view. This tool hooks up to your Google Ads, Facebook Ads, and LinkedIn Campaign Manager APIs to pull real-time spend and conversion metrics into a unified Google Sheet dashboard.',
     category: 'Templates',
     topic: 'Marketing',
-    hoursSaved: 14, // represented in list as '14h / week', detail page maps to '14h / week' or similar
+    hoursSaved: 14,
     likes: 128,
+    uses: 489,
     author: 'Marcus Aurelius',
     authorTitle: 'Growth Marketing Manager',
     authorAvatar: '/avatars/marcus.png',
@@ -84,7 +91,12 @@ let mockTools = [
       author: 'Marcus Aurelius',
       lastUpdated: 'April 2026',
       license: 'Internal Use (ShareHouse)'
-    }
+    },
+    text: `// Google Apps Script API connector\nfunction syncCampaignData() {\n  const googleAdsData = fetchGoogleAdsMetrics();\n  const facebookAdsData = fetchFacebookAdsMetrics();\n  writeToSpreadsheet([googleAdsData, facebookAdsData]);\n}`,
+    comments: [
+      { id: 1, author: 'Sarah Chen', avatar: '/avatars/sarah.png', text: 'Any plans to add TikTok ads connector? We need it for our latest campaigns.', date: '4 days ago' },
+      { id: 2, author: 'Marcus Aurelius', avatar: '/avatars/marcus.png', text: '@Sarah, yes! Writing the script today. Will update the package tomorrow.', date: '2 days ago' }
+    ]
   },
   {
     id: 'it-inventory',
@@ -95,6 +107,7 @@ let mockTools = [
     topic: 'IT',
     hoursSaved: 120,
     likes: 31,
+    uses: 95,
     author: 'Alex Rivera',
     authorTitle: 'Platform Engineer',
     authorAvatar: '/avatars/alex.png',
@@ -116,7 +129,9 @@ let mockTools = [
       author: 'Alex Rivera',
       lastUpdated: 'March 2026',
       license: 'Internal Use (ShareHouse)'
-    }
+    },
+    text: `# Python Asset Sync Script\nimport requests\n\ndef sync_devices():\n    print("Scanning Jamf API...")\n    # Sync logic here`,
+    comments: []
   },
   {
     id: 'finance-forecasting',
@@ -127,6 +142,7 @@ let mockTools = [
     topic: 'Finance',
     hoursSaved: 45,
     likes: 19,
+    uses: 62,
     author: 'Sarah Chen',
     authorTitle: 'Senior Product Designer',
     authorAvatar: '/avatars/sarah.png',
@@ -148,111 +164,396 @@ let mockTools = [
       author: 'Sarah Chen',
       lastUpdated: 'February 2026',
       license: 'Internal Use (ShareHouse)'
-    }
-  }
-];
-
-let mockPrompts = [
-  {
-    id: 1,
-    title: 'Brand Voice Persona Injector',
-    category: 'Marketing',
-    likes: 142,
-    text: `"Act as a senior brand strategist. Analyze the following copy and rewrite it strictly adhering to the 'Surgical Precision' brand voice guidelines. Ensure high contrast terminology, flat structural delivery, and eliminate any conversational fluff..."`
+    },
+    text: `# Monte Carlo simulation forecast\nimport numpy as np\nimport pandas as pd\n\ndef run_simulation(data, target):\n    # Simulate quarterly paths\n    pass`,
+    comments: []
   },
-  {
-    id: 2,
-    title: 'React Component Generator (Strict TS)',
-    category: 'Coding',
-    likes: 389,
-    text: `"Generate a React functional component using TypeScript. Enforce strict typing. Component must be highly modular, include JSDoc comments, use Tailwind CSS for styling, and strictly adhere to clean code principles..."`
-  },
-  {
-    id: 3,
-    title: 'B2B Cold Email Sequence',
-    category: 'Copywriting',
-    likes: 87,
-    text: `"Draft a 3-part B2B cold email sequence targeting CTOs. Tone must be assertive, high value, and highly personalized..."`
-  },
-  {
-    id: 4,
-    title: 'SQL Query Optimizer',
-    category: 'Data Analysis',
-    likes: 215,
-    text: `"Review the following PostgreSQL query. Identify bottlenecks related to JOINs and scan operations. Provide optimized alternative with explain plan documentation..."`
-  },
-  {
-    id: 5,
-    title: 'Microservices Architecture Plan',
-    category: 'System Design',
-    likes: 198,
-    text: `"Design a scalable microservices architecture for a high-volume ad-tech platform. Detail container orchestration, service discovery, database pattern, and event bus routing..."`
-  }
-];
-
-let mockRecipes = [
   {
     id: 'competitor-scraper',
     title: 'Competitor Intelligence Scraper',
+    subtitle: 'Weekly Brief Generator',
     description: 'Automatically extracts pricing, feature updates, and sentiment from specified competitor URLs and synthesizes a weekly brief.',
     category: 'Marketing',
+    topic: 'Marketing',
+    hoursSaved: 12,
     likes: 185,
+    uses: 342,
+    author: 'Emily R.',
+    authorTitle: 'Operations Director',
+    authorAvatar: '/avatars/emily.png',
+    isFeatured: false,
     trending: true,
-    timeSaved: '12h / week'
+    features: [
+      'Dynamic URL list monitoring',
+      'HTML content delta parsing',
+      'Weekly summaries delivered directly to Slack'
+    ],
+    installation: [
+      'Clone repository and install requirements.',
+      'Enter target URLs into target_urls.txt.',
+      'Run python scraper.py to check for changes.'
+    ],
+    specs: {
+      platform: 'Python / Beautiful Soup / Slack API',
+      author: 'Emily R.',
+      lastUpdated: 'April 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `import requests\nfrom bs4 import BeautifulSoup\n\ndef check_delta(url):\n    res = requests.get(url)\n    soup = BeautifulSoup(res.text, "html.parser")\n    # Delta logic...`,
+    comments: [
+      { id: 1, author: 'David M.', avatar: '/avatars/david.png', text: 'This is brilliant, saves us hours of scrolling through pricing tables.', date: '5 days ago' }
+    ]
   },
   {
     id: 'seo-blog',
     title: 'SEO Blog Generator',
+    subtitle: 'Keyword-Driven Writer',
     description: 'Takes a target keyword and generates a full SEO-optimized article structure and draft.',
     category: 'Marketing',
+    topic: 'Marketing',
+    hoursSaved: 8,
     likes: 124,
+    uses: 215,
+    author: 'Marcus Aurelius',
+    authorTitle: 'Growth Marketing Manager',
+    authorAvatar: '/avatars/marcus.png',
+    isFeatured: false,
     trending: true,
-    timeSaved: '8h / week'
+    features: [
+      'LSI keyword research mapping',
+      'Optimal heading layout generation',
+      'Rough drafting with structured internal linking'
+    ],
+    installation: [
+      'Configure OpenAI API key in .env file.',
+      'Run python writer.py --keyword "marketing automation".'
+    ],
+    specs: {
+      platform: 'Python / OpenAI API',
+      author: 'Marcus Aurelius',
+      lastUpdated: 'April 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `// GPT-4 system prompt for SEO writing\nconst SYSTEM_PROMPT = "You are an expert SEO copywriter. Write a comprehensive blog post about...";`,
+    comments: []
   },
   {
     id: 'lead-qualification',
     title: 'Lead Qualification Bot',
+    subtitle: 'Unstructured Email Classifier',
     description: 'Scores incoming leads based on unstructured email data and routes to sales.',
     category: 'Sales Ops',
+    topic: 'Operations',
+    hoursSaved: 6,
     likes: 92,
+    uses: 178,
+    author: 'Emily R.',
+    authorTitle: 'Operations Director',
+    authorAvatar: '/avatars/emily.png',
+    isFeatured: false,
     trending: true,
-    timeSaved: '6h / week'
+    features: [
+      'Email semantic parsing',
+      'Lead budget and timeline extraction',
+      'Salesforce lead creation and assignment rules'
+    ],
+    installation: [
+      'Configure email inbox listener.',
+      'Deploy the script to serverless Cloudflare Workers.'
+    ],
+    specs: {
+      platform: 'JavaScript / Cloudflare Workers / OpenAI API',
+      author: 'Emily R.',
+      lastUpdated: 'March 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `// Cloudflare Workers Event Listener\naddEventListener('fetch', event => {\n  event.respondWith(handleRequest(event.request))\n})`,
+    comments: []
   },
   {
     id: 'cold-outreach',
     title: 'Cold Outreach Sequencer',
+    subtitle: 'LinkedIn-Based Email Composer',
     description: 'Generates personalized 3-step email sequences based on LinkedIn profiles.',
     category: 'Sales Ops',
+    topic: 'Sales',
+    hoursSaved: 5,
     likes: 74,
-    trending: false,
-    timeSaved: '5h / week'
+    uses: 121,
+    author: 'Marcus Aurelius',
+    authorTitle: 'Growth Marketing Manager',
+    authorAvatar: '/avatars/marcus.png',
+    isFeatured: false,
+    features: [
+      'Scrapes profile highlights (current role, tenure)',
+      'Drafts personalized ice-breaker hook',
+      '3-step email cadence builder'
+    ],
+    installation: [
+      'Provide your LinkedIn cookies in settings.json.',
+      'Run python sequencer.py --profile-url [url].'
+    ],
+    specs: {
+      platform: 'Python / Playwright / GPT-3.5 API',
+      author: 'Marcus Aurelius',
+      lastUpdated: 'March 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `# Sequencer logic\ndef make_sequence(profile_details):\n    # personal followups\n    pass`,
+    comments: []
   },
   {
     id: 'i18n-localizer',
     title: 'I18n Content Localizer',
+    subtitle: 'Markdown Formatted Translator',
     description: 'Translates markdown files maintaining formatting and brand tone across 5 languages.',
     category: 'Data Engineering',
+    topic: 'IT',
+    hoursSaved: 10,
     likes: 110,
-    trending: false,
-    timeSaved: '10h / week'
+    uses: 189,
+    author: 'Alex Rivera',
+    authorTitle: 'Platform Engineer',
+    authorAvatar: '/avatars/alex.png',
+    isFeatured: false,
+    features: [
+      'Markdown AST parsing (prevents code block translation)',
+      'Consistent translation glossary matching',
+      'Translates into PL, DE, FR, ES, and IT'
+    ],
+    installation: [
+      'Put target markdown files in /docs/input.',
+      'Run node translate.js.'
+    ],
+    specs: {
+      platform: 'Node.js / Markdown-it / Deepl API',
+      author: 'Alex Rivera',
+      lastUpdated: 'February 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `const remark = require('remark');\nconst translate = async (mdText) => {\n  // Parse AST and translate text nodes only\n};`,
+    comments: []
   },
   {
     id: 'error-analyzer',
     title: 'Error Log Analyzer',
+    subtitle: 'Sentry Log Parser',
     description: 'Ingests Sentry logs to summarize root causes and suggest code fixes.',
     category: 'Data Engineering',
+    topic: 'IT',
+    hoursSaved: 9,
     likes: 156,
-    trending: false,
-    timeSaved: '9h / week'
+    uses: 267,
+    author: 'Alex Rivera',
+    authorTitle: 'Platform Engineer',
+    authorAvatar: '/avatars/alex.png',
+    isFeatured: false,
+    features: [
+      'Sentry webhook payload parsing',
+      'Stack trace extract analysis',
+      'Auto-generates draft git PR to fix the crash'
+    ],
+    installation: [
+      'Add this script endpoint URL to your Sentry Webhooks.',
+      'Configure git workspace permissions.'
+    ],
+    specs: {
+      platform: 'Python / Flask / GitHub API',
+      author: 'Alex Rivera',
+      lastUpdated: 'January 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `# Ingest logs webhook\n@app.route('/sentry-hook', methods=['POST'])\ndef analyze():\n    trace = request.json['event']['exception']['values'][0]\n    # Fix suggestion...`,
+    comments: []
   },
   {
     id: 'csv-cleanser',
     title: 'CSV Data Cleanser',
+    subtitle: 'Tabular Data Normalizer',
     description: 'Normalizes formatting, removes duplicates, and flags anomalies in tabular data.',
     category: 'Data Engineering',
+    topic: 'IT',
+    hoursSaved: 3,
     likes: 63,
-    trending: false,
-    timeSaved: '3h / week'
+    uses: 84,
+    author: 'Alex Rivera',
+    authorTitle: 'Platform Engineer',
+    authorAvatar: '/avatars/alex.png',
+    isFeatured: false,
+    features: [
+      'Removes duplicates and trailing whitespaces',
+      'Phone/Email validation and formatting normalization',
+      'Flags data row outliers and type mismatches'
+    ],
+    installation: [
+      'Run python cleanse.py data.csv output.csv'
+    ],
+    specs: {
+      platform: 'Python / Pandas',
+      author: 'Alex Rivera',
+      lastUpdated: 'January 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `import pandas as pd\n\ndef cleanse(file):\n    df = pd.read_csv(file)\n    df.drop_duplicates(inplace=True)\n    return df`,
+    comments: []
+  },
+  {
+    id: 'prompt-brand-voice',
+    title: 'Brand Voice Persona Injector',
+    subtitle: 'Branding Persona Prompt',
+    description: 'Curated generative instruction to inject corporate brand voice persona. Rewrite standard text copy to strictly adhere to corporate brand tone.',
+    category: 'Prompts',
+    topic: 'Marketing',
+    hoursSaved: 2,
+    likes: 142,
+    uses: 312,
+    author: 'Sarah Chen',
+    authorTitle: 'Senior Product Designer',
+    authorAvatar: '/avatars/sarah.png',
+    isFeatured: false,
+    features: [
+      'High contrast corporate branding guidelines',
+      'Flat, clear structural output instructions',
+      'Elimination of common AI conversational fluff patterns'
+    ],
+    installation: [
+      'Copy the prompt text below.',
+      'Paste into your system instruction block in ChatGPT, Claude, or Copilot.'
+    ],
+    specs: {
+      platform: 'System Prompt / AI Client',
+      author: 'Sarah Chen',
+      lastUpdated: 'May 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `"Act as a senior brand strategist. Analyze the following copy and rewrite it strictly adhering to the 'Surgical Precision' brand voice guidelines. Ensure high contrast terminology, flat structural delivery, and eliminate any conversational fluff..."`,
+    comments: [
+      { id: 1, author: 'Emily R.', avatar: '/avatars/emily.png', text: 'This prompt works wonders with Claude 3.5 Sonnet. Best rewrite tool we have.', date: '6 days ago' }
+    ]
+  },
+  {
+    id: 'prompt-react-comp',
+    title: 'React Component Generator (Strict TS)',
+    subtitle: 'Strict TypeScript Code Architect',
+    description: 'Generates robust React functional components using TypeScript, enforcing modular structures, clean code guidelines, and Tailwind styles.',
+    category: 'Prompts',
+    topic: 'IT',
+    hoursSaved: 4,
+    likes: 389,
+    uses: 941,
+    author: 'David M.',
+    authorTitle: 'Senior Frontend Developer',
+    authorAvatar: '/avatars/david.png',
+    isFeatured: false,
+    features: [
+      'Strict typing enforcement',
+      'Tailwind CSS layout design tokens',
+      'Clean code modular layout checklist'
+    ],
+    installation: [
+      'Copy the prompt and paste it into your editor agent settings or AI client block.'
+    ],
+    specs: {
+      platform: 'System Prompt / Developer AI Client',
+      author: 'David M.',
+      lastUpdated: 'May 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `"Generate a React functional component using TypeScript. Enforce strict typing. Component must be highly modular, include JSDoc comments, use Tailwind CSS for styling, and strictly adhere to clean code principles..."`,
+    comments: []
+  },
+  {
+    id: 'prompt-cold-email',
+    title: 'B2B Cold Email Sequence Generator',
+    subtitle: 'CTO Targeting Cadence',
+    description: 'Generates high-response 3-part cold email sequences targeting Chief Technology Officers (CTOs). Tone is kept assertive, high-value, and personalized.',
+    category: 'Prompts',
+    topic: 'Sales',
+    hoursSaved: 1,
+    likes: 87,
+    uses: 156,
+    author: 'Marcus Aurelius',
+    authorTitle: 'Growth Marketing Manager',
+    authorAvatar: '/avatars/marcus.png',
+    isFeatured: false,
+    features: [
+      'Assertive value-delivery layouts',
+      'High personal target hook lines',
+      'Frictionless call-to-actions for 15-minute syncs'
+    ],
+    installation: [
+      'Copy the prompt text below, fill in your company parameters, and feed it to an LLM.'
+    ],
+    specs: {
+      platform: 'Sales Campaign System Prompt',
+      author: 'Marcus Aurelius',
+      lastUpdated: 'May 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `"Draft a 3-part B2B cold email sequence targeting CTOs. Tone must be assertive, high value, and highly personalized..."`,
+    comments: []
+  },
+  {
+    id: 'prompt-sql-opt',
+    title: 'SQL Query Optimizer Prompt',
+    subtitle: 'Database Tuning Advisor',
+    description: 'Generates optimized SQL scripts and detailed suggestions regarding join order, index scanning, and latency reduction based on PostgreSQL trace dumps.',
+    category: 'Prompts',
+    topic: 'IT',
+    hoursSaved: 3,
+    likes: 215,
+    uses: 420,
+    author: 'Alex Rivera',
+    authorTitle: 'Platform Engineer',
+    authorAvatar: '/avatars/alex.png',
+    isFeatured: false,
+    features: [
+      'Explain trace bottleneck scans analysis',
+      'Optimal database index key suggestions',
+      'Calculates plan complexity improvements'
+    ],
+    installation: [
+      'Copy the system prompt block and input your target PostgreSQL query schema.'
+    ],
+    specs: {
+      platform: 'PostgreSQL Database System Prompt',
+      author: 'Alex Rivera',
+      lastUpdated: 'April 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `"Review the following PostgreSQL query. Identify bottlenecks related to JOINs and scan operations. Provide optimized alternative with explain plan documentation..."`,
+    comments: []
+  },
+  {
+    id: 'prompt-microservices',
+    title: 'Microservices Architecture Planner',
+    subtitle: 'Platform Architect System Prompt',
+    description: 'System instruction that acts as an enterprise architect to plan container orchestration, service discovery, database layouts, and event buses.',
+    category: 'Prompts',
+    topic: 'IT',
+    hoursSaved: 8,
+    likes: 198,
+    uses: 310,
+    author: 'Alex Rivera',
+    authorTitle: 'Platform Engineer',
+    authorAvatar: '/avatars/alex.png',
+    isFeatured: false,
+    features: [
+      'Pipes message queue routing configurations',
+      'Detailed database replication strategy design',
+      'Container scheduling load-balance specifications'
+    ],
+    installation: [
+      'Supply this architect prompt to a high-capacity chat LLM.'
+    ],
+    specs: {
+      platform: 'System Architect Prompt',
+      author: 'Alex Rivera',
+      lastUpdated: 'March 2026',
+      license: 'Internal Use (ShareHouse)'
+    },
+    text: `"Design a scalable microservices architecture for a high-volume ad-tech platform. Detail container orchestration, service discovery, database pattern, and event bus routing..."`,
+    comments: []
   }
 ];
 
@@ -348,7 +649,7 @@ let mockContributions = [
 // --- API Service Methods ---
 
 export const api = {
-  // --- Tools API ---
+  // --- Tools & Recipes API ---
   async getTools() {
     if (USE_MOCK) {
       await delay();
@@ -362,8 +663,8 @@ export const api = {
   async getToolById(id) {
     if (USE_MOCK) {
       await delay();
-      const tool = mockTools.find(t => t.id === id);
-      return tool || mockTools[0]; // fallback to first
+      const tool = mockTools.find(t => t.id === id || String(t.id) === String(id));
+      return tool || mockTools[0];
     }
     const res = await fetch(`${API_BASE}/tools/${id}`);
     if (!res.ok) throw new Error(`Failed to fetch tool with ID: ${id}`);
@@ -382,6 +683,7 @@ export const api = {
         topic: toolData.topic || 'General',
         hoursSaved: parseInt(toolData.hoursSaved) || 0,
         likes: 0,
+        uses: 0,
         author: mockUserProfile.name,
         authorTitle: mockUserProfile.role,
         authorAvatar: mockUserProfile.avatar,
@@ -393,7 +695,9 @@ export const api = {
           author: mockUserProfile.name,
           lastUpdated: 'Just Now',
           license: 'Internal Use (ShareHouse)'
-        }
+        },
+        text: toolData.text || '',
+        comments: []
       };
       mockTools = [newTool, ...mockTools];
       // Increment user stats in mock profile
@@ -421,129 +725,108 @@ export const api = {
     return res.json();
   },
 
-  // --- Prompts API ---
-  async getPrompts() {
+  async likeTool(id) {
     if (USE_MOCK) {
-      await delay();
-      return [...mockPrompts];
+      await delay(50);
+      let updatedLikes = 0;
+      mockTools = mockTools.map(t => {
+        if (t.id === id || String(t.id) === String(id)) {
+          updatedLikes = t.likes + 1;
+          return { ...t, likes: updatedLikes };
+        }
+        return t;
+      });
+      return { success: true, likes: updatedLikes };
     }
-    const res = await fetch(`${API_BASE}/prompts`);
-    if (!res.ok) throw new Error('Failed to fetch prompts');
+
+    const res = await fetch(`${API_BASE}/tools/like/${id}`, {
+      method: 'POST'
+    });
+    if (!res.ok) throw new Error('Failed to like tool');
     return res.json();
+  },
+
+  async incrementUses(id) {
+    if (USE_MOCK) {
+      await delay(100);
+      let updatedUses = 0;
+      mockTools = mockTools.map(t => {
+        if (t.id === id || String(t.id) === String(id)) {
+          updatedUses = t.uses + 1;
+          return { ...t, uses: updatedUses };
+        }
+        return t;
+      });
+      return { success: true, uses: updatedUses };
+    }
+
+    const res = await fetch(`${API_BASE}/tools/deploy/${id}`, {
+      method: 'POST'
+    });
+    if (!res.ok) throw new Error('Failed to increment uses');
+    return res.json();
+  },
+
+  async addComment(id, text) {
+    if (USE_MOCK) {
+      await delay(150);
+      let updatedComments = [];
+      const newComment = {
+        id: Date.now(),
+        author: mockUserProfile.name,
+        avatar: mockUserProfile.avatar,
+        text: text,
+        date: 'Just now'
+      };
+      mockTools = mockTools.map(t => {
+        if (t.id === id || String(t.id) === String(id)) {
+          updatedComments = [...(t.comments || []), newComment];
+          return { ...t, comments: updatedComments };
+        }
+        return t;
+      });
+      return updatedComments;
+    }
+
+    const res = await fetch(`${API_BASE}/tools/${id}/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+    if (!res.ok) throw new Error('Failed to add comment');
+    return res.json();
+  },
+
+  // --- Prompts API (Compatible with old endpoints, though now consolidated) ---
+  async getPrompts() {
+    // Return unified items that belong to the Prompts category
+    const tools = await this.getTools();
+    return tools.filter(t => t.category === 'Prompts');
   },
 
   async createPrompt(promptData) {
-    if (USE_MOCK) {
-      await delay(400);
-      const newPrompt = {
-        id: mockPrompts.length + 1,
-        title: promptData.title,
-        category: promptData.category || 'General',
-        likes: 0,
-        text: promptData.text
-      };
-      mockPrompts = [newPrompt, ...mockPrompts];
-      // Increment user stats in mock profile
-      mockUserProfile.karma += 50;
-      mockContributions = [
-        {
-          id: Date.now(),
-          title: newPrompt.title,
-          time: 'Added just now',
-          kp: '+50 KP',
-          icon: 'chat'
-        },
-        ...mockContributions
-      ];
-      return newPrompt;
-    }
-
-    const res = await fetch(`${API_BASE}/prompts`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(promptData)
+    return this.createTool({
+      ...promptData,
+      category: 'Prompts'
     });
-    if (!res.ok) throw new Error('Failed to create prompt');
-    return res.json();
   },
 
   async likePrompt(id) {
-    if (USE_MOCK) {
-      await delay(50);
-      mockPrompts = mockPrompts.map(p => 
-        p.id === id ? { ...p, likes: p.likes + 1 } : p
-      );
-      return true;
-    }
-
-    const res = await fetch(`${API_BASE}/prompts/like/${id}`, {
-      method: 'POST'
-    });
-    if (!res.ok) throw new Error('Failed to like prompt');
-    return res.json();
+    return this.likeTool(id);
   },
 
   // --- AI Recipes API ---
   async getRecipes() {
-    if (USE_MOCK) {
-      await delay();
-      return [...mockRecipes];
-    }
-    const res = await fetch(`${API_BASE}/recipes`);
-    if (!res.ok) throw new Error('Failed to fetch recipes');
-    return res.json();
+    // In our consolidated model, recipes are just everything in mockTools
+    return this.getTools();
   },
 
   async createRecipe(recipeData) {
-    if (USE_MOCK) {
-      await delay(500);
-      const newRecipe = {
-        id: recipeData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        title: recipeData.title,
-        description: recipeData.description,
-        category: recipeData.category || 'General',
-        likes: 0,
-        trending: false,
-        timeSaved: recipeData.timeSaved || '0h / week'
-      };
-      mockRecipes = [newRecipe, ...mockRecipes];
-      mockUserProfile.karma += 80;
-      mockContributions = [
-        {
-          id: Date.now(),
-          title: newRecipe.title,
-          time: 'Added just now',
-          kp: '+80 KP',
-          icon: 'apps'
-        },
-        ...mockContributions
-      ];
-      return newRecipe;
-    }
-
-    const res = await fetch(`${API_BASE}/recipes`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(recipeData)
-    });
-    if (!res.ok) throw new Error('Failed to create recipe');
-    return res.json();
+    return this.createTool(recipeData);
   },
 
   async likeRecipe(id) {
-    if (USE_MOCK) {
-      await delay(50);
-      mockRecipes = mockRecipes.map(r => 
-        r.id === id ? { ...r, likes: r.likes + 1 } : r
-      );
-      return true;
-    }
-
-    const res = await fetch(`${API_BASE}/recipes/like/${id}`, {
-      method: 'POST'
-    });
-    if (!res.ok) throw new Error('Failed to like recipe');
-    return res.json();
+    return this.likeTool(id);
   },
 
   // --- Leaderboard API ---

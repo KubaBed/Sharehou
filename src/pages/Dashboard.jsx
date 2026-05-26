@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [filter, setFilter] = useState('Newest');
   const [topic, setTopic] = useState('All');
   const [tools, setTools] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   
   // Counters state for Bento Grid
@@ -27,6 +28,15 @@ const Dashboard = () => {
       .catch(err => {
         console.error('Failed to load tools:', err);
         setLoading(false);
+      });
+
+    // Load leaderboard from API
+    api.getLeaderboard()
+      .then(data => {
+        setLeaderboard(data.slice(0, 3));
+      })
+      .catch(err => {
+        console.error('Failed to load leaderboard:', err);
       });
 
     // Basic count-up animation for stats
@@ -47,11 +57,25 @@ const Dashboard = () => {
     };
   }, []);
 
+  const handleLike = (id, e) => {
+    if (e) {
+      e.stopPropagation(); // Stop navigation to details page
+    }
+    api.likeTool(id)
+      .then(res => {
+        if (res.success) {
+          setTools(prev => prev.map(t => t.id === id ? { ...t, likes: res.likes } : t));
+        }
+      })
+      .catch(err => console.error('Failed to like tool:', err));
+  };
+
   // Top 5 Popular items - derived dynamically from loaded tools (sorted by likes)
   const popularTools = [...tools]
     .sort((a, b) => b.likes - a.likes)
     .slice(0, 5)
     .map((t, idx) => ({
+      id: t.id,
       rank: idx + 1,
       title: t.title,
       category: t.category,
@@ -117,10 +141,10 @@ const Dashboard = () => {
           </div>
 
           {/* Two-Column Layout: Discovery Feed on Left, Popular Sidebar on Right */}
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
+          <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
             
             {/* Left Column: Discovery Feed (Asymmetric Bento Grid) */}
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
               {loading ? (
                 <div className="md:col-span-2 py-20 flex flex-col items-center justify-center text-muted-silver gap-3">
                   <span className="material-symbols-outlined text-4xl animate-spin text-scarlett-red">progress_activity</span>
@@ -158,7 +182,15 @@ const Dashboard = () => {
                         <span className="font-label text-xs text-charcoal font-semibold">{tool.author}</span>
                       </div>
                       <div className="flex items-center gap-4">
-                        <span className="font-label text-xs text-muted-silver">{tool.likes} Upvotes</span>
+                        <span className="font-label text-[11px] text-muted-silver font-semibold uppercase">{tool.uses || 0} Uses</span>
+                        <button 
+                          onClick={(e) => handleLike(tool.id, e)}
+                          className="flex items-center gap-1.5 bg-smoke hover:bg-scarlett-red/10 border border-border-gray px-3 py-1.5 rounded-lg text-charcoal hover:text-scarlett-red transition-all font-bold text-xs select-none active:scale-95 cursor-pointer"
+                          title="Upvote tool"
+                        >
+                          <span className="material-symbols-outlined text-[14px]">thumb_up</span>
+                          <span>{tool.likes}</span>
+                        </button>
                         <button className="text-scarlett-red font-label text-xs font-bold flex items-center gap-1">
                           View Details
                           <span className="material-symbols-outlined text-sm font-bold group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -200,7 +232,17 @@ const Dashboard = () => {
                         <img className="w-6 h-6 rounded-full border border-border-gray object-cover" src={tool.authorAvatar} alt={tool.author} />
                         <span className="font-label text-[11px] text-charcoal font-semibold">{tool.author}</span>
                       </div>
-                      <span className="font-label text-[11px] text-muted-silver font-medium">{tool.likes} Likes</span>
+                      <div className="flex items-center gap-3">
+                        <span className="font-label text-[10px] text-muted-silver font-semibold uppercase">{tool.uses || 0} Uses</span>
+                        <button
+                          onClick={(e) => handleLike(tool.id, e)}
+                          className="flex items-center gap-1 bg-smoke hover:bg-scarlett-red/10 border border-border-gray px-2 py-1 rounded text-charcoal hover:text-scarlett-red transition-all font-bold text-[10px] select-none active:scale-95 cursor-pointer"
+                          title="Upvote tool"
+                        >
+                          <span className="material-symbols-outlined text-[12px]">thumb_up</span>
+                          <span>{tool.likes}</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </Reveal>
@@ -209,46 +251,107 @@ const Dashboard = () => {
           )}
         </div>
 
-            {/* Right Column: Top 5 Popular Sidebar Widget */}
-            <Reveal className="w-full lg:w-[350px] shrink-0" delay={250} duration={700}>
-              <div className="bg-pure-white border border-charcoal/10 p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300">
-                <div className="flex items-center gap-2 pb-4 mb-6 border-b border-border-gray">
-                  <span className="material-symbols-outlined text-scarlett-red filled-icon text-xl">star</span>
-                  <h3 className="font-headline text-base font-bold text-charcoal uppercase tracking-wide">Top 5 Popular</h3>
-                </div>
-                
-                <div className="flex flex-col gap-4">
-                  {popularTools.map((tool) => (
-                    <div
-                      key={tool.rank}
-                      className="flex gap-4 items-start pb-4 border-b border-border-light last:border-0 last:pb-0 group cursor-pointer transition-all duration-200 hover:translate-x-1"
-                    >
-                      {/* Rank box */}
-                      <div className="w-6 h-6 bg-charcoal text-pure-white text-xs font-bold flex items-center justify-center shrink-0 rounded group-hover:bg-scarlett-red transition-colors">
-                        {tool.rank}
+            {/* Right Column Sidebar Widgets (Top 5 Popular & Mini Leaderboard) */}
+            <div className="w-full lg:w-[350px] shrink-0 flex flex-col gap-8">
+              
+              {/* Top 5 Popular Sidebar Widget */}
+              <Reveal className="w-full" delay={250} duration={700}>
+                <div className="bg-pure-white border border-charcoal/10 p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300">
+                  <div className="flex items-center gap-2 pb-4 mb-6 border-b border-border-gray">
+                    <span className="material-symbols-outlined text-scarlett-red filled-icon text-xl">star</span>
+                    <h3 className="font-headline text-base font-bold text-charcoal uppercase tracking-wide">Top 5 Popular</h3>
+                  </div>
+                  
+                  <div className="flex flex-col gap-4">
+                    {popularTools.map((tool) => (
+                      <div
+                        key={tool.rank}
+                        onClick={() => navigate(`/tool/${tool.id}`)}
+                        className="flex gap-4 items-start pb-4 border-b border-border-light last:border-0 last:pb-0 group cursor-pointer transition-all duration-200 hover:translate-x-1"
+                      >
+                        {/* Rank box */}
+                        <div className="w-6 h-6 bg-charcoal text-pure-white text-xs font-bold flex items-center justify-center shrink-0 rounded group-hover:bg-scarlett-red transition-colors">
+                          {tool.rank}
+                        </div>
+                        
+                        {/* Tool details */}
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-headline text-xs font-bold text-charcoal truncate group-hover:text-scarlett-red transition-colors">
+                            {tool.title}
+                          </h4>
+                          <div className="flex justify-between items-center mt-1">
+                            <span className="text-[10px] text-muted-silver font-semibold uppercase">{tool.category}</span>
+                            <span className="text-[10px] text-secondary font-medium">by {tool.author}</span>
+                          </div>
+                        </div>
+                        
+                        {/* Likes badge */}
+                        <button
+                          onClick={(e) => handleLike(tool.id, e)}
+                          className="flex items-center gap-0.5 text-xs text-muted-silver hover:text-scarlett-red hover:scale-110 active:scale-95 transition-all shrink-0 font-bold bg-smoke px-2 py-1 rounded border border-border-light cursor-pointer select-none"
+                          title="Upvote tool"
+                        >
+                          <span className="material-symbols-outlined text-xs">thumb_up</span>
+                          <span>{tool.likes}</span>
+                        </button>
                       </div>
-                      
-                      {/* Tool details */}
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-headline text-xs font-bold text-charcoal truncate group-hover:text-scarlett-red transition-colors">
-                          {tool.title}
-                        </h4>
-                        <div className="flex justify-between items-center mt-1">
-                          <span className="text-[10px] text-muted-silver font-semibold uppercase">{tool.category}</span>
-                          <span className="text-[10px] text-secondary font-medium">by {tool.author}</span>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Mini Leaderboard Sidebar Widget */}
+              <Reveal className="w-full" delay={300} duration={700}>
+                <div className="bg-pure-white border border-charcoal/10 p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300">
+                  <div className="flex items-center justify-between pb-4 mb-6 border-b border-border-gray">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-scarlett-red filled-icon text-xl">leaderboard</span>
+                      <h3 className="font-headline text-base font-bold text-charcoal uppercase tracking-wide">Leaderboard</h3>
+                    </div>
+                    <Link to="/leaderboard" className="text-[11px] text-scarlett-red font-bold hover:underline flex items-center gap-0.5">
+                      View All
+                      <span className="material-symbols-outlined text-[10px] font-bold">arrow_forward</span>
+                    </Link>
+                  </div>
+                  
+                  <div className="flex flex-col gap-4">
+                    {leaderboard.map((user, idx) => (
+                      <div
+                        key={user.name}
+                        onClick={() => navigate('/leaderboard')}
+                        className="flex gap-3 items-center pb-4 border-b border-border-light last:border-0 last:pb-0 group cursor-pointer transition-all duration-200 hover:translate-x-1"
+                      >
+                        {/* Rank badge */}
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                          idx === 0 ? 'bg-amber-400 text-charcoal' :
+                          idx === 1 ? 'bg-slate-300 text-charcoal' :
+                          'bg-amber-700 text-pure-white'
+                        }`}>
+                          #{idx + 1}
+                        </div>
+                        
+                        {/* Avatar */}
+                        <img className="w-8 h-8 rounded-full border border-border-gray object-cover shrink-0" src={user.avatar} alt={user.name} />
+                        
+                        {/* Details */}
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-headline text-xs font-bold text-charcoal truncate group-hover:text-scarlett-red transition-colors">
+                            {user.name}
+                          </h4>
+                          <p className="text-[10px] text-muted-silver truncate">{user.title}</p>
+                        </div>
+                        
+                        {/* XP */}
+                        <div className="text-[11px] font-bold text-scarlett-red shrink-0">
+                          {user.karma}
                         </div>
                       </div>
-                      
-                      {/* Likes badge */}
-                      <div className="flex items-center gap-0.5 text-xs text-muted-silver shrink-0 font-bold">
-                        <span className="material-symbols-outlined text-xs">thumb_up</span>
-                        <span>{tool.likes}</span>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Reveal>
+              </Reveal>
+              
+            </div>
 
           </div>
 
