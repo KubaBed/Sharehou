@@ -79,6 +79,18 @@ const Landing = () => {
 
         {/* Visual Mockup Section overlaying Scene 5 */}
         <Reveal delay={450} duration={800} className="w-full relative max-w-4xl mx-auto mt-6">
+          {/* Static Background WebP Gradient Grid */}
+          <div 
+            className="absolute top-1/2 left-1/2 w-[240%] h-[240%] pointer-events-none z-0 overflow-visible flex items-center justify-center opacity-85"
+            style={{ transform: 'translate(-50%, -50%)' }}
+          >
+            <img
+              src="/hero-gradient-pattern.webp"
+              alt="Decorative background grid"
+              className="w-full h-full object-contain"
+              style={{ mixBlendMode: 'multiply' }}
+            />
+          </div>
 
 
           {/* Browser Mockup Window */}
