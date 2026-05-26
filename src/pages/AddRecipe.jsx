@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
+import { api } from '../services/api';
 
 const AddRecipe = () => {
   const navigate = useNavigate();
@@ -148,12 +149,19 @@ const AddRecipe = () => {
       return;
     }
     
-    // Simulate API submit
-    setShowSuccess(true);
-    setTimeout(() => {
-      setShowSuccess(false);
-      navigate('/dashboard');
-    }, 2000);
+    // Call API submit
+    api.createTool(formData)
+      .then(() => {
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+          navigate('/dashboard');
+        }, 2000);
+      })
+      .catch(err => {
+        console.error('Failed to submit tool:', err);
+        alert('Error creating recipe.');
+      });
   };
 
   const handleSubmitSuggestion = () => {

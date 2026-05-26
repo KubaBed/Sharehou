@@ -3,11 +3,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
+import { api } from '../services/api';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState('Newest');
   const [topic, setTopic] = useState('All');
+  const [tools, setTools] = useState([]);
+  const [loading, setLoading] = useState(true);
   
   // Counters state for Bento Grid
   const [karma, setKarma] = useState(0);
@@ -15,6 +18,17 @@ const Dashboard = () => {
   const [hoursSaved, setHoursSaved] = useState(0);
 
   useEffect(() => {
+    // Load tools from API
+    api.getTools()
+      .then(data => {
+        setTools(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load tools:', err);
+        setLoading(false);
+      });
+
     // Basic count-up animation for stats
     const karmaTimer = setInterval(() => {
       setKarma(prev => (prev < 4500 ? prev + 150 : 4500));
@@ -33,66 +47,17 @@ const Dashboard = () => {
     };
   }, []);
 
-  const tools = [
-    {
-      id: 'asana-qbr',
-      title: 'Customer Success Onboarding Template',
-      description: 'Streamline client kickoff with automated email sequences and task tracking.',
-      category: 'Templates',
-      topic: 'HR',
-      hoursSaved: 85,
-      likes: 42,
-      author: 'Sarah Chen',
-      isFeatured: true,
-      authorAvatar: '/avatars/sarah.png'
-    },
-    {
-      id: 'marketing-tracker',
-      title: 'Marketing Campaign Tracker',
-      description: 'Centralize multi-channel campaign ROI and spend analysis in one view.',
-      category: 'Templates',
-      topic: 'Marketing',
-      karma: 450,
-      popular: true,
-      likes: 128,
-      author: 'Marcus Aurelius',
-      isFeatured: false,
-      authorAvatar: '/avatars/marcus.png'
-    },
-    {
-      id: 'it-inventory',
-      title: 'IT Asset Inventory',
-      description: 'Automated hardware tracking script with real-time depreciation alerts.',
-      category: 'Scripts',
-      topic: 'IT',
-      hoursSaved: 120,
-      likes: 31,
-      author: 'Alex Rivera',
-      isFeatured: false,
-      authorAvatar: '/avatars/alex.png'
-    },
-    {
-      id: 'finance-forecasting',
-      title: 'Financial Forecasting Script',
-      description: 'Python script for projecting quarterly revenue with Monte Carlo simulation.',
-      category: 'Scripts',
-      topic: 'Finance',
-      karma: 320,
-      likes: 19,
-      author: 'Sarah Chen',
-      isFeatured: false,
-      authorAvatar: '/avatars/sarah.png'
-    }
-  ];
-
-  // Top 5 Popular items
-  const popularTools = [
-    { rank: 1, title: 'Marketing Campaign Tracker', category: 'Templates', likes: 128, author: 'Marcus A.' },
-    { rank: 2, title: 'Lead Qualification Bot', category: 'Automation', likes: 92, author: 'Sales Ops' },
-    { rank: 3, title: 'Customer Success Onboarding Template', category: 'Templates', likes: 42, author: 'Sarah C.' },
-    { rank: 4, title: 'IT Asset Inventory', category: 'Scripts', likes: 31, author: 'Alex R.' },
-    { rank: 5, title: 'Financial Forecasting Script', category: 'Scripts', likes: 19, author: 'Sarah C.' }
-  ];
+  // Top 5 Popular items - derived dynamically from loaded tools (sorted by likes)
+  const popularTools = [...tools]
+    .sort((a, b) => b.likes - a.likes)
+    .slice(0, 5)
+    .map((t, idx) => ({
+      rank: idx + 1,
+      title: t.title,
+      category: t.category,
+      likes: t.likes,
+      author: t.author
+    }));
 
   return (
     <div className="bg-smoke text-on-surface h-screen overflow-hidden flex w-full">
@@ -156,9 +121,15 @@ const Dashboard = () => {
             
             {/* Left Column: Discovery Feed (Asymmetric Bento Grid) */}
             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              
-              {/* Large Featured Card (Spans 2 Columns) */}
-              {tools.filter(t => (topic === 'All' || t.topic === topic) && t.isFeatured).map(tool => (
+              {loading ? (
+                <div className="md:col-span-2 py-20 flex flex-col items-center justify-center text-muted-silver gap-3">
+                  <span className="material-symbols-outlined text-4xl animate-spin text-scarlett-red">progress_activity</span>
+                  <span className="font-body text-sm font-medium">Loading tools index...</span>
+                </div>
+              ) : (
+                <>
+                  {/* Large Featured Card (Spans 2 Columns) */}
+                  {tools.filter(t => (topic === 'All' || t.topic === topic) && t.isFeatured).map(tool => (
                 <Reveal key={tool.id} className="md:col-span-2" delay={50} duration={700}>
                   <div
                     onClick={() => navigate(`/tool/${tool.id}`)}
@@ -234,8 +205,9 @@ const Dashboard = () => {
                   </div>
                 </Reveal>
               ))}
-
-            </div>
+            </>
+          )}
+        </div>
 
             {/* Right Column: Top 5 Popular Sidebar Widget */}
             <Reveal className="w-full lg:w-[350px] shrink-0" delay={250} duration={700}>

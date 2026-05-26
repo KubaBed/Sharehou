@@ -1,81 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
+import { api } from '../services/api';
 
 const AIRecipes = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  
-  const [recipesList, setRecipesList] = useState([
-    {
-      id: 'competitor-scraper',
-      title: 'Competitor Intelligence Scraper',
-      description: 'Automatically extracts pricing, feature updates, and sentiment from specified competitor URLs and synthesizes a weekly brief.',
-      category: 'Marketing',
-      likes: 185,
-      trending: true,
-      timeSaved: '12h / week'
-    },
-    {
-      id: 'seo-blog',
-      title: 'SEO Blog Generator',
-      description: 'Takes a target keyword and generates a full SEO-optimized article structure and draft.',
-      category: 'Marketing',
-      likes: 124,
-      trending: true,
-      timeSaved: '8h / week'
-    },
-    {
-      id: 'lead-qualification',
-      title: 'Lead Qualification Bot',
-      description: 'Scores incoming leads based on unstructured email data and routes to sales.',
-      category: 'Sales Ops',
-      likes: 92,
-      trending: true,
-      timeSaved: '6h / week'
-    },
-    {
-      id: 'cold-outreach',
-      title: 'Cold Outreach Sequencer',
-      description: 'Generates personalized 3-step email sequences based on LinkedIn profiles.',
-      category: 'Sales Ops',
-      likes: 74,
-      trending: false,
-      timeSaved: '5h / week'
-    },
-    {
-      id: 'i18n-localizer',
-      title: 'I18n Content Localizer',
-      description: 'Translates markdown files maintaining formatting and brand tone across 5 languages.',
-      category: 'Data Engineering',
-      likes: 110,
-      trending: false,
-      timeSaved: '10h / week'
-    },
-    {
-      id: 'error-analyzer',
-      title: 'Error Log Analyzer',
-      description: 'Ingests Sentry logs to summarize root causes and suggest code fixes.',
-      category: 'Data Engineering',
-      likes: 156,
-      trending: false,
-      timeSaved: '15h / week'
-    },
-    {
-      id: 'csv-cleanser',
-      title: 'CSV Data Cleanser',
-      description: 'Normalizes formatting, removes duplicates, and flags anomalies in tabular data.',
-      category: 'Data Engineering',
-      likes: 63,
-      trending: false,
-      timeSaved: '3h / week'
-    }
-  ]);
+  const [recipesList, setRecipesList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.getRecipes()
+      .then(data => {
+        setRecipesList(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load recipes:', err);
+        setLoading(false);
+      });
+  }, []);
 
   const handleLike = (id) => {
-    setRecipesList(prev =>
-      prev.map(r => (r.id === id ? { ...r, likes: r.likes + 1 } : r))
-    );
+    api.likeRecipe(id)
+      .then(() => {
+        setRecipesList(prev =>
+          prev.map(r => (r.id === id ? { ...r, likes: r.likes + 1 } : r))
+        );
+      })
+      .catch(err => console.error('Failed to like recipe:', err));
   };
 
   const categories = ['All Categories', 'Marketing', 'Data Engineering', 'Sales Ops'];
@@ -105,8 +58,15 @@ const AIRecipes = () => {
               </p>
             </div>
 
-            {/* Trending Section */}
-            <div className="mb-12">
+            {loading ? (
+              <div className="py-40 flex flex-col items-center justify-center text-muted-silver gap-3">
+                <span className="material-symbols-outlined text-4xl animate-spin text-scarlett-red">progress_activity</span>
+                <span className="font-body text-sm font-medium">Loading AI recipes...</span>
+              </div>
+            ) : (
+              <>
+                {/* Trending Section */}
+                <div className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="material-symbols-outlined text-scarlett-red filled-icon">local_fire_department</span>
                 <h3 className="font-headline text-lg font-bold text-on-surface">Trending Now</h3>
@@ -228,7 +188,9 @@ const AIRecipes = () => {
                 </Reveal>
               ))}
             </div>
-          </div>
+          </>
+        )}
+      </div>
         </main>
       </div>
     </div>

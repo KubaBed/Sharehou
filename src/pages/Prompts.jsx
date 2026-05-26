@@ -1,55 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
+import { api } from '../services/api';
 
 const Prompts = () => {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [copiedId, setCopiedId] = useState(null);
+  const [promptsList, setPromptsList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [promptsList, setPromptsList] = useState([
-    {
-      id: 1,
-      title: 'Brand Voice Persona Injector',
-      category: 'Marketing',
-      likes: 142,
-      text: `"Act as a senior brand strategist. Analyze the following copy and rewrite it strictly adhering to the 'Surgical Precision' brand voice guidelines. Ensure high contrast terminology, flat structural delivery, and eliminate any conversational fluff..."`
-    },
-    {
-      id: 2,
-      title: 'React Component Generator (Strict TS)',
-      category: 'Coding',
-      likes: 389,
-      text: `"Generate a React functional component using TypeScript. Enforce strict typing. Component must be highly modular, include JSDoc comments, use Tailwind CSS for styling, and strictly adhere to clean code principles..."`
-    },
-    {
-      id: 3,
-      title: 'B2B Cold Email Sequence',
-      category: 'Copywriting',
-      likes: 87,
-      text: `"Draft a 3-part B2B cold email sequence targeting CTOs. Tone must be assertive, high value, and highly personalized..."`
-    },
-    {
-      id: 4,
-      title: 'SQL Query Optimizer',
-      category: 'Data Analysis',
-      likes: 215,
-      text: `"Review the following PostgreSQL query. Identify bottlenecks related to JOINs and scan operations. Provide optimized alternative with explain plan documentation..."`
-    },
-    {
-      id: 5,
-      title: 'Microservices Architecture Plan',
-      category: 'System Design',
-      likes: 198,
-      text: `"Design a scalable microservices architecture for a high-volume ad-tech platform. Detail container orchestration, service discovery, database pattern, and event bus routing..."`
-    }
-  ]);
+  useEffect(() => {
+    api.getPrompts()
+      .then(data => {
+        setPromptsList(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch prompts:', err);
+        setLoading(false);
+      });
+  }, []);
 
   const handleLike = (id) => {
-    setPromptsList(prev =>
-      prev.map(p => (p.id === id ? { ...p, likes: p.likes + 1 } : p))
-    );
+    api.likePrompt(id)
+      .then(() => {
+        setPromptsList(prev =>
+          prev.map(p => (p.id === id ? { ...p, likes: p.likes + 1 } : p))
+        );
+      })
+      .catch(err => console.error('Failed to like prompt:', err));
   };
 
   const handleCopy = (text, id) => {
@@ -119,53 +100,64 @@ const Prompts = () => {
 
             {/* Grid Layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredPrompts.map((prompt, index) => (
-                <Reveal key={prompt.id} delay={index * 100} duration={600}>
-                  <article
-                    className="bg-white border border-[#d6d6d6] p-6 rounded-2xl flex flex-col hover:border-scarlett-red/40 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(230,0,0,0.05)] hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 ease-out h-full group"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <span className="text-xs font-semibold text-scarlett-red uppercase tracking-widest">
-                        {prompt.category}
-                      </span>
-                      <button
-                        onClick={() => handleLike(prompt.id)}
-                        className="flex items-center gap-1 text-[#555555] hover:text-scarlett-red transition-colors hover:scale-110 active:scale-90 duration-200"
-                      >
-                        <span className="material-symbols-outlined text-sm">thumb_up</span>
-                        <span className="font-label text-sm font-bold">{prompt.likes}</span>
-                      </button>
-                    </div>
-
-                    <h3 className="font-headline text-base text-[#1c1b1b] font-bold mb-3 leading-tight group-hover:text-scarlett-red transition-colors">
-                      {prompt.title}
-                    </h3>
-
-                    <div className="bg-[#f7f7f7] p-4 border-l-2 border-scarlett-red mb-6 flex-1 rounded-r-xl">
-                      <p className="font-body text-sm text-[#555555] line-clamp-4 font-mono leading-relaxed">
-                        {prompt.text}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#f0f0f0]">
-                      <span className="text-xs text-muted-silver font-semibold">Alex Rivera</span>
-                      <button
-                        onClick={() => handleCopy(prompt.text, prompt.id)}
-                        className={`font-label text-xs flex items-center gap-1 py-1.5 px-3 rounded-lg transition-all duration-300 hover:scale-105 active:scale-95 ${
-                          copiedId === prompt.id
-                            ? 'bg-green-100 text-green-700 border border-green-200'
-                            : 'bg-smoke hover:bg-border-light text-[#1c1b1b]'
-                        }`}
-                      >
-                        <span className="material-symbols-outlined text-sm">
-                          {copiedId === prompt.id ? 'check' : 'content_copy'}
+              {loading ? (
+                <div className="col-span-full py-20 flex flex-col items-center justify-center text-muted-silver gap-3">
+                  <span className="material-symbols-outlined text-4xl animate-spin text-scarlett-red">progress_activity</span>
+                  <span className="font-body text-sm font-medium">Loading prompts database...</span>
+                </div>
+              ) : filteredPrompts.length === 0 ? (
+                <div className="col-span-full py-20 text-center text-muted-silver font-body text-sm">
+                  No prompts found matching your search.
+                </div>
+              ) : (
+                filteredPrompts.map((prompt, index) => (
+                  <Reveal key={prompt.id} delay={index * 100} duration={600}>
+                    <article
+                      className="bg-white border border-[#d6d6d6] p-6 rounded-2xl flex flex-col hover:border-scarlett-red/40 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(230,0,0,0.05)] hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 ease-out h-full group"
+                    >
+                      <div className="flex justify-between items-start mb-4">
+                        <span className="text-xs font-semibold text-scarlett-red uppercase tracking-widest">
+                          {prompt.category}
                         </span>
-                        {copiedId === prompt.id ? 'Copied' : 'Copy'}
-                      </button>
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
+                        <button
+                          onClick={() => handleLike(prompt.id)}
+                          className="flex items-center gap-1 text-[#555555] hover:text-scarlett-red transition-colors hover:scale-110 active:scale-90 duration-200"
+                        >
+                          <span className="material-symbols-outlined text-sm">thumb_up</span>
+                          <span className="font-label text-sm font-bold">{prompt.likes}</span>
+                        </button>
+                      </div>
+
+                      <h3 className="font-headline text-base text-[#1c1b1b] font-bold mb-3 leading-tight group-hover:text-scarlett-red transition-colors">
+                        {prompt.title}
+                      </h3>
+
+                      <div className="bg-[#f7f7f7] p-4 border-l-2 border-scarlett-red mb-6 flex-1 rounded-r-xl">
+                        <p className="font-body text-sm text-[#555555] line-clamp-4 font-mono leading-relaxed">
+                          {prompt.text}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#f0f0f0]">
+                        <span className="text-xs text-muted-silver font-semibold font-body">Alex Rivera</span>
+                        <button
+                          onClick={() => handleCopy(prompt.text, prompt.id)}
+                          className={`font-label text-xs flex items-center gap-1 py-1.5 px-3 rounded-lg transition-all duration-300 hover:scale-105 active:scale-95 ${
+                            copiedId === prompt.id
+                              ? 'bg-green-100 text-green-700 border border-green-200'
+                              : 'bg-smoke hover:bg-border-light text-[#1c1b1b]'
+                          }`}
+                        >
+                          <span className="material-symbols-outlined text-sm">
+                            {copiedId === prompt.id ? 'check' : 'content_copy'}
+                          </span>
+                          {copiedId === prompt.id ? 'Copied' : 'Copy'}
+                        </button>
+                      </div>
+                    </article>
+                  </Reveal>
+                ))
+              )}
             </div>
           </div>
         </main>

@@ -1,81 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
+import { api } from '../services/api';
 
 const ToolDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
+  const [tool, setTool] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const toolsData = {
-    'asana-qbr': {
-      title: 'Customer Success Onboarding Template',
-      subtitle: 'QBR Asana Template',
-      description: 'Streamline client kickoff with automated email sequences and task tracking. This template creates a standardized project in Asana for every new client onboarding, assigning tasks, setting due dates dynamically, and triggering kickoff emails.',
-      category: 'Templates',
-      topic: 'HR',
-      hoursSaved: '85h / onboarding',
-      likes: 42,
-      author: 'Sarah Chen',
-      authorTitle: 'Senior Product Designer',
-      authorAvatar: '/avatars/sarah.png',
-      features: [
-        'Standardized 24-step client onboarding flow',
-        'Automatic due-date calculation based on kickoff date',
-        'Dynamic stakeholder assignments',
-        'Built-in templates for kickoff, mid-point review, and handoff emails'
-      ],
-      installation: [
-        'Download the Asana CSV template file from this page.',
-        'Go to your Asana workspace and select "Create Project" -> "Import CSV".',
-        'Upload the downloaded template file.',
-        'Map the headers (Task Name, Assignee, Start Date, Due Date, Description) to Asana fields.',
-        'Use the kickoff script in the prompts section to automate kickoff communication.'
-      ],
-      specs: {
-        platform: 'Asana Premium / Enterprise',
-        author: 'Sarah Chen',
-        lastUpdated: 'May 2026',
-        license: 'Internal Use (ShareHouse)'
-      }
-    },
-    'marketing-tracker': {
-      title: 'Marketing Campaign Tracker',
-      subtitle: 'Multi-Channel ROI Dashboard',
-      description: 'Centralize multi-channel campaign ROI and spend analysis in one view. This tool hooks up to your Google Ads, Facebook Ads, and LinkedIn Campaign Manager APIs to pull real-time spend and conversion metrics into a unified Google Sheet dashboard.',
-      category: 'Templates',
-      topic: 'Marketing',
-      hoursSaved: '14h / week',
-      likes: 128,
-      author: 'Marcus Aurelius',
-      authorTitle: 'Growth Marketing Manager',
-      authorAvatar: '/avatars/marcus.png',
-      features: [
-        'Multi-channel API integration connectors',
-        'Daily automated dashboard sync',
-        'ROI and CAC visual charts',
-        'Budget alert notifications'
-      ],
-      installation: [
-        'Open the Google Sheets template and make a copy.',
-        'Navigate to Extensions -> Apps Script.',
-        'Paste the sheet sync script from this repository.',
-        'Fill in your Google Ads, Facebook, and LinkedIn Developer tokens in the Settings tab.',
-        'Set a daily trigger in Apps Script to run the update function at 6:00 AM.'
-      ],
-      specs: {
-        platform: 'Google Sheets / Google Apps Script',
-        author: 'Marcus Aurelius',
-        lastUpdated: 'April 2026',
-        license: 'Internal Use (ShareHouse)'
-      }
-    }
-  };
-
-  // Get active tool or default to asana-qbr
-  const tool = toolsData[id] || toolsData['asana-qbr'];
+  useEffect(() => {
+    setLoading(true);
+    api.getToolById(id)
+      .then(data => {
+        setTool(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(`Failed to load tool detail for ${id}:`, err);
+        setLoading(false);
+      });
+  }, [id]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -94,13 +42,19 @@ const ToolDetail = () => {
         {/* Page Content */}
         <main className="flex-grow overflow-y-auto px-8 py-8 hide-scrollbar flex flex-col">
           <div className="max-w-[1280px] mx-auto w-full">
-            
-            {/* Breadcrumbs */}
-            <div className="mb-6 flex items-center gap-2 text-xs text-muted-silver font-semibold">
-              <Link to="/dashboard" className="hover:text-scarlett-red">Explore</Link>
-              <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-              <span className="text-charcoal">{tool.subtitle}</span>
-            </div>
+            {loading ? (
+              <div className="py-40 flex flex-col items-center justify-center text-muted-silver gap-3">
+                <span className="material-symbols-outlined text-4xl animate-spin text-scarlett-red">progress_activity</span>
+                <span className="font-body text-sm font-medium">Loading tool details...</span>
+              </div>
+            ) : (
+              <>
+                {/* Breadcrumbs */}
+                <div className="mb-6 flex items-center gap-2 text-xs text-muted-silver font-semibold">
+                  <Link to="/dashboard" className="hover:text-scarlett-red">Explore</Link>
+                  <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+                  <span className="text-charcoal">{tool.subtitle}</span>
+                </div>
 
             {/* Header info */}
             <Reveal delay={50} duration={600}>
@@ -241,15 +195,14 @@ const ToolDetail = () => {
                     </div>
                   </div>
                 </Reveal>
-
               </div>
-
             </div>
-
-          </div>
-        </main>
+          </>
+        )}
       </div>
-    </div>
+    </main>
+  </div>
+</div>
   );
 };
 

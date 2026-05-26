@@ -1,61 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
+import { api } from '../services/api';
 
 const Leaderboard = () => {
-  const [contributors, setContributors] = useState([
-    {
-      rank: 1,
-      name: 'Sarah J.',
-      title: 'Senior Product Designer',
-      tier: 'Platinum Tier',
-      karma: '2,450 XP',
-      hoursSaved: '480h',
-      toolsShared: 14,
-      avatar: '/avatars/sarah.png'
-    },
-    {
-      rank: 2,
-      name: 'David M.',
-      title: 'Senior Frontend Developer',
-      tier: 'Gold Tier',
-      karma: '1,920 XP',
-      hoursSaved: '320h',
-      toolsShared: 9,
-      avatar: '/avatars/david.png'
-    },
-    {
-      rank: 3,
-      name: 'Emily R.',
-      title: 'Operations Director',
-      tier: 'Gold Tier',
-      karma: '1,680 XP',
-      hoursSaved: '290h',
-      toolsShared: 8,
-      avatar: '/avatars/emily.png'
-    },
-    {
-      rank: 4,
-      name: 'Alex Rivera',
-      title: 'Platform Engineer',
-      tier: 'Silver Tier',
-      karma: '1,450 XP',
-      hoursSaved: '185h',
-      toolsShared: 5,
-      avatar: '/avatars/alex.png'
-    },
-    {
-      rank: 5,
-      name: 'Marcus Aurelius',
-      title: 'Growth Marketing Manager',
-      tier: 'Silver Tier',
-      karma: '1,120 XP',
-      hoursSaved: '140h',
-      toolsShared: 4,
-      avatar: '/avatars/marcus.png'
-    }
-  ]);
+  const [contributors, setContributors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.getLeaderboard()
+      .then(data => {
+        setContributors(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load leaderboard:', err);
+        setLoading(false);
+      });
+  }, []);
 
   const topThree = contributors.slice(0, 3);
   const remaining = contributors.slice(3);
@@ -79,16 +42,23 @@ const Leaderboard = () => {
               </p>
             </div>
 
-            {/* Top Contributors Podium Section */}
-            <div className="mb-12">
-              <h3 className="font-headline text-lg font-bold text-on-surface mb-6">Top Contributors</h3>
-              
-              <div className="bg-pure-white rounded-3xl border border-border-light p-8 shadow-[0_4px_25px_rgba(0,0,0,0.02)] relative overflow-hidden">
-                {/* Ambient pink/crimson/purple mesh blur accent inside the card */}
-                <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-tr from-rose-500/10 via-purple-500/5 to-transparent rounded-full blur-[80px] pointer-events-none -mr-20 -mt-20"></div>
-                <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-bl from-[#e60000]/10 via-pink-500/5 to-transparent rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20"></div>
-                
-                <div className="relative flex flex-row items-end justify-center gap-2 sm:gap-6 max-w-4xl mx-auto pt-10 pb-4">
+            {loading ? (
+              <div className="py-40 flex flex-col items-center justify-center text-muted-silver gap-3">
+                <span className="material-symbols-outlined text-4xl animate-spin text-scarlett-red">progress_activity</span>
+                <span className="font-body text-sm font-medium">Loading global rankings...</span>
+              </div>
+            ) : (
+              <>
+                {/* Top Contributors Podium Section */}
+                <div className="mb-12">
+                  <h3 className="font-headline text-lg font-bold text-on-surface mb-6">Top Contributors</h3>
+                  
+                  <div className="bg-pure-white rounded-3xl border border-border-light p-8 shadow-[0_4px_25px_rgba(0,0,0,0.02)] relative overflow-hidden">
+                    {/* Ambient pink/crimson/purple mesh blur accent inside the card */}
+                    <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-tr from-rose-500/10 via-purple-500/5 to-transparent rounded-full blur-[80px] pointer-events-none -mr-20 -mt-20"></div>
+                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-bl from-[#e60000]/10 via-pink-500/5 to-transparent rounded-full blur-[100px] pointer-events-none -ml-20 -mb-20"></div>
+                    
+                    <div className="relative flex flex-row items-end justify-center gap-2 sm:gap-6 max-w-4xl mx-auto pt-10 pb-4">
                   
                   {/* Rank 2 (Left) */}
                   <Reveal delay={100} duration={600} className="w-1/3 flex flex-col items-center">
@@ -281,7 +251,9 @@ const Leaderboard = () => {
                 </div>
               </div>
             </Reveal>
-          </div>
+          </>
+        )}
+      </div>
         </main>
       </div>
     </div>

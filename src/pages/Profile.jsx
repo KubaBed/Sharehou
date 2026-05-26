@@ -1,46 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
+import { api } from '../services/api';
 
 const Profile = () => {
-  const [userProfile] = useState({
-    name: 'Alex Rivera',
-    email: 'alex.r@sharehouse.inc',
-    role: 'Platform Engineer',
-    tier: 'Silver Tier',
-    karma: 1450,
-    nextTierKarma: 2000,
-    hoursSaved: 185,
-    toolsShared: 5,
-    avatar: '/avatars/alex.png'
-  });
+  const [userProfile, setUserProfile] = useState(null);
+  const [contributions, setContributions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [contributions] = useState([
-    {
-      id: 1,
-      title: 'Data Processing Pipeline',
-      time: 'Added 2 days ago',
-      kp: '+50 KP',
-      icon: 'code'
-    },
-    {
-      id: 2,
-      title: 'Customer Support Prompt',
-      time: 'Added 5 days ago',
-      kp: '+35 KP',
-      icon: 'chat'
-    },
-    {
-      id: 3,
-      title: 'SEO Analysis Template',
-      time: 'Added 1 week ago',
-      kp: '+45 KP',
-      icon: 'analytics'
-    }
-  ]);
+  useEffect(() => {
+    api.getUserProfile()
+      .then(data => {
+        setUserProfile(data);
+        setContributions(data.contributions || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load user profile:', err);
+        setLoading(false);
+      });
+  }, []);
 
-  const progressPercent = (userProfile.karma / userProfile.nextTierKarma) * 100;
+  const progressPercent = userProfile 
+    ? (userProfile.karma / userProfile.nextTierKarma) * 100 
+    : 0;
 
   return (
     <div className="bg-smoke text-on-surface h-screen overflow-hidden flex w-full">
@@ -53,11 +37,17 @@ const Profile = () => {
         {/* Page Content */}
         <main className="flex-grow overflow-y-auto px-8 py-8 hide-scrollbar flex flex-col">
           <div className="max-w-[1000px] mx-auto w-full flex flex-col gap-8">
-            
-            {/* Profile Info Header */}
-            <Reveal delay={50} duration={700}>
-              <div className="bg-pure-white rounded-3xl p-8 border border-border-light flex flex-col md:flex-row items-center gap-8 relative overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.02)]">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-scarlett-red/5 rounded-full -mr-16 -mt-16"></div>
+            {loading ? (
+              <div className="py-40 flex flex-col items-center justify-center text-muted-silver gap-3">
+                <span className="material-symbols-outlined text-4xl animate-spin text-scarlett-red">progress_activity</span>
+                <span className="font-body text-sm font-medium">Loading profile details...</span>
+              </div>
+            ) : (
+              <>
+                {/* Profile Info Header */}
+                <Reveal delay={50} duration={700}>
+                  <div className="bg-pure-white rounded-3xl p-8 border border-border-light flex flex-col md:flex-row items-center gap-8 relative overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.02)]">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-scarlett-red/5 rounded-full -mr-16 -mt-16"></div>
                 
                 <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-scarlett-red/20 shadow-sm hover:scale-105 transition-transform duration-300 shrink-0">
                   <img
@@ -177,10 +167,10 @@ const Profile = () => {
                   </div>
                 </div>
               </Reveal>
-
             </div>
-
-          </div>
+          </>
+        )}
+      </div>
         </main>
       </div>
     </div>
