@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
@@ -48,6 +48,315 @@ const LikeSVGAnimation = () => (
     }}
   />
 );
+
+// NumberTicker component
+const NumberTicker = ({
+  end,
+  start = 0,
+  duration = 2,
+  decimals = 0,
+  prefix = "",
+  suffix = "",
+  className = "",
+}) => {
+  const [value, setValue] = useState(start);
+  const startTimeRef = useRef(null);
+
+  useEffect(() => {
+    let frame;
+
+    const animate = (timestamp) => {
+      if (!startTimeRef.current) startTimeRef.current = timestamp;
+
+      const progress = timestamp - startTimeRef.current;
+      const percent = Math.min(progress / (duration * 1000), 1);
+
+      // ease-out cubic function: f(t) = 1 - (1 - t)^3
+      const easeOutPercent = 1 - Math.pow(1 - percent, 3);
+      const currentValue = start + easeOutPercent * (end - start);
+
+      setValue(currentValue);
+
+      if (percent < 1) {
+        frame = requestAnimationFrame(animate);
+      }
+    };
+
+    frame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(frame);
+  }, [end, start, duration]);
+
+  const formattedValue = value.toLocaleString(undefined, {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+
+  return (
+    <span className={className}>
+      {prefix}
+      {formattedValue}
+      {suffix}
+    </span>
+  );
+};
+
+class Pixel {
+  constructor(canvas, context, x, y, color, speed, delay) {
+    this.width = canvas.width;
+    this.height = canvas.height;
+    this.ctx = context;
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.speed = this.getRandomValue(0.1, 0.9) * speed;
+    this.size = 0;
+    this.sizeStep = Math.random() * 0.4;
+    this.minSize = 0.5;
+    this.maxSizeInteger = 2;
+    this.maxSize = this.getRandomValue(this.minSize, this.maxSizeInteger);
+    this.delay = delay;
+    this.counter = 0;
+    this.counterStep = Math.random() * 4 + (this.width + this.height) * 0.01;
+    this.isIdle = false;
+    this.isReverse = false;
+    this.isShimmer = false;
+  }
+
+  getRandomValue(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  draw() {
+    const centerOffset = this.maxSizeInteger * 0.5 - this.size * 0.5;
+    this.ctx.fillStyle = this.color;
+    this.ctx.fillRect(this.x + centerOffset, this.y + centerOffset, this.size, this.size);
+  }
+
+  appear() {
+    this.isIdle = false;
+    if (this.counter <= this.delay) {
+      this.counter += this.counterStep;
+      return;
+    }
+    if (this.size >= this.maxSize) {
+      this.isShimmer = true;
+    }
+    if (this.isShimmer) {
+      this.shimmer();
+    } else {
+      this.size += this.sizeStep;
+    }
+    this.draw();
+  }
+
+  disappear() {
+    this.isShimmer = false;
+    this.counter = 0;
+    if (this.size <= 0) {
+      this.isIdle = true;
+      return;
+    } else {
+      this.size -= 0.1;
+    }
+    this.draw();
+  }
+
+  shimmer() {
+    if (this.size >= this.maxSize) {
+      this.isReverse = true;
+    } else if (this.size <= this.minSize) {
+      this.isReverse = false;
+    }
+    if (this.isReverse) {
+      this.size -= this.speed;
+    } else {
+      this.size += this.speed;
+    }
+  }
+}
+
+class PixelCanvasElement extends HTMLElement {
+  static css = `
+    :host {
+      display: grid;
+      inline-size: 100%;
+      block-size: 100%;
+      overflow: hidden;
+    }
+  `;
+
+  get colors() {
+    return this.dataset.colors?.split(",") || ["#f8fafc", "#f1f5f9", "#cbd5e1"];
+  }
+
+  get gap() {
+    const value = this.dataset.gap || 5;
+    const min = 4;
+    const max = 50;
+    if (value <= min) return min;
+    if (value >= max) return max;
+    return parseInt(value);
+  }
+
+  get speed() {
+    const value = this.dataset.speed || 35;
+    const min = 0;
+    const max = 100;
+    const throttle = 0.001;
+    if (value <= min || this.reducedMotion) return min;
+    if (value >= max) return max * throttle;
+    return parseInt(value) * throttle;
+  }
+
+  get noFocus() {
+    return this.hasAttribute("data-no-focus");
+  }
+
+  connectedCallback() {
+    const canvas = document.createElement("canvas");
+    this._parent = this.parentNode;
+    this.shadowroot = this.attachShadow({ mode: "open" });
+
+    const styleEl = document.createElement("style");
+    styleEl.textContent = PixelCanvasElement.css;
+    this.shadowroot.append(styleEl);
+    this.shadowroot.append(canvas);
+
+    this.canvas = this.shadowroot.querySelector("canvas");
+    this.ctx = this.canvas.getContext("2d");
+    this.timeInterval = 1000 / 60;
+    this.timePrevious = performance.now();
+    this.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    this.init();
+    this.resizeObserver = new ResizeObserver(() => this.init());
+    this.resizeObserver.observe(this);
+
+    this._parent.addEventListener("mouseenter", this);
+    this._parent.addEventListener("mouseleave", this);
+    if (!this.noFocus) {
+      this._parent.addEventListener("focusin", this);
+      this._parent.addEventListener("focusout", this);
+    }
+  }
+
+  disconnectedCallback() {
+    if (this.resizeObserver) this.resizeObserver.disconnect();
+    if (this._parent) {
+      this._parent.removeEventListener("mouseenter", this);
+      this._parent.removeEventListener("mouseleave", this);
+      if (!this.noFocus) {
+        this._parent.removeEventListener("focusin", this);
+        this._parent.removeEventListener("focusout", this);
+      }
+    }
+    delete this._parent;
+  }
+
+  handleEvent(event) {
+    this[`on${event.type}`](event);
+  }
+
+  onmouseenter() {
+    this.handleAnimation("appear");
+  }
+
+  onmouseleave() {
+    this.handleAnimation("disappear");
+  }
+
+  onfocusin(e) {
+    if (e.currentTarget.contains(e.relatedTarget)) return;
+    this.handleAnimation("appear");
+  }
+
+  onfocusout(e) {
+    if (e.currentTarget.contains(e.relatedTarget)) return;
+    this.handleAnimation("disappear");
+  }
+
+  handleAnimation(name) {
+    cancelAnimationFrame(this.animation);
+    this.animation = this.animate(name);
+  }
+
+  init() {
+    const rect = this.getBoundingClientRect();
+    const width = Math.floor(rect.width);
+    const height = Math.floor(rect.height);
+    this.pixels = [];
+    this.canvas.width = width;
+    this.canvas.height = height;
+    this.canvas.style.width = `${width}px`;
+    this.canvas.style.height = `${height}px`;
+    this.createPixels();
+  }
+
+  getDistanceToCanvasCenter(x, y) {
+    const dx = x - this.canvas.width / 2;
+    const dy = y - this.canvas.height / 2;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  createPixels() {
+    for (let x = 0; x < this.canvas.width; x += this.gap) {
+      for (let y = 0; y < this.canvas.height; y += this.gap) {
+        const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+        const delay = this.reducedMotion ? 0 : this.getDistanceToCanvasCenter(x, y);
+        this.pixels.push(new Pixel(this.canvas, this.ctx, x, y, color, this.speed, delay));
+      }
+    }
+  }
+
+  animate(fnName) {
+    this.animation = requestAnimationFrame(() => this.animate(fnName));
+    const timeNow = performance.now();
+    const timePassed = timeNow - this.timePrevious;
+    if (timePassed < this.timeInterval) return;
+    this.timePrevious = timeNow - (timePassed % this.timeInterval);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    for (let i = 0; i < this.pixels.length; i++) {
+      this.pixels[i][fnName]();
+    }
+    if (this.pixels.every((pixel) => pixel.isIdle)) {
+      cancelAnimationFrame(this.animation);
+    }
+  }
+}
+
+const PixelCanvas = React.forwardRef(
+  ({ gap, speed, colors, variant, noFocus, style, ...props }, ref) => {
+    React.useEffect(() => {
+      if (typeof window !== "undefined") {
+        if (!customElements.get("pixel-canvas")) {
+          customElements.define("pixel-canvas", PixelCanvasElement);
+        }
+      }
+    }, []);
+
+    return (
+      <pixel-canvas
+        ref={ref}
+        data-gap={gap}
+        data-speed={speed}
+        data-colors={colors?.join(",")}
+        data-variant={variant}
+        {...(noFocus && { "data-no-focus": "" })}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          width: '100%',
+          height: '100%',
+          ...style
+        }}
+        {...props}
+      />
+    );
+  }
+);
+PixelCanvas.displayName = "PixelCanvas";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -152,6 +461,101 @@ const Dashboard = () => {
         {/* Page Content */}
         <main className="flex-1 overflow-y-auto px-8 py-8 hide-scrollbar flex flex-col gap-8">
           
+          {/* Platform Performance Bar */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 shrink-0">
+            {/* Stat 1: Karma */}
+            <Reveal className="h-full" delay={100} duration={600}>
+              <div className="bg-pure-white p-5 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full relative overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-0.5">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="font-spec-tagline text-muted-silver">Total Karma Points</p>
+                    <p className="font-spec-number text-charcoal mt-1 text-2xl font-bold">
+                      <NumberTicker end={4500} suffix=" XP" />
+                    </p>
+                  </div>
+                  <span className="material-symbols-outlined text-scarlett-red text-base">local_fire_department</span>
+                </div>
+                <div className="flex justify-between items-center font-spec-position text-[10px] text-muted-silver border-t border-border-gray pt-2 mt-3">
+                  <span>+12% vs last month</span>
+                  <span>Live sync</span>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Stat 2: Tools Shared */}
+            <Reveal className="h-full" delay={200} duration={600}>
+              <div className="bg-pure-white p-5 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full relative overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-0.5">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="font-spec-tagline text-muted-silver">Shared Automation Modules</p>
+                    <p className="font-spec-number text-charcoal mt-1 text-2xl font-bold">
+                      <NumberTicker end={143} />
+                    </p>
+                  </div>
+                  <span className="material-symbols-outlined text-charcoal text-base">handyman</span>
+                </div>
+                {/* SVG Line/Area Chart showing a rising curve */}
+                <div className="h-8 w-full mt-2">
+                  <svg className="w-full h-full" viewBox="0 0 100 30" preserveAspectRatio="none">
+                    <path
+                      d="M0,28 L20,24 L40,26 L60,18 L80,12 L100,6"
+                      fill="none"
+                      stroke="#EE4137"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M0,28 L20,24 L40,26 L60,18 L80,12 L100,6 L100,30 L0,30 Z"
+                      fill="url(#gradient-red-modules)"
+                      opacity="0.1"
+                    />
+                    <defs>
+                      <linearGradient id="gradient-red-modules" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#EE4137" />
+                        <stop offset="100%" stopColor="#EE4137" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+                <div className="flex justify-between items-center font-spec-position text-[10px] text-muted-silver border-t border-border-gray pt-2 mt-3">
+                  <span>Steady growth curve</span>
+                  <span>Updated daily</span>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Stat 3: Hours Saved */}
+            <Reveal className="h-full" delay={300} duration={600}>
+              <div className="bg-pure-white p-5 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full relative overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-0.5">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="font-spec-tagline text-muted-silver">Collective Hours Saved</p>
+                    <p className="font-spec-number text-charcoal mt-1 text-2xl font-bold">
+                      <NumberTicker end={12500} suffix="h" />
+                    </p>
+                  </div>
+                  <span className="material-symbols-outlined text-scarlett-red text-base">schedule</span>
+                </div>
+                {/* SVG Bar Chart with growing bars */}
+                <div className="h-8 w-full mt-2">
+                  <svg className="w-full h-full" viewBox="0 0 100 30" preserveAspectRatio="none">
+                    <rect x="2" y="20" width="8" height="10" rx="1" fill="#EE4137" opacity="0.6" />
+                    <rect x="14" y="16" width="8" height="14" rx="1" fill="#EE4137" opacity="0.7" />
+                    <rect x="26" y="18" width="8" height="12" rx="1" fill="#EE4137" opacity="0.65" />
+                    <rect x="38" y="12" width="8" height="18" rx="1" fill="#EE4137" opacity="0.8" />
+                    <rect x="50" y="14" width="8" height="16" rx="1" fill="#EE4137" opacity="0.75" />
+                    <rect x="62" y="8" width="8" height="22" rx="1" fill="#EE4137" opacity="0.9" />
+                    <rect x="74" y="4" width="8" height="26" rx="1" fill="#EE4137" opacity="0.95" />
+                    <rect x="86" y="1" width="8" height="29" rx="1" fill="#EE4137" opacity="1" />
+                  </svg>
+                </div>
+                <div className="flex justify-between items-center font-spec-position text-[10px] text-muted-silver border-t border-border-gray pt-2 mt-3">
+                  <span>Saves approx. 32h per developer</span>
+                  <span>Est. quarterly value: $450k</span>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
           {/* Header Banner - Editorial Brutalism Stance */}
           <div className="relative border-b border-charcoal/10 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 shrink-0">
             <div>
@@ -217,6 +621,7 @@ const Dashboard = () => {
                     onClick={() => navigate(`/tool/${tool.id}`)}
                     className="bg-pure-white p-8 rounded-2xl border border-charcoal/10 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_30px_rgba(230,0,0,0.06)] hover:border-scarlett-red/40 transition-all duration-300 ease-out hover:scale-[1.01] hover:-translate-y-0.5 active:scale-[0.99] cursor-pointer flex flex-col justify-between group relative overflow-hidden"
                   >
+                    <PixelCanvas colors={['#EE4137', '#fca5a5', '#fee2e2', '#0a0f1d']} />
                     <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-scarlett-red/5 to-transparent pointer-events-none"></div>
                     <div>
                       <div className="flex justify-between items-center mb-6">
@@ -264,8 +669,9 @@ const Dashboard = () => {
                 <Reveal key={tool.id} delay={100 + index * 100} duration={600}>
                   <div
                     onClick={() => navigate(`/tool/${tool.id}`)}
-                    className="bg-pure-white p-6 rounded-2xl border border-charcoal/10 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(230,0,0,0.05)] hover:border-scarlett-red/40 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 ease-out cursor-pointer flex flex-col justify-between h-full group"
+                    className="bg-pure-white p-6 rounded-2xl border border-charcoal/10 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(230,0,0,0.05)] hover:border-scarlett-red/40 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.99] transition-all duration-300 ease-out cursor-pointer flex flex-col justify-between h-full group relative overflow-hidden"
                   >
+                    <PixelCanvas colors={['#EE4137', '#fca5a5', '#fee2e2', '#0a0f1d']} />
                     <div>
                       <div className="flex justify-between items-start mb-6">
                         <span className="font-spec-tagline text-muted-silver border border-border-gray px-2 py-0.5 rounded">
@@ -413,110 +819,7 @@ const Dashboard = () => {
 
           </div>
 
-          {/* Platform Performance & Analytics (Bento Grid Style) */}
-          <div className="border-t border-charcoal/10 pt-10 mt-6">
-            <span className="font-spec-tagline text-scarlett-red block mb-2">// METRICS BOARD</span>
-            <h3 className="font-spec-title text-charcoal mb-8">Platform Performance</h3>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              
-              {/* Bento Stat 1: Karma */}
-              <Reveal className="h-full" delay={100} duration={600}>
-                <div className="bg-pure-white p-6 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full relative overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <p className="font-spec-tagline text-muted-silver">Total Karma Points</p>
-                      <p className="font-spec-number text-charcoal mt-2">{karma.toLocaleString()} XP</p>
-                    </div>
-                    <span className="material-symbols-outlined text-scarlett-red text-base">local_fire_department</span>
-                  </div>
-                  {/* SVG Sparkline Sparking Dynamic Data */}
-                  <div className="h-12 w-full mt-4">
-                    <svg className="w-full h-full" viewBox="0 0 100 30" preserveAspectRatio="none">
-                      <path
-                        d="M0,25 L15,22 L30,28 L45,18 L60,20 L75,10 L90,15 L100,5"
-                        fill="none"
-                        stroke="#EE4137"
-                        strokeWidth="2"
-                      />
-                      <path
-                        d="M0,25 L15,22 L30,28 L45,18 L60,20 L75,10 L90,15 L100,5 L100,30 L0,30 Z"
-                        fill="url(#gradient-red)"
-                        opacity="0.1"
-                      />
-                      <defs>
-                        <linearGradient id="gradient-red" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#EE4137" />
-                          <stop offset="100%" stopColor="#EE4137" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  <div className="flex justify-between items-center font-spec-position text-muted-silver border-t border-border-gray pt-3 mt-4">
-                    <span>+12% vs last month</span>
-                    <span>Live sync</span>
-                  </div>
-                </div>
-              </Reveal>
 
-              {/* Bento Stat 2: Tools Shared */}
-              <Reveal className="h-full" delay={200} duration={600}>
-                <div className="bg-pure-white p-6 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <p className="font-spec-tagline text-muted-silver">Shared Automation Modules</p>
-                      <p className="font-spec-number text-charcoal mt-2">{toolsShared}</p>
-                    </div>
-                    <span className="material-symbols-outlined text-charcoal text-base">handyman</span>
-                  </div>
-                  {/* SVG Sparkline */}
-                  <div className="h-12 w-full mt-4">
-                    <svg className="w-full h-full" viewBox="0 0 100 30" preserveAspectRatio="none">
-                      <path
-                        d="M0,28 L20,24 L40,26 L60,18 L80,12 L100,8"
-                        fill="none"
-                        stroke="#0a0f1d"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex justify-between items-center font-spec-position text-muted-silver border-t border-border-gray pt-3 mt-4">
-                    <span>Steady growth curve</span>
-                    <span>Updated daily</span>
-                  </div>
-                </div>
-              </Reveal>
-
-              {/* Bento Stat 3: Hours Saved */}
-              <Reveal className="h-full" delay={300} duration={600}>
-                <div className="bg-pure-white p-6 rounded-2xl border border-charcoal/10 flex flex-col justify-between h-full shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.04)] hover:border-scarlett-red/30 transition-all duration-300 ease-out hover:-translate-y-1">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <p className="font-spec-tagline text-muted-silver">Collective Hours Saved</p>
-                      <p className="font-spec-number text-charcoal mt-2">{hoursSaved.toLocaleString()}h</p>
-                    </div>
-                    <span className="material-symbols-outlined text-scarlett-red text-base">schedule</span>
-                  </div>
-                  {/* SVG Sparkline */}
-                  <div className="h-12 w-full mt-4">
-                    <svg className="w-full h-full" viewBox="0 0 100 30" preserveAspectRatio="none">
-                      <path
-                        d="M0,26 L10,24 L25,27 L40,20 L55,22 L70,12 L85,8 L100,3"
-                        fill="none"
-                        stroke="#EE4137"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex justify-between items-center font-spec-position text-muted-silver border-t border-border-gray pt-3 mt-4">
-                    <span>Saves approx. 32h per developer</span>
-                    <span>Est. quarterly value: $450k</span>
-                  </div>
-                </div>
-              </Reveal>
-
-            </div>
-          </div>
 
         </main>
       </div>
