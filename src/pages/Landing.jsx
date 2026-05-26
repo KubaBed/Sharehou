@@ -35,118 +35,81 @@ const Landing = () => {
       </header>
 
       {/* Section 1: Hero Header */}
-      <section className="relative flex flex-col items-center justify-center pt-20 pb-32 px-6 text-center max-w-6xl mx-auto w-full min-h-[85vh]">
-        {/* Top announcement pill */}
-        <Reveal delay={50} duration={600}>
-          <div className="inline-flex items-center gap-2 bg-scarlett-red/5 border border-scarlett-red/10 px-4 py-1.5 rounded-full font-spec-tagline text-scarlett-red mb-6">
-            <span className="w-1.5 h-1.5 bg-scarlett-red rounded-full animate-pulse"></span>
-            Sharehouse V2 is Live
-          </div>
-        </Reveal>
+      <section className="relative pt-20 pb-32 px-6 max-w-6xl mx-auto w-full min-h-[85vh] flex items-center overflow-visible">
+        <div className="relative w-full py-12 md:py-20 flex flex-col md:flex-row items-center md:items-start justify-between gap-12 overflow-visible">
+          
+          {/* Left Column: Text & Actions */}
+          <div className="w-full md:w-1/2 text-center md:text-left z-10">
+            {/* Top announcement pill */}
+            <Reveal delay={50} duration={600}>
+              <div className="inline-flex items-center gap-2 bg-scarlett-red/5 border border-scarlett-red/10 px-4 py-1.5 rounded-full font-spec-tagline text-scarlett-red mb-6">
+                <span className="w-1.5 h-1.5 bg-scarlett-red rounded-full animate-pulse"></span>
+                Sharehouse V2 is Live
+              </div>
+            </Reveal>
 
-        {/* Main Heading */}
-        <Reveal delay={150} duration={700}>
-          <h1 className="font-spec-title text-charcoal tracking-tight max-w-4xl mb-6">
-            Your internal marketplace<br />
-            for everyday efficiency.
-          </h1>
-        </Reveal>
+            {/* Main Heading */}
+            <Reveal delay={150} duration={700}>
+              <h1 className="font-spec-title text-charcoal tracking-tight max-w-md mb-6 mx-auto md:mx-0">
+                Your internal marketplace<br />
+                for everyday efficiency.
+              </h1>
+            </Reveal>
 
-        {/* Subtitle */}
-        <Reveal delay={250} duration={700}>
-          <p className="font-spec-lead text-muted-silver max-w-xl mb-8">
-            Stop reinventing the wheel. Discover, share, and scale the internal tools that power our most efficient teams across the globe.
-          </p>
-        </Reveal>
+            {/* Subtitle */}
+            <Reveal delay={250} duration={700}>
+              <p className="font-spec-lead text-muted-silver max-w-md mb-8 mx-auto md:mx-0">
+                Stop reinventing the wheel. Discover, share, and scale the internal tools that power our most efficient teams across the globe.
+              </p>
+            </Reveal>
 
-        {/* Buttons */}
-        <Reveal delay={350} duration={700} className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-          <button
-            onClick={() => navigate('/login')}
-            className="bg-scarlett-red hover:bg-opacity-90 text-pure-white px-6 py-3 rounded-lg font-spec-lead font-semibold hover:scale-105 active:scale-95 transition-all shadow-md shadow-scarlett-red/10 cursor-pointer"
-          >
-            Log In with RTB Account
-          </button>
-          <a
-            href="#features"
-            onClick={handleScrollToFeatures}
-            className="border border-border-gray hover:border-charcoal hover:bg-smoke text-charcoal px-6 py-3 rounded-lg font-spec-lead font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
-          >
-            Learn More
-            <span className="material-symbols-outlined text-[10px] font-bold animate-bounce mt-0.5">arrow_downward</span>
-          </a>
-        </Reveal>
-
-        {/* Visual Mockup Section overlaying Scene 5 */}
-        <Reveal delay={450} duration={800} className="w-full relative max-w-4xl mx-auto mt-6">
-          {/* Background Scene 5 image */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[120%] pointer-events-none opacity-80 blur-[2px] z-0">
-            <img
-              src="/scene-5.png"
-              alt="Decorative background grid"
-              className="w-full h-full object-contain"
-            />
+            {/* Buttons */}
+            <Reveal delay={350} duration={700} className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center mb-16 w-full">
+              <button
+                onClick={() => navigate('/login')}
+                className="w-full sm:w-auto bg-scarlett-red hover:bg-opacity-90 text-pure-white px-6 py-3 rounded-lg font-spec-lead font-semibold hover:scale-105 active:scale-95 transition-all shadow-md shadow-scarlett-red/10 cursor-pointer text-center"
+              >
+                Log In with RTB Account
+              </button>
+              <a
+                href="#features"
+                onClick={handleScrollToFeatures}
+                className="w-full sm:w-auto border border-border-gray hover:border-charcoal hover:bg-smoke text-charcoal px-6 py-3 rounded-lg font-spec-lead font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-1.5 text-center"
+              >
+                Learn More
+                <span className="material-symbols-outlined text-[10px] font-bold animate-bounce mt-0.5">arrow_downward</span>
+              </a>
+            </Reveal>
           </div>
 
-          {/* Browser Mockup Window */}
-          <div className="relative bg-pure-white rounded-2xl border border-charcoal/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] overflow-hidden z-10 select-none transform hover:scale-[1.01] transition-transform duration-300">
-            {/* Window bar */}
-            <div className="bg-smoke px-4 py-3 border-b border-charcoal/5 flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
-              <div className="flex-grow max-w-xs mx-auto bg-pure-white border border-charcoal/5 rounded px-3 py-0.5 font-spec-boilerplate text-muted-silver text-center truncate">
-                sharehouse.rtbhouse.com/dashboard
-              </div>
-            </div>
-            
-            {/* Dashboard Mock Content */}
-            <div className="p-6 text-left bg-smoke/50 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="md:col-span-2 space-y-4">
-                <div className="bg-pure-white p-5 rounded-xl border border-charcoal/5">
-                  <div className="flex justify-between items-center mb-3">
-                    <span className="font-spec-tagline text-scarlett-red">Featured Template</span>
-                    <span className="bg-smoke border border-border-gray px-2 py-0.5 font-spec-boilerplate font-semibold rounded">Saves 85h</span>
-                  </div>
-                  <h4 className="font-spec-h2 font-bold text-charcoal">Customer Success Onboarding Template</h4>
-                  <p className="font-spec-body text-muted-silver mt-1">Streamline client kickoff with automated email sequences and task tracking.</p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-pure-white p-4 rounded-xl border border-charcoal/5">
-                    <span className="font-spec-tagline text-muted-silver block">SCRIPTS</span>
-                    <h5 className="font-spec-h2 font-bold text-charcoal mt-1 truncate">IT Asset Inventory</h5>
-                    <p className="font-spec-body text-muted-silver mt-1">Uses: 95</p>
-                  </div>
-                  <div className="bg-pure-white p-4 rounded-xl border border-charcoal/5">
-                    <span className="font-spec-tagline text-muted-silver block">PROMPTS</span>
-                    <h5 className="font-spec-h2 font-bold text-charcoal mt-1 truncate">Brand Voice Persona</h5>
-                    <p className="font-spec-body text-muted-silver mt-1">Uses: 312</p>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-pure-white p-5 rounded-xl border border-charcoal/5 h-full flex flex-col justify-between">
-                  <div>
-                    <h5 className="font-spec-tagline text-charcoal border-b border-border-gray pb-2 mb-3">Platform Stats</h5>
-                    <div className="space-y-2">
-                      <div>
-                        <span className="font-spec-boilerplate text-muted-silver">Collective Saved:</span>
-                        <p className="font-spec-h1 font-bold text-scarlett-red mt-0.5">12,500 Hours</p>
-                      </div>
-                      <div>
-                        <span className="font-spec-boilerplate text-muted-silver">Shared Recipes:</span>
-                        <p className="font-spec-h1 font-bold text-charcoal mt-0.5">143 Modules</p>
-                      </div>
+          {/* Right Column: Visual Mockup Section - Tailark Mist Hero One 3D layout */}
+          <Reveal delay={450} duration={800} className="md:perspective-near mt-12 md:mt-0 md:absolute md:-right-36 lg:-right-56 md:left-[45%] lg:left-[48%] md:top-12 md:bottom-0 w-full md:w-auto overflow-visible select-none z-10">
+            <div className="md:before:border-charcoal/5 md:before:bg-charcoal/5 relative h-full md:before:absolute md:before:-inset-x-4 md:before:bottom-7 md:before:top-0 md:before:skew-x-6 md:before:rounded-3xl md:before:border">
+              <div className="bg-pure-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.06)] ring-charcoal/5 relative h-full md:-translate-y-12 md:skew-x-6 overflow-hidden border border-transparent ring-1">
+                {/* Browser Mockup Window */}
+                <div className="relative bg-pure-white overflow-hidden">
+                  {/* Window bar */}
+                  <div className="bg-smoke px-4 py-3 border-b border-charcoal/5 flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                    <div className="flex-grow max-w-xs mx-auto bg-pure-white border border-charcoal/5 rounded px-3 py-0.5 font-spec-boilerplate text-muted-silver text-center truncate">
+                      sharehouse.rtbhouse.com/dashboard
                     </div>
                   </div>
-                  <div className="mt-4 pt-2 border-t border-border-gray">
-                    <button className="w-full bg-scarlett-red text-pure-white font-spec-boilerplate font-semibold py-1.5 rounded">Explore Marketplace</button>
-                  </div>
+                  
+                  {/* Dashboard Screenshot */}
+                  <img
+                    src="/dashboard-screenshot.png"
+                    alt="Sharehouse Dashboard"
+                    className="w-full max-w-[640px] md:max-w-[900px] lg:max-w-[1050px] h-auto object-cover object-top-left"
+                  />
                 </div>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+
+        </div>
       </section>
 
       {/* Section 2: Bento Grid Features */}
