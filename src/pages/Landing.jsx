@@ -2,7 +2,15 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Reveal from '../components/Reveal';
 
-const words = ["AI Prompts", "AppsScripts", "Asana Templates", "Slack Bots", "Workflows"];
+const words = [
+  "AI Prompts",
+  "App Scripts",
+  "Slack Bots",
+  "Dashboards",
+  "Automations",
+  "Templates",
+  "Smart Hacks"
+];
 
 const DynamicHeroText = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,7 +29,7 @@ const DynamicHeroText = () => {
   }, []);
 
   return (
-    <span className="inline-block relative overflow-hidden align-bottom h-[1.25em] text-scarlett-red font-semibold min-w-[240px] md:min-w-[320px] text-left">
+    <span className="inline-block relative overflow-hidden align-bottom h-[1.25em] text-scarlett-red font-semibold min-w-[190px] md:min-w-[250px] text-left">
       <span key={currentIndex} className={`${animClass} absolute left-0 bottom-0 block w-full`}>
         {words[currentIndex]}
       </span>
