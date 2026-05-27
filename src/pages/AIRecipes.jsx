@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
@@ -594,23 +595,26 @@ const AIRecipes = () => {
       </div>
 
       {/* Global Floating Like Animations */}
-      {likeAnimations.map(anim => (
-        <div
-          key={anim.id}
-          style={{
-            position: 'fixed',
-            left: anim.x,
-            top: anim.y,
-            transform: 'translate(-50%, -50%)',
-            pointerEvents: 'none',
-            zIndex: 9999,
-            width: '120px',
-            height: '120px'
-          }}
-        >
-          <LikeSVGAnimation />
-        </div>
-      ))}
+      {createPortal(
+        likeAnimations.map(anim => (
+          <div
+            key={anim.id}
+            className="animate-heart-float"
+            style={{
+              position: 'fixed',
+              left: anim.x,
+              top: anim.y,
+              pointerEvents: 'none',
+              zIndex: 99999,
+              width: '120px',
+              height: '120px'
+            }}
+          >
+            <LikeSVGAnimation />
+          </div>
+        )),
+        document.body
+      )}
 
       {/* Toast Notification */}
       {toastMessage && (
