@@ -79,7 +79,7 @@ const Landing = () => {
             <Reveal delay={150} duration={700}>
               <h1 className="font-spec-title text-charcoal tracking-tight max-w-3xl mb-6 mx-auto leading-tight text-4xl md:text-5xl">
                 Share your best <DynamicHeroText /> <br className="hidden sm:inline" />
-                with the Hive Mind.
+                with the Productivity Hive Mind.
               </h1>
             </Reveal>
  
