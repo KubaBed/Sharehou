@@ -278,7 +278,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Proxima Nova', system-ui, -apple-system, 
 }
 
 .bg-gradient-image {
-    background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
+    background-image: url('/login-image.png');
     background-size: cover;
     background-position: center;
 }

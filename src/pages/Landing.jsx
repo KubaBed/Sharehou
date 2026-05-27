@@ -79,7 +79,7 @@ const Landing = () => {
             <Reveal delay={50} duration={600}>
               <div className="inline-flex items-center gap-2 bg-scarlett-red/5 border border-scarlett-red/10 px-4 py-1.5 rounded-full font-spec-tagline text-scarlett-red mb-6">
                 <span className="w-1.5 h-1.5 bg-scarlett-red rounded-full animate-pulse"></span>
-                Sharehouse V2 is Live
+                Sharehouse is Live
               </div>
             </Reveal>
  
